@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Dice &amp; Drip Cafe | Craft Brews &amp; Tabletop Clues</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
@@ -111,7 +111,6 @@
 
     .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* Hero Section with Ambient Café Backdrop */
     .hero {
       padding: 7rem 0 5rem;
       text-align: center;
@@ -162,7 +161,6 @@
     }
     .section-title p { color: var(--text-muted); font-size: 1rem; }
 
-    /* About Section with Visual Cards */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -200,7 +198,6 @@
       margin-bottom: 0.5rem;
     }
 
-    /* Menu Section */
     .filter-pills {
       display: flex;
       justify-content: center;
@@ -268,7 +265,6 @@
       white-space: nowrap;
     }
 
-    /* Games Grid */
     .game-controls {
       display: flex;
       gap: 1rem;
@@ -342,7 +338,6 @@
       gap: 0.25rem;
     }
 
-    /* Reservations Wizard */
     .reservation-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -506,7 +501,6 @@
       margin-bottom: 1.25rem;
     }
 
-    /* Summary & Confirmation Blocks */
     .summary-card {
       background: rgba(26, 21, 18, 0.95);
       border: 1px solid var(--border-color);
@@ -568,7 +562,6 @@
       margin-top: 2rem;
     }
 
-    /* Location & Map Section */
     .location-wrapper {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -620,7 +613,6 @@
       filter: invert(90%) hue-rotate(180deg) brightness(85%) contrast(120%);
     }
 
-    /* Reviews Section */
     .reviews-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -638,7 +630,6 @@
     .review-text { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem; }
     .reviewer-name { font-weight: 600; font-size: 0.9rem; }
 
-    /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -732,7 +723,7 @@
     </div>
   </section>
 
-  <!-- About Section with Real Visuals -->
+  <!-- About Section -->
   <section id="about">
     <div class="container">
       <div class="section-title">
@@ -806,7 +797,7 @@
     </div>
   </section>
 
-  <!-- Complete Multi-Step Reservation Section -->
+  <!-- Multi-Step Reservation Section -->
   <section id="reservations">
     <div class="container">
       <div class="section-title">
@@ -1112,8 +1103,8 @@
   </footer>
 
   <script>
-    // CONFIGURATION: Replace with your deployed Apps Script Web App URL
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_YOUR_DEPLOYED_SCRIPT_ID/exec";
+    // Configured Google Apps Script Web App Endpoint
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJhteqbb4-iep_UnjMZq_HyLJwZWqtMo4ZjCUQPKWieTNhwxPIjSq_HfHXktQl-UJD/exec";
 
     const businessHours = {
       0: { open: "12:00", close: "21:00" },
@@ -1166,7 +1157,6 @@
       { id: "g12", name: "Hive", category: "QUICK 2-PLAYER", players: "2", duration: "20 min", difficulty: "Medium", desc: "Tile-placement chess-like strategy game with crawling insects.", img: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=400&q=80" }
     ];
 
-    // Complete State Object
     const reservationData = {
       date: "",
       time: "",
@@ -1216,15 +1206,12 @@
         if (validateStep2()) {
           generateReservationId();
           updateSummaryView();
-          // Pre-bind payment link with reservation ID
           btnPayCashfree.href = `https://payments.cashfree.com/forms/getaudit?order_id=${encodeURIComponent(reservationData.reservationId)}`;
           goToStep(3);
         }
       });
 
       btnStep3Back.addEventListener("click", () => goToStep(2));
-
-      // Phase 4 & 5: Backend dispatch and confirmation
       btnStep3Submit.addEventListener("click", handleFinalConfirmation);
 
       renderAvailableTables();
@@ -1477,7 +1464,6 @@
       submitBtn.textContent = "Securing Reservation...";
 
       try {
-        // Asynchronous non-blocking dispatch to Google Apps Script
         const payload = new URLSearchParams({
           action: "create_reservation",
           reservationId: reservationData.reservationId,
@@ -1496,7 +1482,6 @@
           bookingStatus: reservationData.bookingStatus
         });
 
-        // Use no-cors mode safe for all static hosting environments
         fetch(`${APPS_SCRIPT_URL}?${payload.toString()}`, {
           method: "GET",
           mode: "no-cors"
@@ -1522,20 +1507,17 @@
       document.getElementById("conf-pay-status").textContent = reservationData.paymentStatus;
       document.getElementById("conf-book-status").textContent = reservationData.bookingStatus;
 
-      // WhatsApp Share Link
       const waMsg = encodeURIComponent(
         `🎲 Table Booked at The Dice & Drip Cafe!\nID: ${reservationData.reservationId}\nDate: ${reservationData.date} at ${reservationData.time}\nTable: ${reservationData.tableId}\nGame: ${reservationData.gamePreference}`
       );
       document.getElementById("btn-conf-whatsapp").href = `https://wa.me/?text=${waMsg}`;
 
-      // Email Link
       const mailSub = encodeURIComponent(`Your Dice & Drip Reservation [${reservationData.reservationId}]`);
       const mailBody = encodeURIComponent(
         `Hi ${reservationData.customerName},\n\nYour reservation at The Dice & Drip Cafe is confirmed!\n\nID: ${reservationData.reservationId}\nDate: ${reservationData.date} at ${reservationData.time}\nTable: ${reservationData.tableId}\nGame: ${reservationData.gamePreference}\nStatus: ${reservationData.bookingStatus}\n\nSee you at 42 Meeple Street!`
       );
       document.getElementById("btn-conf-email").href = `mailto:${reservationData.customerEmail}?subject=${mailSub}&body=${mailBody}`;
 
-      // Add to Calendar (.ics Generator)
       document.getElementById("btn-add-cal").onclick = () => {
         const cleanStart = reservationData.date.replace(/-/g, "") + "T" + reservationData.time.replace(/:/g, "") + "00";
         const icsContent = [
@@ -1574,7 +1556,6 @@
       if (b) { b.textContent = ""; b.style.display = "none"; }
     }
 
-    /* Menu & Games Library Rendering */
     function initMenuModule() {
       const cont = document.getElementById("menu-container");
       const pills = document.querySelectorAll(".filter-pill");
