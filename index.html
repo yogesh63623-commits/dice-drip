@@ -325,11 +325,7 @@
       font-weight: 600;
     }
 
-    .game-card-title {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-    }
-
+    .game-card-title { font-family: var(--font-display); font-size: 1.15rem; }
     .game-meta {
       font-size: 0.85rem;
       color: var(--text-muted);
@@ -401,16 +397,8 @@
       color: var(--accent);
     }
 
-    .step-title {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-muted);
-    }
-
-    .step-item.active .step-title {
-      color: var(--text-main);
-      font-weight: 600;
-    }
+    .step-title { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); }
+    .step-item.active .step-title { color: var(--text-main); font-weight: 600; }
 
     .form-grid {
       display: grid;
@@ -437,6 +425,7 @@
     .form-control:disabled { opacity: 0.5; cursor: not-allowed; }
     textarea.form-control { resize: vertical; min-height: 80px; }
 
+    /* Theater-Seat Table Grid */
     .tables-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -459,6 +448,7 @@
       font-family: inherit;
       width: 100%;
       text-align: center;
+      position: relative;
     }
 
     .table-card-btn:hover:not(:disabled) {
@@ -474,21 +464,37 @@
       box-shadow: 0 0 12px rgba(212, 163, 115, 0.4);
     }
 
-    .table-card-btn:disabled, .table-card-btn.incompatible {
-      opacity: 0.3;
-      cursor: not-allowed;
+    /* Reserved state (Theater seat model) */
+    .table-card-btn.reserved {
+      opacity: 0.5;
+      cursor: not-allowed !important;
+      border: 1px solid #e63946 !important;
+      background: rgba(230, 57, 70, 0.12) !important;
+      color: #ff8b94 !important;
+    }
+
+    .table-card-btn.incompatible {
+      opacity: 0.28;
+      cursor: not-allowed !important;
       border-style: dashed;
       border-color: rgba(255, 255, 255, 0.15);
       background: rgba(20, 16, 14, 0.6);
     }
 
-    .table-id-badge {
-      font-size: 1.15rem;
-      font-weight: 700;
-      font-family: var(--font-display);
-    }
+    .table-id-badge { font-size: 1.15rem; font-weight: 700; font-family: var(--font-display); }
     .table-type-label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.85; }
     .table-cap-label { font-size: 0.75rem; }
+
+    .seat-status-pill {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      margin-top: 0.2rem;
+    }
+    .seat-status-pill.avail { color: #52b788; }
+    .seat-status-pill.res { color: #e63946; background: rgba(230, 57, 70, 0.2); }
 
     .reservation-error-banner {
       display: none;
@@ -580,18 +586,8 @@
       gap: 1.5rem;
     }
 
-    .location-info h3 {
-      font-family: var(--font-display);
-      color: var(--accent);
-      font-size: 1.6rem;
-    }
-
-    .hours-list {
-      list-style: none;
-      margin: 1rem 0;
-      font-size: 0.9rem;
-    }
-
+    .location-info h3 { font-family: var(--font-display); color: var(--accent); font-size: 1.6rem; }
+    .hours-list { list-style: none; margin: 1rem 0; font-size: 0.9rem; }
     .hours-list li {
       display: flex;
       justify-content: space-between;
@@ -691,7 +687,6 @@
 </head>
 <body>
 
-  <!-- Navigation -->
   <header>
     <div class="container">
       <nav>
@@ -708,7 +703,6 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero">
     <div class="container">
       <p class="tagline">"Craft Brews &amp; Tabletop Clues"</p>
@@ -723,7 +717,6 @@
     </div>
   </section>
 
-  <!-- About Section -->
   <section id="about">
     <div class="container">
       <div class="section-title">
@@ -756,33 +749,28 @@
     </div>
   </section>
 
-  <!-- Menu Section -->
   <section id="menu">
     <div class="container">
       <div class="section-title">
         <h2>Curated Menu</h2>
         <p>Sip, snack, and strategize without getting grease on the meeples.</p>
       </div>
-
       <div class="filter-pills" id="menu-filters">
         <button type="button" class="filter-pill active" data-category="All">All</button>
         <button type="button" class="filter-pill" data-category="Espresso Drinks">Espresso Drinks</button>
         <button type="button" class="filter-pill" data-category="Cold Brew">Cold Brew</button>
         <button type="button" class="filter-pill" data-category="Small Bites">Small Bites</button>
       </div>
-
       <div class="menu-grid" id="menu-container"></div>
     </div>
   </section>
 
-  <!-- Board Games Library -->
   <section id="games">
     <div class="container">
       <div class="section-title">
         <h2>Board Game Library</h2>
         <p>150+ curated titles. Filter by complexity, category, or player count.</p>
       </div>
-
       <div class="game-controls">
         <input type="search" id="game-search" class="search-input" placeholder="Search by title, player count, or category (e.g. Catan, 2 players)..." />
         <select id="game-category-filter" class="search-input" style="max-width: 200px;">
@@ -792,7 +780,6 @@
           <option value="QUICK 2-PLAYER">Quick 2-Player</option>
         </select>
       </div>
-
       <div class="games-grid" id="games-container"></div>
     </div>
   </section>
@@ -806,7 +793,6 @@
       </div>
 
       <div class="reservation-card">
-        <!-- Stepper -->
         <div class="stepper">
           <div class="step-item active" id="step-indicator-1">
             <div class="step-number">1</div>
@@ -864,9 +850,9 @@
 
           <div style="margin-top: 1.5rem;">
             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
-              <label class="form-label">Choose Compatible Table *</label>
+              <label class="form-label">Theater-Style Table Selection *</label>
               <span id="table-hint" style="font-size: 0.85rem; color: var(--text-muted);">
-                Select party size to unlock matching tables.
+                Select date, time, and party size to query live availability.
               </span>
             </div>
             <div id="tables-container" class="tables-grid" role="radiogroup"></div>
@@ -914,15 +900,15 @@
           </div>
         </div>
 
-        <!-- STEP 3: Review, Payment & Backend Dispatch -->
+        <!-- STEP 3: Review, Payment & Authoritative Backend Dispatch -->
         <div id="reservation-step-3" class="step-content" style="display: none;">
           <div class="summary-card">
             <div class="summary-header">
               <div>
                 <h3 style="font-family: var(--font-display); color: var(--accent);">Review Booking</h3>
-                <small style="color: var(--text-muted);">Confirm your details before proceeding to payment.</small>
+                <small style="color: var(--text-muted);">Table availability will be authoritatively locked upon confirmation.</small>
               </div>
-              <span class="summary-id-badge" id="sum-id">DD-PENDING</span>
+              <span class="summary-id-badge" id="sum-id">ID GENERATED ON SUBMIT</span>
             </div>
 
             <div class="summary-grid">
@@ -939,15 +925,15 @@
           <div class="payment-box">
             <h4 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 0.5rem;">Table Holding Deposit</h4>
             <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-              Complete the ₹200 table reservation deposit via Cashfree to lock your slot and game library reservation.
+              Complete the ₹200 table reservation deposit via Cashfree to lock your seat and tabletop library reservation.
             </p>
             <a href="https://payments.cashfree.com/forms/getaudit" target="_blank" rel="noopener" id="btn-pay-cashfree" class="btn btn-primary" style="margin-bottom: 1rem;">
-              💳 Pay via Cashfree Secure Gateway
+              💳 Pay ₹200 via Cashfree Gateway
             </a>
             <div style="max-width: 400px; margin: 0.5rem auto 0;">
               <label for="res-pay-ref" class="form-label" style="font-size: 0.85rem;">Cashfree Payment Reference / UTR *</label>
               <input type="text" id="res-pay-ref" class="form-control" placeholder="Enter Transaction Reference (e.g. CF18294)" />
-              <small style="color: var(--text-muted); font-size: 0.75rem;">Enter reference after payment to verify your booking.</small>
+              <small style="color: var(--text-muted); font-size: 0.75rem;">Your reference will be verified by management before the booking is completed.</small>
             </div>
           </div>
 
@@ -959,20 +945,20 @@
           </div>
         </div>
 
-        <!-- STEP 4: Final Confirmation Screen -->
+        <!-- STEP 4: Real Confirmation Screen -->
         <div id="reservation-step-4" class="step-content" style="display: none; text-align: center;">
           <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎲</div>
           <h2 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 0.5rem;">
             Reservation Confirmed!
           </h2>
           <p style="color: var(--text-muted); margin-bottom: 2rem;">
-            We've saved your table and notified our Game Master. See you at the café!
+            Your table has been reserved in our system. We look forward to hosting your campaign!
           </p>
 
           <div class="summary-card" style="text-align: left; max-width: 650px; margin: 0 auto 2rem;">
             <div class="summary-header">
               <span style="color: var(--accent); font-weight: 700;">Official Booking Voucher</span>
-              <span class="summary-id-badge" id="conf-id">DD-000000</span>
+              <span class="summary-id-badge" id="conf-id">DD-XXXXXXXX-XXXX</span>
             </div>
             <div class="summary-grid">
               <div class="summary-item"><small>Date &amp; Time</small><strong id="conf-datetime">—</strong></div>
@@ -980,8 +966,8 @@
               <div class="summary-item"><small>Assigned Table</small><strong id="conf-table">—</strong></div>
               <div class="summary-item"><small>Game Choice</small><strong id="conf-game">—</strong></div>
               <div class="summary-item"><small>Guest Name</small><strong id="conf-name">—</strong></div>
-              <div class="summary-item"><small>Payment Status</small><span style="color: #6ee7b7; font-weight: 600;" id="conf-pay-status">Paid</span></div>
-              <div class="summary-item" style="grid-column: 1/-1;"><small>Booking Status</small><span style="color: #6ee7b7; font-weight: 600;" id="conf-book-status">Confirmed</span></div>
+              <div class="summary-item"><small>Payment Status</small><span style="color: #ffd166; font-weight: 600;" id="conf-pay-status">Pending</span></div>
+              <div class="summary-item" style="grid-column: 1/-1;"><small>Booking Status</small><span style="color: #ffd166; font-weight: 600;" id="conf-book-status">Pending</span></div>
             </div>
           </div>
 
@@ -1052,7 +1038,7 @@
     </div>
   </section>
 
-  <!-- Customer Reviews -->
+  <!-- Reviews -->
   <section id="reviews">
     <div class="container">
       <div class="section-title">
@@ -1079,7 +1065,7 @@
     </div>
   </section>
 
-  <!-- Game Modal -->
+  <!-- Game Details Modal -->
   <div id="game-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-box">
       <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
@@ -1087,7 +1073,6 @@
     </div>
   </div>
 
-  <!-- Footer -->
   <footer>
     <div class="container">
       <ul class="footer-links">
@@ -1103,8 +1088,8 @@
   </footer>
 
   <script>
-    // Configured Google Apps Script Web App Endpoint
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJhteqbb4-iep_UnjMZq_HyLJwZWqtMo4ZjCUQPKWieTNhwxPIjSq_HfHXktQl-UJD/exec";
+    // Live Deployed Apps Script Web App Endpoint
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS0PVb5Ad6C0Ng3mm2a2cINb5tsvjBLL5-hWyo1KXTrDUb11I9iFQzzRAhwnoCBHX-/exec";
 
     const businessHours = {
       0: { open: "12:00", close: "21:00" },
@@ -1157,6 +1142,7 @@
       { id: "g12", name: "Hive", category: "QUICK 2-PLAYER", players: "2", duration: "20 min", difficulty: "Medium", desc: "Tile-placement chess-like strategy game with crawling insects.", img: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=400&q=80" }
     ];
 
+    // Centralized Client State
     const reservationData = {
       date: "",
       time: "",
@@ -1176,6 +1162,9 @@
       bookingStatus: "Pending"
     };
 
+    // Live backend-queried reserved tables cache
+    let currentReservedTables = [];
+
     function initReservationModule() {
       const dateInput = document.getElementById("res-date");
       const timeSelect = document.getElementById("res-time");
@@ -1186,7 +1175,6 @@
       const btnStep2Next = document.getElementById("btn-step2-next");
       const btnStep3Back = document.getElementById("btn-step3-back");
       const btnStep3Submit = document.getElementById("btn-step3-submit");
-      const btnPayCashfree = document.getElementById("btn-pay-cashfree");
 
       const now = new Date();
       dateInput.min = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
@@ -1204,9 +1192,7 @@
       btnStep2Back.addEventListener("click", () => goToStep(1));
       btnStep2Next.addEventListener("click", () => {
         if (validateStep2()) {
-          generateReservationId();
           updateSummaryView();
-          btnPayCashfree.href = `https://payments.cashfree.com/forms/getaudit?order_id=${encodeURIComponent(reservationData.reservationId)}`;
           goToStep(3);
         }
       });
@@ -1225,13 +1211,6 @@
         opt.textContent = `${g.name} (${g.category})`;
         select.appendChild(opt);
       });
-    }
-
-    function generateReservationId() {
-      if (reservationData.reservationId) return;
-      const cleanDate = reservationData.date.replace(/-/g, "");
-      const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
-      reservationData.reservationId = `DD-${cleanDate}-${rand}`;
     }
 
     function goToStep(stepNum) {
@@ -1281,7 +1260,7 @@
       reservationData.date = str;
       populateTimeSlots(dayOfWeek);
       resetTableSelection();
-      renderAvailableTables();
+      fetchLiveAvailability();
     }
 
     function populateTimeSlots(dayOfWeek) {
@@ -1319,7 +1298,12 @@
       reservationData.time = "";
     }
 
-    function handleTimeChange(e) { reservationData.time = e.target.value; clearError(); }
+    function handleTimeChange(e) {
+      reservationData.time = e.target.value;
+      clearError();
+      resetTableSelection();
+      fetchLiveAvailability();
+    }
 
     function handlePlayersChange(e) {
       const val = e.target.value;
@@ -1332,6 +1316,33 @@
           resetTableSelection();
         }
       }
+      renderAvailableTables();
+    }
+
+    async function fetchLiveAvailability() {
+      if (!reservationData.date || !reservationData.time) {
+        currentReservedTables = [];
+        renderAvailableTables();
+        return;
+      }
+
+      const hint = document.getElementById("table-hint");
+      hint.textContent = "Checking theater table availability...";
+
+      try {
+        const queryUrl = `${APPS_SCRIPT_URL}?action=get_availability&date=${encodeURIComponent(reservationData.date)}&time=${encodeURIComponent(reservationData.time)}`;
+        const res = await fetch(queryUrl);
+        const data = await res.json();
+
+        if (data && data.success && Array.isArray(data.reservedTables)) {
+          currentReservedTables = data.reservedTables.map(t => String(t).toUpperCase());
+        } else {
+          currentReservedTables = [];
+        }
+      } catch (err) {
+        console.warn("Availability queried silently:", err);
+      }
+
       renderAvailableTables();
     }
 
@@ -1348,9 +1359,17 @@
 
       cont.innerHTML = "";
       const p = reservationData.players;
-      hint.textContent = p ? `Tables suitable for ${p} player(s):` : "Select party size to unlock matching tables.";
+
+      if (!reservationData.date || !reservationData.time) {
+        hint.textContent = "Select date and time to unlock table availability.";
+      } else if (!p) {
+        hint.textContent = "Select party size to see matching tables.";
+      } else {
+        hint.textContent = `Showing tables for ${p} player(s): 🟢 Available | 🔴 Reserved`;
+      }
 
       tables.forEach(t => {
+        const isReserved = currentReservedTables.includes(t.id.toUpperCase());
         const compatible = isTableCompatible(t, p);
         const isSelected = reservationData.tableId === t.id;
 
@@ -1361,27 +1380,44 @@
         btn.setAttribute("aria-checked", isSelected ? "true" : "false");
         btn.setAttribute("data-table-id", t.id);
 
-        if (!compatible) {
+        let statusBadge = `<span class="seat-status-pill avail">🟢 Available</span>`;
+
+        if (isReserved) {
+          btn.classList.add("reserved");
+          btn.disabled = true;
+          statusBadge = `<span class="seat-status-pill res">🔴 Reserved</span>`;
+        } else if (!compatible) {
           btn.classList.add("incompatible");
           btn.disabled = true;
-          btn.title = `Accommodates ${t.minPlayers}–${t.maxPlayers} players`;
+          statusBadge = `<span class="seat-status-pill" style="color: var(--text-muted); opacity: 0.7;">⚪ Not for size</span>`;
         }
 
-        if (isSelected) btn.classList.add("selected");
+        if (isSelected && !isReserved && compatible) {
+          btn.classList.add("selected");
+        }
 
         btn.innerHTML = `
           <span class="table-id-badge">${t.id}</span>
           <span class="table-type-label">${t.type}</span>
           <span class="table-cap-label">${t.minPlayers}–${t.maxPlayers} seats</span>
+          ${statusBadge}
         `;
 
-        btn.addEventListener("click", () => selectTable(t));
+        if (!isReserved && compatible) {
+          btn.addEventListener("click", () => selectTable(t));
+        }
+
         cont.appendChild(btn);
       });
     }
 
     function selectTable(t) {
+      if (currentReservedTables.includes(t.id.toUpperCase())) {
+        showError(`Table ${t.id} is already reserved for this time.`);
+        return;
+      }
       if (!isTableCompatible(t, reservationData.players)) return;
+
       reservationData.tableId = t.id;
       reservationData.tableType = t.type;
       reservationData.tableMinPlayers = t.minPlayers;
@@ -1411,6 +1447,10 @@
       if (!reservationData.time) { showError("Please choose a reservation time."); return false; }
       if (!reservationData.players) { showError("Please choose your party size."); return false; }
       if (!reservationData.tableId) { showError("Please pick an available table for your group."); return false; }
+      if (currentReservedTables.includes(reservationData.tableId.toUpperCase())) {
+        showError(`Table ${reservationData.tableId} is already reserved for this time. Please choose another.`);
+        return false;
+      }
       clearError();
       return true;
     }
@@ -1437,7 +1477,6 @@
     }
 
     function updateSummaryView() {
-      document.getElementById("sum-id").textContent = reservationData.reservationId;
       document.getElementById("sum-datetime").textContent = `${reservationData.date} at ${reservationData.time}`;
       document.getElementById("sum-players").textContent = `${reservationData.players} Player(s)`;
       document.getElementById("sum-table").textContent = `Table ${reservationData.tableId} (${reservationData.tableType})`;
@@ -1452,21 +1491,19 @@
       const submitBtn = document.getElementById("btn-step3-submit");
 
       if (!payRef) {
-        showError("Please enter your Cashfree Transaction/UTR reference number to confirm booking.");
+        showError("Please enter your Cashfree Transaction / UTR reference number to confirm booking.");
         return;
       }
 
       reservationData.paymentReference = payRef;
-      reservationData.paymentStatus = "Paid (Verified Ref)";
-      reservationData.bookingStatus = "Confirmed";
 
       submitBtn.disabled = true;
-      submitBtn.textContent = "Securing Reservation...";
+      submitBtn.textContent = "Locking table & confirming...";
+      clearError();
 
       try {
-        const payload = new URLSearchParams({
+        const payload = {
           action: "create_reservation",
-          reservationId: reservationData.reservationId,
           customerName: reservationData.customerName,
           customerEmail: reservationData.customerEmail,
           customerPhone: reservationData.customerPhone,
@@ -1477,44 +1514,57 @@
           tableId: reservationData.tableId,
           gamePreference: reservationData.gamePreference,
           specialRequest: reservationData.specialRequest,
-          paymentStatus: reservationData.paymentStatus,
-          paymentReference: reservationData.paymentReference,
-          bookingStatus: reservationData.bookingStatus
+          paymentReference: reservationData.paymentReference
+        };
+
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
         });
 
-        fetch(`${APPS_SCRIPT_URL}?${payload.toString()}`, {
-          method: "GET",
-          mode: "no-cors"
-        }).catch(err => console.log("Background sync logging:", err));
+        const result = await response.json();
+
+        if (result && result.success) {
+          reservationData.reservationId = result.reservationId;
+          reservationData.bookingStatus = result.bookingStatus || "Pending";
+          reservationData.paymentStatus = result.paymentStatus || "Pending";
+
+          renderFinalConfirmation(result);
+          goToStep(4);
+        } else {
+          showError(result.message || "Table was just taken by another guest. Please choose an available table.");
+          fetchLiveAvailability();
+          goToStep(1);
+        }
 
       } catch (err) {
-        console.warn("Backend dispatch completed with local fallback.");
+        console.error("Booking dispatch error:", err);
+        showError("Something went wrong while saving your reservation. Please try again or contact us on WhatsApp.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Verify Payment & Confirm Booking";
       }
-
-      renderFinalConfirmation();
-      goToStep(4);
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Verify Payment & Confirm Booking";
     }
 
-    function renderFinalConfirmation() {
-      document.getElementById("conf-id").textContent = reservationData.reservationId;
-      document.getElementById("conf-datetime").textContent = `${reservationData.date} at ${reservationData.time}`;
-      document.getElementById("conf-players").textContent = `${reservationData.players} Player(s)`;
-      document.getElementById("conf-table").textContent = `Table ${reservationData.tableId} (${reservationData.tableType})`;
-      document.getElementById("conf-game").textContent = reservationData.gamePreference;
-      document.getElementById("conf-name").textContent = reservationData.customerName;
-      document.getElementById("conf-pay-status").textContent = reservationData.paymentStatus;
-      document.getElementById("conf-book-status").textContent = reservationData.bookingStatus;
+    function renderFinalConfirmation(serverData) {
+      document.getElementById("conf-id").textContent = serverData.reservationId || reservationData.reservationId;
+      document.getElementById("conf-datetime").textContent = `${serverData.reservationDate || reservationData.date} at ${serverData.reservationTime || reservationData.time}`;
+      document.getElementById("conf-players").textContent = `${serverData.players || reservationData.players} Player(s)`;
+      document.getElementById("conf-table").textContent = `Table ${serverData.tableNumber || reservationData.tableId} (${serverData.tableType || reservationData.tableType})`;
+      document.getElementById("conf-game").textContent = serverData.gamePreference || reservationData.gamePreference;
+      document.getElementById("conf-name").textContent = serverData.customerName || reservationData.customerName;
+      document.getElementById("conf-pay-status").textContent = serverData.paymentStatus || "Pending";
+      document.getElementById("conf-book-status").textContent = serverData.bookingStatus || "Pending";
 
       const waMsg = encodeURIComponent(
-        `🎲 Table Booked at The Dice & Drip Cafe!\nID: ${reservationData.reservationId}\nDate: ${reservationData.date} at ${reservationData.time}\nTable: ${reservationData.tableId}\nGame: ${reservationData.gamePreference}`
+        `Hi! My Dice & Drip Cafe reservation is recorded.\nReservation ID: ${serverData.reservationId || reservationData.reservationId}\nDate: ${reservationData.date} at ${reservationData.time}\nPlayers: ${reservationData.players}\nTable: ${reservationData.tableId}\nGame: ${reservationData.gamePreference}`
       );
-      document.getElementById("btn-conf-whatsapp").href = `https://wa.me/?text=${waMsg}`;
+      document.getElementById("btn-conf-whatsapp").href = `https://wa.me/919876543210?text=${waMsg}`;
 
-      const mailSub = encodeURIComponent(`Your Dice & Drip Reservation [${reservationData.reservationId}]`);
+      const mailSub = encodeURIComponent(`The Dice & Drip Cafe Reservation [${serverData.reservationId || reservationData.reservationId}]`);
       const mailBody = encodeURIComponent(
-        `Hi ${reservationData.customerName},\n\nYour reservation at The Dice & Drip Cafe is confirmed!\n\nID: ${reservationData.reservationId}\nDate: ${reservationData.date} at ${reservationData.time}\nTable: ${reservationData.tableId}\nGame: ${reservationData.gamePreference}\nStatus: ${reservationData.bookingStatus}\n\nSee you at 42 Meeple Street!`
+        `Hi ${reservationData.customerName},\n\nYour reservation request at The Dice & Drip Cafe has been recorded!\n\nReservation ID: ${serverData.reservationId || reservationData.reservationId}\nDate: ${reservationData.date} at ${reservationData.time}\nTable: ${reservationData.tableId}\nGame: ${reservationData.gamePreference}\nStatus: ${serverData.bookingStatus || "Pending"}\n\nSee you at 42 Meeple Street!`
       );
       document.getElementById("btn-conf-email").href = `mailto:${reservationData.customerEmail}?subject=${mailSub}&body=${mailBody}`;
 
@@ -1524,8 +1574,8 @@
           "BEGIN:VCALENDAR",
           "VERSION:2.0",
           "BEGIN:VEVENT",
-          `SUMMARY:Dice & Drip Cafe: Table ${reservationData.tableId}`,
-          `DESCRIPTION:Reservation ${reservationData.reservationId} for ${reservationData.players} players. Game: ${reservationData.gamePreference}`,
+          `SUMMARY:The Dice & Drip Cafe: Table ${reservationData.tableId}`,
+          `DESCRIPTION:Reservation ${serverData.reservationId || reservationData.reservationId} for ${reservationData.players} players. Game: ${reservationData.gamePreference}`,
           `LOCATION:42 Meeple Street, Arts Quarter`,
           `DTSTART:${cleanStart}`,
           `DTEND:${cleanStart}`,
@@ -1536,7 +1586,7 @@
         const blob = new Blob([icsContent], { type: "text/calendar" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = `DiceDrip-${reservationData.reservationId}.ics`;
+        a.download = `DiceDrip-${serverData.reservationId || reservationData.reservationId}.ics`;
         a.click();
       };
 
