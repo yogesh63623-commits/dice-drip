@@ -425,7 +425,6 @@
     .form-control:disabled { opacity: 0.5; cursor: not-allowed; }
     textarea.form-control { resize: vertical; min-height: 80px; }
 
-    /* Theater-Seat Table Grid */
     .tables-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -464,7 +463,6 @@
       box-shadow: 0 0 12px rgba(212, 163, 115, 0.4);
     }
 
-    /* Reserved state (Theater seat model) */
     .table-card-btn.reserved {
       opacity: 0.5;
       cursor: not-allowed !important;
@@ -687,6 +685,7 @@
 </head>
 <body>
 
+  <!-- Navigation -->
   <header>
     <div class="container">
       <nav>
@@ -703,6 +702,7 @@
     </div>
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
     <div class="container">
       <p class="tagline">"Craft Brews &amp; Tabletop Clues"</p>
@@ -717,6 +717,7 @@
     </div>
   </section>
 
+  <!-- About Section -->
   <section id="about">
     <div class="container">
       <div class="section-title">
@@ -749,6 +750,7 @@
     </div>
   </section>
 
+  <!-- Menu Section -->
   <section id="menu">
     <div class="container">
       <div class="section-title">
@@ -765,6 +767,7 @@
     </div>
   </section>
 
+  <!-- Board Games Library -->
   <section id="games">
     <div class="container">
       <div class="section-title">
@@ -1089,7 +1092,7 @@
 
   <script>
     // Live Deployed Apps Script Web App Endpoint
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS0PVb5Ad6C0Ng3mm2a2cINb5tsvjBLL5-hWyo1KXTrDUb11I9iFQzzRAhwnoCBHX-/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNrm3tjtIDLZMkSU2sve774ZaD9OkWEqRejhgbDrXaVcZgdrpTaELdeu7hRZ7O-DjQ/exec";
 
     const businessHours = {
       0: { open: "12:00", close: "21:00" },
@@ -1142,7 +1145,6 @@
       { id: "g12", name: "Hive", category: "QUICK 2-PLAYER", players: "2", duration: "20 min", difficulty: "Medium", desc: "Tile-placement chess-like strategy game with crawling insects.", img: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=400&q=80" }
     ];
 
-    // Centralized Client State
     const reservationData = {
       date: "",
       time: "",
@@ -1162,7 +1164,6 @@
       bookingStatus: "Pending"
     };
 
-    // Live backend-queried reserved tables cache
     let currentReservedTables = [];
 
     function initReservationModule() {
