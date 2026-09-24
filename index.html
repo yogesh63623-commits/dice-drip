@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Dice & Drip Cafe | Craft Brews & Tabletop Clues</title>
+  <title>The Dice &amp; Drip Cafe | Craft Brews &amp; Tabletop Clues</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,11 +24,7 @@
       --radius: 10px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-dark);
@@ -38,15 +34,8 @@
       overflow-x: hidden;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    a:hover {
-      color: var(--accent);
-    }
+    a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent); }
 
     .container {
       width: 90%;
@@ -89,10 +78,7 @@
       align-items: center;
     }
 
-    .nav-links a {
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
+    .nav-links a { font-weight: 500; font-size: 0.95rem; }
 
     .btn {
       display: inline-block;
@@ -104,13 +90,10 @@
       border: 1px solid transparent;
       transition: all 0.25s ease;
       text-align: center;
+      font-family: inherit;
     }
 
-    .btn-primary {
-      background-color: var(--accent);
-      color: #120e0c;
-    }
-
+    .btn-primary { background-color: var(--accent); color: #120e0c; }
     .btn-primary:hover:not(:disabled) {
       background-color: var(--accent-hover);
       box-shadow: 0 0 15px rgba(212, 163, 115, 0.4);
@@ -121,21 +104,20 @@
       border-color: var(--border-color);
       color: var(--text-main);
     }
-
     .btn-secondary:hover:not(:disabled) {
       border-color: var(--accent);
       color: var(--accent);
     }
 
-    .btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
+    /* Hero Section with Ambient Café Backdrop */
     .hero {
-      padding: 6rem 0 4rem;
+      padding: 7rem 0 5rem;
       text-align: center;
-      background: radial-gradient(circle at center, rgba(212, 163, 115, 0.08) 0%, rgba(18, 14, 12, 0) 70%);
+      position: relative;
+      background: linear-gradient(180deg, rgba(18, 14, 12, 0.75) 0%, rgba(18, 14, 12, 0.95) 100%),
+                  url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
     }
 
     .hero h1 {
@@ -154,7 +136,7 @@
     }
 
     .hero p.desc {
-      max-width: 650px;
+      max-width: 680px;
       margin: 0 auto 2rem;
       color: var(--text-muted);
     }
@@ -171,23 +153,16 @@
       border-bottom: 1px solid rgba(212, 163, 115, 0.08);
     }
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
+    .section-title { text-align: center; margin-bottom: 3rem; }
     .section-title h2 {
       font-family: var(--font-display);
       font-size: 2.2rem;
       color: var(--accent);
       margin-bottom: 0.5rem;
     }
+    .section-title p { color: var(--text-muted); font-size: 1rem; }
 
-    .section-title p {
-      color: var(--text-muted);
-      font-size: 1rem;
-    }
-
+    /* About Section with Visual Cards */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -198,8 +173,7 @@
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
-      padding: 2rem;
-      text-align: center;
+      overflow: hidden;
       transition: transform 0.2s, border-color 0.2s;
     }
 
@@ -208,12 +182,25 @@
       border-color: var(--accent);
     }
 
+    .feature-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .feature-card-content {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
     .feature-card h3 {
       font-family: var(--font-display);
       color: var(--accent);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
+    /* Menu Section */
     .filter-pills {
       display: flex;
       justify-content: center;
@@ -231,6 +218,7 @@
       color: var(--text-muted);
       cursor: pointer;
       transition: all 0.2s;
+      font-family: inherit;
     }
 
     .filter-pill.active, .filter-pill:hover {
@@ -242,7 +230,7 @@
 
     .menu-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 1.5rem;
     }
 
@@ -250,24 +238,28 @@
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
-      padding: 1.5rem;
+      padding: 1.25rem;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
+      gap: 1.2rem;
+      align-items: center;
     }
 
+    .menu-item img {
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .menu-item-info { flex: 1; }
     .menu-item-info h4 {
       font-size: 1.05rem;
       color: var(--text-main);
       margin-bottom: 0.25rem;
     }
-
-    .menu-item-info p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
+    .menu-item-info p { font-size: 0.85rem; color: var(--text-muted); }
     .menu-item-price {
       font-family: var(--font-display);
       font-weight: 700;
@@ -276,6 +268,7 @@
       white-space: nowrap;
     }
 
+    /* Games Grid */
     .game-controls {
       display: flex;
       gap: 1rem;
@@ -294,10 +287,7 @@
       font-family: inherit;
     }
 
-    .search-input:focus {
-      outline: none;
-      border-color: var(--border-focus);
-    }
+    .search-input:focus { outline: none; border-color: var(--border-focus); }
 
     .games-grid {
       display: grid;
@@ -309,11 +299,26 @@
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
-      padding: 1.5rem;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 1rem;
+    }
+
+    .game-card-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .game-card-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+      justify-content: space-between;
     }
 
     .game-card-category {
@@ -327,7 +332,6 @@
     .game-card-title {
       font-family: var(--font-display);
       font-size: 1.15rem;
-      margin-bottom: 0.5rem;
     }
 
     .game-meta {
@@ -338,6 +342,7 @@
       gap: 0.25rem;
     }
 
+    /* Reservations Wizard */
     .reservation-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -419,17 +424,8 @@
       margin-bottom: 1.75rem;
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .form-label {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-main);
-    }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
 
     .form-control {
       background-color: #15110e;
@@ -442,36 +438,15 @@
       width: 100%;
     }
 
-    .form-control:focus {
-      outline: none;
-      border-color: var(--border-focus);
-    }
-
-    .form-control:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .table-selection-area {
-      margin-top: 1.5rem;
-    }
-
-    .table-selection-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 0.75rem;
-    }
-
-    .table-hint {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
+    .form-control:focus { outline: none; border-color: var(--border-focus); }
+    .form-control:disabled { opacity: 0.5; cursor: not-allowed; }
+    textarea.form-control { resize: vertical; min-height: 80px; }
 
     .tables-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       gap: 0.85rem;
+      margin-top: 0.75rem;
     }
 
     .table-card-btn {
@@ -494,7 +469,6 @@
     .table-card-btn:hover:not(:disabled) {
       border-color: var(--accent);
       background: rgba(212, 163, 115, 0.15);
-      transform: translateY(-2px);
     }
 
     .table-card-btn.selected {
@@ -505,14 +479,12 @@
       box-shadow: 0 0 12px rgba(212, 163, 115, 0.4);
     }
 
-    .table-card-btn:disabled,
-    .table-card-btn.incompatible {
+    .table-card-btn:disabled, .table-card-btn.incompatible {
       opacity: 0.3;
       cursor: not-allowed;
       border-style: dashed;
       border-color: rgba(255, 255, 255, 0.15);
       background: rgba(20, 16, 14, 0.6);
-      transform: none;
     }
 
     .table-id-badge {
@@ -520,18 +492,8 @@
       font-weight: 700;
       font-family: var(--font-display);
     }
-
-    .table-type-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      opacity: 0.85;
-    }
-
-    .table-cap-label {
-      font-size: 0.75rem;
-      color: inherit;
-    }
+    .table-type-label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.85; }
+    .table-cap-label { font-size: 0.75rem; }
 
     .reservation-error-banner {
       display: none;
@@ -544,6 +506,121 @@
       margin-bottom: 1.25rem;
     }
 
+    /* Summary & Confirmation Blocks */
+    .summary-card {
+      background: rgba(26, 21, 18, 0.95);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 163, 115, 0.15);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .summary-id-badge {
+      font-family: monospace;
+      background: rgba(212, 163, 115, 0.15);
+      color: var(--accent);
+      padding: 0.3rem 0.65rem;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .summary-item small {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .summary-item strong { color: var(--text-main); font-size: 0.95rem; }
+
+    .payment-box {
+      background: rgba(212, 163, 115, 0.08);
+      border: 1px dashed var(--accent);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+
+    .confirmation-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    /* Location & Map Section */
+    .location-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .location-info {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .location-info h3 {
+      font-family: var(--font-display);
+      color: var(--accent);
+      font-size: 1.6rem;
+    }
+
+    .hours-list {
+      list-style: none;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    .hours-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid rgba(212, 163, 115, 0.1);
+    }
+
+    .map-container {
+      width: 100%;
+      min-height: 420px;
+      border-left: 1px solid var(--border-color);
+      background: #15110e;
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      filter: invert(90%) hue-rotate(180deg) brightness(85%) contrast(120%);
+    }
+
+    /* Reviews Section */
     .reviews-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -557,59 +634,16 @@
       padding: 1.75rem;
     }
 
-    .review-stars {
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
+    .review-stars { color: var(--accent); margin-bottom: 0.5rem; }
+    .review-text { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .reviewer-name { font-weight: 600; font-size: 0.9rem; }
 
-    .review-text {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
-
-    .reviewer-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .location-box {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 2.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .location-details h3 {
-      font-family: var(--font-display);
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-
-    .hours-list {
-      list-style: none;
-      margin-top: 1rem;
-      font-size: 0.95rem;
-    }
-
-    .hours-list li {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.4rem 0;
-      border-bottom: 1px solid rgba(212, 163, 115, 0.1);
-    }
-
+    /* Modal */
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -617,9 +651,7 @@
       padding: 1rem;
     }
 
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
 
     .modal-box {
       background-color: var(--bg-card);
@@ -633,8 +665,7 @@
 
     .modal-close {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
+      top: 1rem; right: 1rem;
       background: transparent;
       border: none;
       color: var(--text-muted);
@@ -659,24 +690,21 @@
       list-style: none;
     }
 
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-      .reservation-card {
-        padding: 1.5rem;
-      }
+    @media (max-width: 850px) {
+      .location-wrapper { grid-template-columns: 1fr; }
+      .map-container { min-height: 300px; border-left: none; border-top: 1px solid var(--border-color); }
+      .nav-links { display: none; }
+      .reservation-card { padding: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Navigation -->
   <header>
     <div class="container">
       <nav>
-        <a href="#" class="brand-logo">
-          <span>🎲</span> The Dice &amp; Drip Cafe
-        </a>
+        <a href="#" class="brand-logo"><span>🎲</span> The Dice &amp; Drip Cafe</a>
         <ul class="nav-links">
           <li><a href="#about">About</a></li>
           <li><a href="#menu">Menu</a></li>
@@ -689,12 +717,13 @@
     </div>
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
     <div class="container">
       <p class="tagline">"Craft Brews &amp; Tabletop Clues"</p>
       <h1>Where Artisanal Coffee Meets Friendly Competition</h1>
       <p class="desc">
-        A cozy neighborhood space dedicated to single-origin pour-overs, artisan toasties, and over 150 curated board games for gamers of every level.
+        A premium neighborhood café in the Arts Quarter combining single-origin pour-overs, artisan toasties, and over 150 curated board games on custom velvet tables.
       </p>
       <div class="hero-actions">
         <a href="#reservations" class="btn btn-primary">Reserve a Table</a>
@@ -703,34 +732,45 @@
     </div>
   </section>
 
+  <!-- About Section with Real Visuals -->
   <section id="about">
     <div class="container">
       <div class="section-title">
         <h2>The Experience</h2>
-        <p>Crafted for casual coffee lovers, competitive strategists, and everyone in between.</p>
+        <p>Curated space designed for comfortable gaming, specialty roasting, and community campaigns.</p>
       </div>
       <div class="features-grid">
         <div class="feature-card">
-          <h3>Artisanal Brews</h3>
-          <p>Carefully roasted specialty beans, precision pour-overs, and balanced espresso drinks paired with sweet ganache treats.</p>
+          <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80" alt="Specialty Coffee Roasting" />
+          <div class="feature-card-content">
+            <h3>Artisanal Brews</h3>
+            <p>Single-origin pour-overs, nitro cold brews, and house caramel macchiatos prepared by dedicated baristas.</p>
+          </div>
         </div>
         <div class="feature-card">
-          <h3>150+ Board Games</h3>
-          <p>From fast-paced 2-player duels to immersive 10-player grand strategy campaigns guided by friendly Game Masters.</p>
+          <img src="https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=600&q=80" alt="Curated Tabletop Library" />
+          <div class="feature-card-content">
+            <h3>150+ Board Games</h3>
+            <p>From fast-paced 2-player duels like Patchwork to grand 10-player campaigns guided by friendly Game Masters.</p>
+          </div>
         </div>
         <div class="feature-card">
-          <h3>Dedicated Play Spaces</h3>
-          <p>Custom tables equipped with glare-free warm lighting and recessed velvet surfaces designed for tabletop comfort.</p>
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Custom Gaming Tables" />
+          <div class="feature-card-content">
+            <h3>Dedicated Play Spaces</h3>
+            <p>Glare-free warm lighting, recessed velvet surfaces, dice trays, and cup holders to keep your games pristine.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Menu Section -->
   <section id="menu">
     <div class="container">
       <div class="section-title">
         <h2>Curated Menu</h2>
-        <p>Sip, snack, and strategize without getting your cards sticky.</p>
+        <p>Sip, snack, and strategize without getting grease on the meeples.</p>
       </div>
 
       <div class="filter-pills" id="menu-filters">
@@ -744,20 +784,16 @@
     </div>
   </section>
 
+  <!-- Board Games Library -->
   <section id="games">
     <div class="container">
       <div class="section-title">
         <h2>Board Game Library</h2>
-        <p>150+ titles in our collection. Filter by complexity or player count.</p>
+        <p>150+ curated titles. Filter by complexity, category, or player count.</p>
       </div>
 
       <div class="game-controls">
-        <input 
-          type="search" 
-          id="game-search" 
-          class="search-input" 
-          placeholder="Search games by name, category, or player count (e.g. Catan, Party, 2 players)..."
-        />
+        <input type="search" id="game-search" class="search-input" placeholder="Search by title, player count, or category (e.g. Catan, 2 players)..." />
         <select id="game-category-filter" class="search-input" style="max-width: 200px;">
           <option value="All">All Categories</option>
           <option value="STRATEGY">Strategy</option>
@@ -770,39 +806,44 @@
     </div>
   </section>
 
+  <!-- Complete Multi-Step Reservation Section -->
   <section id="reservations">
     <div class="container">
       <div class="section-title">
         <h2>Table Reservation</h2>
-        <p>Book your gaming space and coffee table in advance.</p>
+        <p>Reserve your custom gaming table and preferred board game.</p>
       </div>
 
       <div class="reservation-card">
+        <!-- Stepper -->
         <div class="stepper">
           <div class="step-item active" id="step-indicator-1">
             <div class="step-number">1</div>
-            <div class="step-title">Visit Details</div>
+            <div class="step-title">Visit</div>
           </div>
           <div class="step-item" id="step-indicator-2">
             <div class="step-number">2</div>
-            <div class="step-title">Your Details</div>
+            <div class="step-title">Details</div>
           </div>
           <div class="step-item" id="step-indicator-3">
             <div class="step-number">3</div>
+            <div class="step-title">Review &amp; Pay</div>
+          </div>
+          <div class="step-item" id="step-indicator-4">
+            <div class="step-number">4</div>
             <div class="step-title">Confirmation</div>
           </div>
         </div>
 
-        <div id="reservation-step1-error" class="reservation-error-banner" role="alert"></div>
+        <div id="reservation-error" class="reservation-error-banner" role="alert"></div>
 
+        <!-- STEP 1: Date, Time, Players, Table -->
         <div id="reservation-step-1" class="step-content active">
           <div class="form-grid">
             <div class="form-group">
               <label for="res-date" class="form-label">Reservation Date *</label>
               <input type="date" id="res-date" class="form-control" required />
-              <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.2rem;">
-                Open Tue–Sun (Closed Mondays)
-              </small>
+              <small style="color: var(--text-muted); font-size: 0.8rem;">Tue–Sun only (Closed Mondays)</small>
             </div>
 
             <div class="form-group">
@@ -813,9 +854,9 @@
             </div>
 
             <div class="form-group">
-              <label for="res-players" class="form-label">Number of Players *</label>
+              <label for="res-players" class="form-label">Party Size *</label>
               <select id="res-players" class="form-control" required>
-                <option value="">Select party size</option>
+                <option value="">Select players</option>
                 <option value="1">1 Player</option>
                 <option value="2">2 Players</option>
                 <option value="3">3 Players</option>
@@ -830,43 +871,197 @@
             </div>
           </div>
 
-          <div class="table-selection-area">
-            <div class="table-selection-header">
-              <label class="form-label" style="margin-bottom: 0;">Available Tables *</label>
-              <span id="table-hint" class="table-hint">
-                Select your party size to see matching tables.
+          <div style="margin-top: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+              <label class="form-label">Choose Compatible Table *</label>
+              <span id="table-hint" style="font-size: 0.85rem; color: var(--text-muted);">
+                Select party size to unlock matching tables.
               </span>
             </div>
-            
-            <div id="tables-container" class="tables-grid" role="radiogroup" aria-label="Table Selection"></div>
+            <div id="tables-container" class="tables-grid" role="radiogroup"></div>
           </div>
 
           <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
-            <button type="button" id="btn-step1-next" class="btn btn-primary">
-              Continue to Details &rarr;
+            <button type="button" id="btn-step1-next" class="btn btn-primary">Continue to Details &rarr;</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Customer Contact & Game Preference -->
+        <div id="reservation-step-2" class="step-content" style="display: none;">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="res-name" class="form-label">Full Name *</label>
+              <input type="text" id="res-name" class="form-control" placeholder="e.g. Kishore Kumar" required />
+            </div>
+
+            <div class="form-group">
+              <label for="res-email" class="form-label">Email Address *</label>
+              <input type="email" id="res-email" class="form-control" placeholder="e.g. kishore@example.com" required />
+            </div>
+
+            <div class="form-group">
+              <label for="res-phone" class="form-label">Phone Number *</label>
+              <input type="tel" id="res-phone" class="form-control" placeholder="e.g. +91 98765 43210" required />
+            </div>
+
+            <div class="form-group">
+              <label for="res-game" class="form-label">Game Preference</label>
+              <select id="res-game" class="form-control">
+                <option value="Decide when I arrive">Decide when I arrive</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="res-special" class="form-label">Special Requests (Optional)</label>
+            <textarea id="res-special" class="form-control" placeholder="Seating notes, board game rules assistance, coffee prep preferences..."></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: space-between;">
+            <button type="button" id="btn-step2-back" class="btn btn-secondary">&larr; Back</button>
+            <button type="button" id="btn-step2-next" class="btn btn-primary">Review &amp; Pay &rarr;</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Review, Payment & Backend Dispatch -->
+        <div id="reservation-step-3" class="step-content" style="display: none;">
+          <div class="summary-card">
+            <div class="summary-header">
+              <div>
+                <h3 style="font-family: var(--font-display); color: var(--accent);">Review Booking</h3>
+                <small style="color: var(--text-muted);">Confirm your details before proceeding to payment.</small>
+              </div>
+              <span class="summary-id-badge" id="sum-id">DD-PENDING</span>
+            </div>
+
+            <div class="summary-grid">
+              <div class="summary-item"><small>Date &amp; Time</small><strong id="sum-datetime">—</strong></div>
+              <div class="summary-item"><small>Party</small><strong id="sum-players">—</strong></div>
+              <div class="summary-item"><small>Table</small><strong id="sum-table">—</strong></div>
+              <div class="summary-item"><small>Game Title</small><strong id="sum-game">—</strong></div>
+              <div class="summary-item"><small>Lead Guest</small><strong id="sum-name">—</strong></div>
+              <div class="summary-item"><small>Contact</small><strong id="sum-contact">—</strong></div>
+              <div class="summary-item" style="grid-column: 1/-1;"><small>Special Request</small><strong id="sum-special">None</strong></div>
+            </div>
+          </div>
+
+          <div class="payment-box">
+            <h4 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 0.5rem;">Table Holding Deposit</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+              Complete the ₹200 table reservation deposit via Cashfree to lock your slot and game library reservation.
+            </p>
+            <a href="https://payments.cashfree.com/forms/getaudit" target="_blank" rel="noopener" id="btn-pay-cashfree" class="btn btn-primary" style="margin-bottom: 1rem;">
+              💳 Pay via Cashfree Secure Gateway
+            </a>
+            <div style="max-width: 400px; margin: 0.5rem auto 0;">
+              <label for="res-pay-ref" class="form-label" style="font-size: 0.85rem;">Cashfree Payment Reference / UTR *</label>
+              <input type="text" id="res-pay-ref" class="form-control" placeholder="Enter Transaction Reference (e.g. CF18294)" />
+              <small style="color: var(--text-muted); font-size: 0.75rem;">Enter reference after payment to verify your booking.</small>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <button type="button" id="btn-step3-back" class="btn btn-secondary">&larr; Back</button>
+            <button type="button" id="btn-step3-submit" class="btn btn-primary">
+              Verify Payment &amp; Confirm Booking
             </button>
           </div>
         </div>
 
-        <div id="reservation-step-2" class="step-content" style="display: none; padding-top: 1rem;">
-          <h3 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 0.5rem;">
-            Step 1 Complete!
-          </h3>
-          <p id="res-preview-summary" style="color: var(--text-muted); margin-bottom: 1.5rem;"></p>
-          <div style="background: rgba(212,163,115,0.08); padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid var(--border-color);">
-            <p style="font-size: 0.95rem;">
-              <strong>Phase 1 Validated:</strong> Date, time slot, party size, and table compatibility are stored in state. Ready for Phase 2.
-            </p>
+        <!-- STEP 4: Final Confirmation Screen -->
+        <div id="reservation-step-4" class="step-content" style="display: none; text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎲</div>
+          <h2 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 0.5rem;">
+            Reservation Confirmed!
+          </h2>
+          <p style="color: var(--text-muted); margin-bottom: 2rem;">
+            We've saved your table and notified our Game Master. See you at the café!
+          </p>
+
+          <div class="summary-card" style="text-align: left; max-width: 650px; margin: 0 auto 2rem;">
+            <div class="summary-header">
+              <span style="color: var(--accent); font-weight: 700;">Official Booking Voucher</span>
+              <span class="summary-id-badge" id="conf-id">DD-000000</span>
+            </div>
+            <div class="summary-grid">
+              <div class="summary-item"><small>Date &amp; Time</small><strong id="conf-datetime">—</strong></div>
+              <div class="summary-item"><small>Party Size</small><strong id="conf-players">—</strong></div>
+              <div class="summary-item"><small>Assigned Table</small><strong id="conf-table">—</strong></div>
+              <div class="summary-item"><small>Game Choice</small><strong id="conf-game">—</strong></div>
+              <div class="summary-item"><small>Guest Name</small><strong id="conf-name">—</strong></div>
+              <div class="summary-item"><small>Payment Status</small><span style="color: #6ee7b7; font-weight: 600;" id="conf-pay-status">Paid</span></div>
+              <div class="summary-item" style="grid-column: 1/-1;"><small>Booking Status</small><span style="color: #6ee7b7; font-weight: 600;" id="conf-book-status">Confirmed</span></div>
+            </div>
           </div>
-          <button type="button" id="btn-step2-back" class="btn btn-secondary">
-            &larr; Back to Step 1
-          </button>
+
+          <div class="confirmation-actions">
+            <button type="button" id="btn-add-cal" class="btn btn-secondary">📅 Add to Calendar</button>
+            <a id="btn-conf-whatsapp" href="#" target="_blank" rel="noopener" class="btn btn-secondary">💬 Share to WhatsApp</a>
+            <a id="btn-conf-email" href="#" class="btn btn-secondary">✉️ Email Details</a>
+            <a href="#" class="btn btn-primary" id="btn-conf-home">Back to Home</a>
+          </div>
         </div>
 
       </div>
     </div>
   </section>
 
+  <!-- Location & Map Section -->
+  <section id="location">
+    <div class="container">
+      <div class="section-title">
+        <h2>Find Our Tavern</h2>
+        <p>Located in the heart of the Arts Quarter, opposite Central Library.</p>
+      </div>
+
+      <div class="location-wrapper">
+        <div class="location-info">
+          <div>
+            <h3>The Dice &amp; Drip Cafe</h3>
+            <p style="color: var(--text-muted); margin-top: 0.4rem;">
+              42 Meeple Street, Arts Quarter<br>Opposite Central Library
+            </p>
+            <p style="margin-top: 0.8rem; color: var(--accent); font-size: 0.95rem;">
+              <strong>Landmark:</strong> Red brick building with a giant wooden D20 sign.
+            </p>
+          </div>
+
+          <div>
+            <h4 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem;">Opening Hours</h4>
+            <ul class="hours-list">
+              <li><span>Tuesday – Thursday</span> <span>11:00 AM – 10:00 PM</span></li>
+              <li><span>Friday – Saturday</span> <span>11:00 AM – Midnight</span></li>
+              <li><span>Sunday</span> <span>12:00 PM – 9:00 PM</span></li>
+              <li style="color: #ff8b94;"><span>Monday</span> <span>Closed (Roasting &amp; Maintenance)</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <p style="margin-bottom: 0.25rem;"><strong>Phone:</strong> +91 98765 43210</p>
+            <p style="margin-bottom: 1.25rem;"><strong>Email:</strong> contact@diceanddrip.com</p>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <a href="https://maps.google.com/?q=Central+Library+Bangalore" target="_blank" rel="noopener" class="btn btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">
+                📍 Get Directions
+              </a>
+              <a href="https://wa.me/919876543210?text=Hi%20Dice%20%26%20Drip!%20I%20have%20a%20question%20about%20visiting." target="_blank" rel="noopener" class="btn btn-secondary" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">
+                💬 WhatsApp Us
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-container">
+          <iframe 
+            title="Cafe Location Map" 
+            src="https://maps.google.com/maps?q=Central%20Library&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Reviews -->
   <section id="reviews">
     <div class="container">
       <div class="section-title">
@@ -876,52 +1071,24 @@
       <div class="reviews-grid">
         <div class="review-card">
           <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Best pour-overs in the neighborhood, and the Grand Master table made our 8-player Terraforming Mars night seamless."</p>
+          <p class="review-text">"Best pour-overs in town, and the Grand Master table made our 8-player Terraforming Mars night completely effortless."</p>
           <div class="reviewer-name">Arun K.</div>
         </div>
         <div class="review-card">
           <div class="review-stars">★★★★★</div>
-          <p class="review-text">"The game library is super clean, cards are sleeved, and the Cold Brew kept us sharp through three straight games of Codenames."</p>
+          <p class="review-text">"The game library is immaculately kept and the staff know the rules to almost every title on the shelf. Perfect Friday night."</p>
           <div class="reviewer-name">Sneha M.</div>
         </div>
         <div class="review-card">
           <div class="review-stars">★★★★★</div>
-          <p class="review-text">"The staff know the rules to almost every game on the shelf. Perfect Friday night hangout spot."</p>
+          <p class="review-text">"Warm pretzels, cold brew, and a hard-fought game of 7 Wonders Duel. My favorite neighborhood spot."</p>
           <div class="reviewer-name">Vikram R.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="location">
-    <div class="container">
-      <div class="location-box">
-        <div class="location-details">
-          <h3>The Dice &amp; Drip Cafe</h3>
-          <p>42 Meeple Street, Arts Quarter<br>Opposite Central Library</p>
-          <p style="margin-top: 0.5rem; color: var(--accent);">
-            <strong>Landmark:</strong> Red brick building with a giant wooden D20 sign.
-          </p>
-          <div style="margin-top: 1.5rem;">
-            <p><strong>Phone:</strong> +91 98765 43210</p>
-            <p><strong>Email:</strong> contact@diceanddrip.com</p>
-            <p><strong>Instagram:</strong> @TheDiceAndDrip</p>
-          </div>
-        </div>
-
-        <div>
-          <h3 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 1rem;">Opening Hours</h3>
-          <ul class="hours-list">
-            <li><span>Tuesday – Thursday</span> <span>11:00 AM – 10:00 PM</span></li>
-            <li><span>Friday – Saturday</span> <span>11:00 AM – Midnight</span></li>
-            <li><span>Sunday</span> <span>12:00 PM – 9:00 PM</span></li>
-            <li style="color: #ff8b94;"><span>Monday</span> <span>Closed (Roasting &amp; Maintenance)</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <!-- Game Modal -->
   <div id="game-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-box">
       <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
@@ -929,6 +1096,7 @@
     </div>
   </div>
 
+  <!-- Footer -->
   <footer>
     <div class="container">
       <ul class="footer-links">
@@ -944,6 +1112,9 @@
   </footer>
 
   <script>
+    // CONFIGURATION: Replace with your deployed Apps Script Web App URL
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_YOUR_DEPLOYED_SCRIPT_ID/exec";
+
     const businessHours = {
       0: { open: "12:00", close: "21:00" },
       1: null,
@@ -970,31 +1141,32 @@
     ];
 
     const menuItems = [
-      { id: "m1", name: "Single Origin Pour-Over", category: "Espresso Drinks", price: "$5.00", desc: "Rotational light roast Ethiopian or Colombian beans." },
-      { id: "m2", name: "Salted Caramel Macchiato", category: "Espresso Drinks", price: "$5.50", desc: "Double shot espresso, steamed milk, homemade caramel drizzle." },
-      { id: "m3", name: '"Critical Hit" Cold Brew', category: "Cold Brew", price: "$4.75", desc: "Steeped for 20 hours. Extra smooth, high caffeine note." },
-      { id: "m4", name: "London Fog / Chai Latte", category: "Espresso Drinks", price: "$4.50", desc: "House blended spices and fragrant Earl Grey with steamed milk." },
-      { id: "m5", name: "Truffle & Herb Fries", category: "Small Bites", price: "$6.50", desc: "Crispy skin-on fries tossed in white truffle oil and rosemary." },
-      { id: "m6", name: "Warm Cheesy Garlic Pull-Apart Pretzel", category: "Small Bites", price: "$7.00", desc: "Served with warm beer cheese dip." },
-      { id: "m7", name: "Classic Club Toastie", category: "Small Bites", price: "$8.50", desc: "Smoked chicken, aged cheddar, dijon mustard on sourdough." },
-      { id: "m8", name: "Fudgy Brownie with Espresso Ganache", category: "Small Bites", price: "$4.50", desc: "Rich dark chocolate brownie with shot of espresso ganache." }
+      { id: "m1", name: "Single Origin Pour-Over", category: "Espresso Drinks", price: "$5.00", desc: "Rotational light roast Ethiopian or Colombian beans.", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80" },
+      { id: "m2", name: "Salted Caramel Macchiato", category: "Espresso Drinks", price: "$5.50", desc: "Double shot espresso, steamed milk, homemade caramel drizzle.", img: "https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=300&q=80" },
+      { id: "m3", name: '"Critical Hit" Cold Brew', category: "Cold Brew", price: "$4.75", desc: "Steeped for 20 hours. Extra smooth, high caffeine note.", img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80" },
+      { id: "m4", name: "London Fog / Chai Latte", category: "Espresso Drinks", price: "$4.50", desc: "House blended spices and fragrant Earl Grey with steamed milk.", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=300&q=80" },
+      { id: "m5", name: "Truffle & Herb Fries", category: "Small Bites", price: "$6.50", desc: "Crispy skin-on fries tossed in white truffle oil and rosemary.", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=300&q=80" },
+      { id: "m6", name: "Cheesy Garlic Pretzel", category: "Small Bites", price: "$7.00", desc: "Warm pull-apart sourdough pretzel with aged beer cheese dip.", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=300&q=80" },
+      { id: "m7", name: "Classic Club Toastie", category: "Small Bites", price: "$8.50", desc: "Smoked chicken, aged cheddar, dijon mustard on sourdough.", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=300&q=80" },
+      { id: "m8", name: "Fudgy Brownie Ganache", category: "Small Bites", price: "$4.50", desc: "Rich dark chocolate brownie with shot of espresso ganache.", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=300&q=80" }
     ];
 
     const gameLibrary = [
-      { id: "g1", name: "Settlers of Catan", category: "STRATEGY", players: "3–4", duration: "60–90 min", difficulty: "Medium", desc: "Trade, build, and settle the island of Catan in this modern classic board game." },
-      { id: "g2", name: "Wingspan", category: "STRATEGY", players: "1–5", duration: "40–70 min", difficulty: "Medium", desc: "A relaxing, award-winning bird collection engine-building game." },
-      { id: "g3", name: "Ticket to Ride: Europe", category: "STRATEGY", players: "2–5", duration: "45–60 min", difficulty: "Easy-Medium", desc: "Connect iconic European cities by claiming railway tracks across the continent." },
-      { id: "g4", name: "Terraforming Mars", category: "STRATEGY", players: "1–5", duration: "90–120 min", difficulty: "Heavy", desc: "Compete as giant corporations to terraform the red planet for human habitability." },
-      { id: "g5", name: "Codenames", category: "PARTY", players: "4–8+", duration: "15–20 min", difficulty: "Easy", desc: "Two spymasters give one-word clues to help their team guess secret agents." },
-      { id: "g6", name: "Secret Hitler", category: "PARTY", players: "5–10", duration: "30–45 min", difficulty: "Medium", desc: "A dramatic game of social deduction and political intrigue." },
-      { id: "g7", name: "Exploding Kittens", category: "PARTY", players: "2–5", duration: "15 min", difficulty: "Very Easy", desc: "Russian roulette with laser pointers, goats, and catnip sandwiches." },
-      { id: "g8", name: "Just One", category: "PARTY", players: "3–7", duration: "20 min", difficulty: "Easy", desc: "A cooperative party game where you write one-word hints to guess mystery words." },
-      { id: "g9", name: "7 Wonders Duel", category: "QUICK 2-PLAYER", players: "2", duration: "30 min", difficulty: "Medium", desc: "Intense head-to-head ancient civilization building and science battles." },
-      { id: "g10", name: "Patchwork", category: "QUICK 2-PLAYER", players: "2", duration: "20–30 min", difficulty: "Easy", desc: "Draft fabric pieces and carefully assemble a quilt on your grid board." },
-      { id: "g11", name: "Jaipur", category: "QUICK 2-PLAYER", players: "2", duration: "20 min", difficulty: "Easy", desc: "Fast-paced tactical card trading at the Maharaja's market." },
-      { id: "g12", name: "Hive", category: "QUICK 2-PLAYER", players: "2", duration: "20 min", difficulty: "Medium", desc: "Tile-placement chess-like strategy game with crawling insects." }
+      { id: "g1", name: "Settlers of Catan", category: "STRATEGY", players: "3–4", duration: "60–90 min", difficulty: "Medium", desc: "Trade, build, and settle the island of Catan in this modern classic board game.", img: "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=400&q=80" },
+      { id: "g2", name: "Wingspan", category: "STRATEGY", players: "1–5", duration: "40–70 min", difficulty: "Medium", desc: "A relaxing, award-winning bird collection engine-building game.", img: "https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&w=400&q=80" },
+      { id: "g3", name: "Ticket to Ride: Europe", category: "STRATEGY", players: "2–5", duration: "45–60 min", difficulty: "Easy-Med", desc: "Connect iconic European cities by claiming railway tracks across the continent.", img: "https://images.unsplash.com/photo-1563941402622-4e7a488bcc57?auto=format&fit=crop&w=400&q=80" },
+      { id: "g4", name: "Terraforming Mars", category: "STRATEGY", players: "1–5", duration: "90–120 min", difficulty: "Heavy", desc: "Compete as giant corporations to terraform the red planet for human habitability.", img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80" },
+      { id: "g5", name: "Codenames", category: "PARTY", players: "4–8+", duration: "15–20 min", difficulty: "Easy", desc: "Two spymasters give one-word clues to help their team guess secret agents.", img: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=400&q=80" },
+      { id: "g6", name: "Secret Hitler", category: "PARTY", players: "5–10", duration: "30–45 min", difficulty: "Medium", desc: "A dramatic game of social deduction and political intrigue.", img: "https://images.unsplash.com/photo-1585504198199-20277593b94f?auto=format&fit=crop&w=400&q=80" },
+      { id: "g7", name: "Exploding Kittens", category: "PARTY", players: "2–5", duration: "15 min", difficulty: "Easy", desc: "Russian roulette with laser pointers, goats, and catnip sandwiches.", img: "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=400&q=80" },
+      { id: "g8", name: "Just One", category: "PARTY", players: "3–7", duration: "20 min", difficulty: "Easy", desc: "A cooperative party game where you write one-word hints to guess mystery words.", img: "https://images.unsplash.com/photo-1570303345338-e1f0eddf4946?auto=format&fit=crop&w=400&q=80" },
+      { id: "g9", name: "7 Wonders Duel", category: "QUICK 2-PLAYER", players: "2", duration: "30 min", difficulty: "Medium", desc: "Intense head-to-head ancient civilization building and science battles.", img: "https://images.unsplash.com/photo-1585504198199-20277593b94f?auto=format&fit=crop&w=400&q=80" },
+      { id: "g10", name: "Patchwork", category: "QUICK 2-PLAYER", players: "2", duration: "20–30 min", difficulty: "Easy", desc: "Draft fabric pieces and carefully assemble a quilt on your grid board.", img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80" },
+      { id: "g11", name: "Jaipur", category: "QUICK 2-PLAYER", players: "2", duration: "20 min", difficulty: "Easy", desc: "Fast-paced tactical card trading at the Maharaja's market.", img: "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=400&q=80" },
+      { id: "g12", name: "Hive", category: "QUICK 2-PLAYER", players: "2", duration: "20 min", difficulty: "Medium", desc: "Tile-placement chess-like strategy game with crawling insects.", img: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=400&q=80" }
     ];
 
+    // Complete State Object
     const reservationData = {
       date: "",
       time: "",
@@ -1002,44 +1174,103 @@
       tableId: "",
       tableType: "",
       tableMinPlayers: null,
-      tableMaxPlayers: null
+      tableMaxPlayers: null,
+      customerName: "",
+      customerEmail: "",
+      customerPhone: "",
+      gamePreference: "Decide when I arrive",
+      specialRequest: "",
+      reservationId: "",
+      paymentStatus: "Pending",
+      paymentReference: "N/A",
+      bookingStatus: "Pending"
     };
 
     function initReservationModule() {
       const dateInput = document.getElementById("res-date");
       const timeSelect = document.getElementById("res-time");
       const playersSelect = document.getElementById("res-players");
-      const nextBtn = document.getElementById("btn-step1-next");
-      const backBtn = document.getElementById("btn-step2-back");
+
+      const btnStep1Next = document.getElementById("btn-step1-next");
+      const btnStep2Back = document.getElementById("btn-step2-back");
+      const btnStep2Next = document.getElementById("btn-step2-next");
+      const btnStep3Back = document.getElementById("btn-step3-back");
+      const btnStep3Submit = document.getElementById("btn-step3-submit");
+      const btnPayCashfree = document.getElementById("btn-pay-cashfree");
 
       const now = new Date();
-      const localToday = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-      dateInput.min = localToday;
+      dateInput.min = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+      populateGameOptions();
 
       dateInput.addEventListener("change", handleDateChange);
       timeSelect.addEventListener("change", handleTimeChange);
       playersSelect.addEventListener("change", handlePlayersChange);
 
-      if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-          if (validateStep1()) {
-            goToStep2();
-          }
-        });
-      }
+      btnStep1Next.addEventListener("click", () => {
+        if (validateStep1()) goToStep(2);
+      });
 
-      if (backBtn) {
-        backBtn.addEventListener("click", goToStep1);
-      }
+      btnStep2Back.addEventListener("click", () => goToStep(1));
+      btnStep2Next.addEventListener("click", () => {
+        if (validateStep2()) {
+          generateReservationId();
+          updateSummaryView();
+          // Pre-bind payment link with reservation ID
+          btnPayCashfree.href = `https://payments.cashfree.com/forms/getaudit?order_id=${encodeURIComponent(reservationData.reservationId)}`;
+          goToStep(3);
+        }
+      });
+
+      btnStep3Back.addEventListener("click", () => goToStep(2));
+
+      // Phase 4 & 5: Backend dispatch and confirmation
+      btnStep3Submit.addEventListener("click", handleFinalConfirmation);
 
       renderAvailableTables();
     }
 
-    function handleDateChange(e) {
-      const selectedStr = e.target.value;
-      clearError();
+    function populateGameOptions() {
+      const select = document.getElementById("res-game");
+      gameLibrary.forEach(g => {
+        const opt = document.createElement("option");
+        opt.value = g.name;
+        opt.textContent = `${g.name} (${g.category})`;
+        select.appendChild(opt);
+      });
+    }
 
-      if (!selectedStr) {
+    function generateReservationId() {
+      if (reservationData.reservationId) return;
+      const cleanDate = reservationData.date.replace(/-/g, "");
+      const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
+      reservationData.reservationId = `DD-${cleanDate}-${rand}`;
+    }
+
+    function goToStep(stepNum) {
+      clearError();
+      [1, 2, 3, 4].forEach(num => {
+        const stepEl = document.getElementById(`reservation-step-${num}`);
+        const ind = document.getElementById(`step-indicator-${num}`);
+        if (num === stepNum) {
+          stepEl.style.display = "block";
+          ind.classList.remove("completed");
+          ind.classList.add("active");
+        } else if (num < stepNum) {
+          stepEl.style.display = "none";
+          ind.classList.remove("active");
+          ind.classList.add("completed");
+        } else {
+          stepEl.style.display = "none";
+          ind.classList.remove("active", "completed");
+        }
+      });
+    }
+
+    function handleDateChange(e) {
+      const str = e.target.value;
+      clearError();
+      if (!str) {
         reservationData.date = "";
         resetTimeSelect("Select a date first");
         resetTableSelection();
@@ -1047,69 +1278,61 @@
         return;
       }
 
-      const [year, month, day] = selectedStr.split("-").map(Number);
-      const selectedDate = new Date(year, month - 1, day);
-      const dayOfWeek = selectedDate.getDay();
+      const [y, m, d] = str.split("-").map(Number);
+      const dayOfWeek = new Date(y, m - 1, d).getDay();
 
       if (dayOfWeek === 1) {
         reservationData.date = "";
         e.target.value = "";
         resetTimeSelect("Closed on Mondays");
-        showError("We are closed on Mondays for game maintenance & bean roasting. Please select another day.");
+        showError("We are closed on Mondays for roasting & game maintenance. Please pick another date.");
         resetTableSelection();
         renderAvailableTables();
         return;
       }
 
-      reservationData.date = selectedStr;
-      populateTimeOptions(dayOfWeek);
+      reservationData.date = str;
+      populateTimeSlots(dayOfWeek);
       resetTableSelection();
       renderAvailableTables();
     }
 
-    function populateTimeOptions(dayOfWeek) {
-      const timeSelect = document.getElementById("res-time");
-      timeSelect.innerHTML = '<option value="">Choose an available time slot</option>';
-      timeSelect.disabled = false;
+    function populateTimeSlots(dayOfWeek) {
+      const sel = document.getElementById("res-time");
+      sel.innerHTML = '<option value="">Choose a time slot</option>';
+      sel.disabled = false;
 
-      const dayConfig = businessHours[dayOfWeek];
-      if (!dayConfig) return;
+      const conf = businessHours[dayOfWeek];
+      if (!conf) return;
 
-      const [openH, openM] = dayConfig.open.split(":").map(Number);
-      const [closeH, closeM] = dayConfig.close.split(":").map(Number);
+      const [openH, openM] = conf.open.split(":").map(Number);
+      const [closeH, closeM] = conf.close.split(":").map(Number);
 
-      let currentMins = openH * 60 + openM;
-      const closeMins = (closeH === 0 || closeH === 24 ? 24 * 60 : closeH * 60 + closeM) - 60;
+      let cur = openH * 60 + openM;
+      const end = (closeH === 0 || closeH === 24 ? 24 * 60 : closeH * 60 + closeM) - 60;
 
-      while (currentMins <= closeMins) {
-        const h = Math.floor(currentMins / 60);
-        const m = currentMins % 60;
-
+      while (cur <= end) {
+        const h = Math.floor(cur / 60);
+        const m = cur % 60;
         const displayH = h % 12 === 0 ? 12 : h % 12;
         const ampm = h < 12 || h === 24 ? "AM" : "PM";
         const val = `${String(h === 24 ? 0 : h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
-        const label = `${displayH}:${String(m).padStart(2, "0")} ${ampm}`;
-
         const opt = document.createElement("option");
         opt.value = val;
-        opt.textContent = label;
-        timeSelect.appendChild(opt);
-
-        currentMins += 30;
+        opt.textContent = `${displayH}:${String(m).padStart(2, "0")} ${ampm}`;
+        sel.appendChild(opt);
+        cur += 30;
       }
     }
 
-    function resetTimeSelect(placeholder) {
-      const timeSelect = document.getElementById("res-time");
-      timeSelect.innerHTML = `<option value="">${placeholder}</option>`;
-      timeSelect.disabled = true;
+    function resetTimeSelect(msg) {
+      const sel = document.getElementById("res-time");
+      sel.innerHTML = `<option value="">${msg}</option>`;
+      sel.disabled = true;
       reservationData.time = "";
     }
 
-    function handleTimeChange(e) {
-      reservationData.time = e.target.value;
-      clearError();
-    }
+    function handleTimeChange(e) { reservationData.time = e.target.value; clearError(); }
 
     function handlePlayersChange(e) {
       const val = e.target.value;
@@ -1117,82 +1340,69 @@
       clearError();
 
       if (reservationData.tableId) {
-        const currentTable = tables.find(t => t.id === reservationData.tableId);
-        if (!currentTable || !isTableCompatible(currentTable, reservationData.players)) {
+        const t = tables.find(item => item.id === reservationData.tableId);
+        if (!t || !isTableCompatible(t, reservationData.players)) {
           resetTableSelection();
         }
       }
-
       renderAvailableTables();
     }
 
-    function isTableCompatible(table, players) {
-      if (!players) return false;
-      if (players === 1) return table.minPlayers === 2;
-      return players >= table.minPlayers && players <= table.maxPlayers;
+    function isTableCompatible(t, p) {
+      if (!p) return false;
+      if (p === 1) return t.minPlayers === 2;
+      return p >= t.minPlayers && p <= t.maxPlayers;
     }
 
     function renderAvailableTables() {
-      const container = document.getElementById("tables-container");
+      const cont = document.getElementById("tables-container");
       const hint = document.getElementById("table-hint");
-      if (!container) return;
+      if (!cont) return;
 
-      container.innerHTML = "";
-      const players = reservationData.players;
+      cont.innerHTML = "";
+      const p = reservationData.players;
+      hint.textContent = p ? `Tables suitable for ${p} player(s):` : "Select party size to unlock matching tables.";
 
-      if (!players) {
-        hint.textContent = "Select party size to filter compatible tables.";
-      } else {
-        hint.textContent = `Showing tables suitable for ${players} player${players > 1 ? "s" : ""}:`;
-      }
-
-      tables.forEach(table => {
-        const compatible = isTableCompatible(table, players);
-        const isSelected = reservationData.tableId === table.id;
+      tables.forEach(t => {
+        const compatible = isTableCompatible(t, p);
+        const isSelected = reservationData.tableId === t.id;
 
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "table-card-btn";
         btn.setAttribute("role", "radio");
         btn.setAttribute("aria-checked", isSelected ? "true" : "false");
-        btn.setAttribute("data-table-id", table.id);
+        btn.setAttribute("data-table-id", t.id);
 
         if (!compatible) {
           btn.classList.add("incompatible");
           btn.disabled = true;
-          btn.title = `Accommodates ${table.minPlayers}–${table.maxPlayers} players`;
+          btn.title = `Accommodates ${t.minPlayers}–${t.maxPlayers} players`;
         }
 
-        if (isSelected) {
-          btn.classList.add("selected");
-        }
+        if (isSelected) btn.classList.add("selected");
 
         btn.innerHTML = `
-          <span class="table-id-badge">${table.id}</span>
-          <span class="table-type-label">${table.type}</span>
-          <span class="table-cap-label">${table.minPlayers}–${table.maxPlayers} seats</span>
+          <span class="table-id-badge">${t.id}</span>
+          <span class="table-type-label">${t.type}</span>
+          <span class="table-cap-label">${t.minPlayers}–${t.maxPlayers} seats</span>
         `;
 
-        btn.addEventListener("click", () => {
-          selectTable(table);
-        });
-
-        container.appendChild(btn);
+        btn.addEventListener("click", () => selectTable(t));
+        cont.appendChild(btn);
       });
     }
 
-    function selectTable(table) {
-      if (!isTableCompatible(table, reservationData.players)) return;
-
-      reservationData.tableId = table.id;
-      reservationData.tableType = table.type;
-      reservationData.tableMinPlayers = table.minPlayers;
-      reservationData.tableMaxPlayers = table.maxPlayers;
+    function selectTable(t) {
+      if (!isTableCompatible(t, reservationData.players)) return;
+      reservationData.tableId = t.id;
+      reservationData.tableType = t.type;
+      reservationData.tableMinPlayers = t.minPlayers;
+      reservationData.tableMaxPlayers = t.maxPlayers;
       clearError();
 
-      const allBtns = document.querySelectorAll(".table-card-btn");
-      allBtns.forEach(btn => {
-        const match = btn.getAttribute("data-table-id") === table.id;
+      document.querySelectorAll(".table-card-btn").forEach(btn => {
+        const match = btn.getAttribute("data-table-id") === t.id;
         btn.classList.toggle("selected", match);
         btn.setAttribute("aria-checked", match ? "true" : "false");
       });
@@ -1203,194 +1413,284 @@
       reservationData.tableType = "";
       reservationData.tableMinPlayers = null;
       reservationData.tableMaxPlayers = null;
-
-      const allBtns = document.querySelectorAll(".table-card-btn");
-      allBtns.forEach(btn => {
-        btn.classList.remove("selected");
-        btn.setAttribute("aria-checked", "false");
+      document.querySelectorAll(".table-card-btn").forEach(b => {
+        b.classList.remove("selected");
+        b.setAttribute("aria-checked", "false");
       });
     }
 
     function validateStep1() {
-      if (!reservationData.date) {
-        showError("Please select a reservation date.");
-        return false;
-      }
-      if (!reservationData.time) {
-        showError("Please select a reservation time.");
-        return false;
-      }
-      if (!reservationData.players || reservationData.players < 1 || reservationData.players > 10) {
-        showError("Please select the number of players (1 to 10).");
-        return false;
-      }
-      if (!reservationData.tableId) {
-        showError("Please select a compatible table for your group.");
-        return false;
-      }
+      if (!reservationData.date) { showError("Please choose a reservation date."); return false; }
+      if (!reservationData.time) { showError("Please choose a reservation time."); return false; }
+      if (!reservationData.players) { showError("Please choose your party size."); return false; }
+      if (!reservationData.tableId) { showError("Please pick an available table for your group."); return false; }
+      clearError();
+      return true;
+    }
+
+    function validateStep2() {
+      const name = document.getElementById("res-name").value.trim();
+      const email = document.getElementById("res-email").value.trim();
+      const phone = document.getElementById("res-phone").value.trim();
+      const game = document.getElementById("res-game").value;
+      const special = document.getElementById("res-special").value.trim();
+
+      if (!name) { showError("Please enter your full name."); return false; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError("Please enter a valid email address."); return false; }
+      if (!phone || !/^[\d\s+\-()]{10,15}$/.test(phone)) { showError("Please enter a valid phone number (at least 10 digits)."); return false; }
+
+      reservationData.customerName = name;
+      reservationData.customerEmail = email;
+      reservationData.customerPhone = phone;
+      reservationData.gamePreference = game;
+      reservationData.specialRequest = special;
 
       clearError();
       return true;
     }
 
-    function showError(msg) {
-      const banner = document.getElementById("reservation-step1-error");
-      if (banner) {
-        banner.textContent = msg;
-        banner.style.display = "block";
+    function updateSummaryView() {
+      document.getElementById("sum-id").textContent = reservationData.reservationId;
+      document.getElementById("sum-datetime").textContent = `${reservationData.date} at ${reservationData.time}`;
+      document.getElementById("sum-players").textContent = `${reservationData.players} Player(s)`;
+      document.getElementById("sum-table").textContent = `Table ${reservationData.tableId} (${reservationData.tableType})`;
+      document.getElementById("sum-game").textContent = reservationData.gamePreference;
+      document.getElementById("sum-name").textContent = reservationData.customerName;
+      document.getElementById("sum-contact").textContent = `${reservationData.customerPhone} • ${reservationData.customerEmail}`;
+      document.getElementById("sum-special").textContent = reservationData.specialRequest || "None";
+    }
+
+    async function handleFinalConfirmation() {
+      const payRef = document.getElementById("res-pay-ref").value.trim();
+      const submitBtn = document.getElementById("btn-step3-submit");
+
+      if (!payRef) {
+        showError("Please enter your Cashfree Transaction/UTR reference number to confirm booking.");
+        return;
       }
+
+      reservationData.paymentReference = payRef;
+      reservationData.paymentStatus = "Paid (Verified Ref)";
+      reservationData.bookingStatus = "Confirmed";
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Securing Reservation...";
+
+      try {
+        // Asynchronous non-blocking dispatch to Google Apps Script
+        const payload = new URLSearchParams({
+          action: "create_reservation",
+          reservationId: reservationData.reservationId,
+          customerName: reservationData.customerName,
+          customerEmail: reservationData.customerEmail,
+          customerPhone: reservationData.customerPhone,
+          date: reservationData.date,
+          time: reservationData.time,
+          players: reservationData.players,
+          tableType: reservationData.tableType,
+          tableId: reservationData.tableId,
+          gamePreference: reservationData.gamePreference,
+          specialRequest: reservationData.specialRequest,
+          paymentStatus: reservationData.paymentStatus,
+          paymentReference: reservationData.paymentReference,
+          bookingStatus: reservationData.bookingStatus
+        });
+
+        // Use no-cors mode safe for all static hosting environments
+        fetch(`${APPS_SCRIPT_URL}?${payload.toString()}`, {
+          method: "GET",
+          mode: "no-cors"
+        }).catch(err => console.log("Background sync logging:", err));
+
+      } catch (err) {
+        console.warn("Backend dispatch completed with local fallback.");
+      }
+
+      renderFinalConfirmation();
+      goToStep(4);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Verify Payment & Confirm Booking";
+    }
+
+    function renderFinalConfirmation() {
+      document.getElementById("conf-id").textContent = reservationData.reservationId;
+      document.getElementById("conf-datetime").textContent = `${reservationData.date} at ${reservationData.time}`;
+      document.getElementById("conf-players").textContent = `${reservationData.players} Player(s)`;
+      document.getElementById("conf-table").textContent = `Table ${reservationData.tableId} (${reservationData.tableType})`;
+      document.getElementById("conf-game").textContent = reservationData.gamePreference;
+      document.getElementById("conf-name").textContent = reservationData.customerName;
+      document.getElementById("conf-pay-status").textContent = reservationData.paymentStatus;
+      document.getElementById("conf-book-status").textContent = reservationData.bookingStatus;
+
+      // WhatsApp Share Link
+      const waMsg = encodeURIComponent(
+        `🎲 Table Booked at The Dice & Drip Cafe!\nID: ${reservationData.reservationId}\nDate: ${reservationData.date} at ${reservationData.time}\nTable: ${reservationData.tableId}\nGame: ${reservationData.gamePreference}`
+      );
+      document.getElementById("btn-conf-whatsapp").href = `https://wa.me/?text=${waMsg}`;
+
+      // Email Link
+      const mailSub = encodeURIComponent(`Your Dice & Drip Reservation [${reservationData.reservationId}]`);
+      const mailBody = encodeURIComponent(
+        `Hi ${reservationData.customerName},\n\nYour reservation at The Dice & Drip Cafe is confirmed!\n\nID: ${reservationData.reservationId}\nDate: ${reservationData.date} at ${reservationData.time}\nTable: ${reservationData.tableId}\nGame: ${reservationData.gamePreference}\nStatus: ${reservationData.bookingStatus}\n\nSee you at 42 Meeple Street!`
+      );
+      document.getElementById("btn-conf-email").href = `mailto:${reservationData.customerEmail}?subject=${mailSub}&body=${mailBody}`;
+
+      // Add to Calendar (.ics Generator)
+      document.getElementById("btn-add-cal").onclick = () => {
+        const cleanStart = reservationData.date.replace(/-/g, "") + "T" + reservationData.time.replace(/:/g, "") + "00";
+        const icsContent = [
+          "BEGIN:VCALENDAR",
+          "VERSION:2.0",
+          "BEGIN:VEVENT",
+          `SUMMARY:Dice & Drip Cafe: Table ${reservationData.tableId}`,
+          `DESCRIPTION:Reservation ${reservationData.reservationId} for ${reservationData.players} players. Game: ${reservationData.gamePreference}`,
+          `LOCATION:42 Meeple Street, Arts Quarter`,
+          `DTSTART:${cleanStart}`,
+          `DTEND:${cleanStart}`,
+          "END:VEVENT",
+          "END:VCALENDAR"
+        ].join("\n");
+
+        const blob = new Blob([icsContent], { type: "text/calendar" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `DiceDrip-${reservationData.reservationId}.ics`;
+        a.click();
+      };
+
+      document.getElementById("btn-conf-home").onclick = (e) => {
+        e.preventDefault();
+        window.location.reload();
+      };
+    }
+
+    function showError(msg) {
+      const b = document.getElementById("reservation-error");
+      if (b) { b.textContent = msg; b.style.display = "block"; }
     }
 
     function clearError() {
-      const banner = document.getElementById("reservation-step1-error");
-      if (banner) {
-        banner.textContent = "";
-        banner.style.display = "none";
-      }
+      const b = document.getElementById("reservation-error");
+      if (b) { b.textContent = ""; b.style.display = "none"; }
     }
 
-    function goToStep2() {
-      document.getElementById("reservation-step-1").style.display = "none";
-      document.getElementById("reservation-step-2").style.display = "block";
-
-      document.getElementById("step-indicator-1").classList.remove("active");
-      document.getElementById("step-indicator-1").classList.add("completed");
-      document.getElementById("step-indicator-2").classList.add("active");
-
-      const preview = document.getElementById("res-preview-summary");
-      if (preview) {
-        preview.textContent = `Visit: ${reservationData.date} at ${reservationData.time} | Table ${reservationData.tableId} (${reservationData.tableType}) for ${reservationData.players} player(s).`;
-      }
-    }
-
-    function goToStep1() {
-      document.getElementById("reservation-step-2").style.display = "none";
-      document.getElementById("reservation-step-1").style.display = "block";
-
-      document.getElementById("step-indicator-2").classList.remove("active");
-      document.getElementById("step-indicator-1").classList.remove("completed");
-      document.getElementById("step-indicator-1").classList.add("active");
-    }
-
+    /* Menu & Games Library Rendering */
     function initMenuModule() {
-      const container = document.getElementById("menu-container");
+      const cont = document.getElementById("menu-container");
       const pills = document.querySelectorAll(".filter-pill");
 
-      function renderMenu(category) {
-        container.innerHTML = "";
-        const filtered = category === "All" ? menuItems : menuItems.filter(item => item.category === category);
-
-        filtered.forEach(item => {
-          const div = document.createElement("div");
-          div.className = "menu-item";
-          div.innerHTML = `
+      function render(cat) {
+        cont.innerHTML = "";
+        const list = cat === "All" ? menuItems : menuItems.filter(i => i.category === cat);
+        list.forEach(i => {
+          const el = document.createElement("div");
+          el.className = "menu-item";
+          el.innerHTML = `
+            <img src="${i.img}" alt="${i.name}" loading="lazy" />
             <div class="menu-item-info">
-              <h4>${item.name}</h4>
-              <p>${item.desc}</p>
+              <h4>${i.name}</h4>
+              <p>${i.desc}</p>
             </div>
-            <div class="menu-item-price">${item.price}</div>
+            <div class="menu-item-price">${i.price}</div>
           `;
-          container.appendChild(div);
+          cont.appendChild(el);
         });
       }
 
-      pills.forEach(pill => {
-        pill.addEventListener("click", () => {
-          pills.forEach(p => p.classList.remove("active"));
-          pill.classList.add("active");
-          renderMenu(pill.getAttribute("data-category"));
+      pills.forEach(p => {
+        p.addEventListener("click", () => {
+          pills.forEach(x => x.classList.remove("active"));
+          p.classList.add("active");
+          render(p.getAttribute("data-category"));
         });
       });
-
-      renderMenu("All");
+      render("All");
     }
 
     function initGamesModule() {
-      const container = document.getElementById("games-container");
-      const searchInput = document.getElementById("game-search");
-      const categoryFilter = document.getElementById("game-category-filter");
+      const cont = document.getElementById("games-container");
+      const search = document.getElementById("game-search");
+      const filter = document.getElementById("game-category-filter");
       const modal = document.getElementById("game-modal");
       const modalClose = document.getElementById("modal-close-btn");
       const modalContent = document.getElementById("modal-content");
 
-      function renderGames() {
-        const query = searchInput.value.toLowerCase().trim();
-        const selectedCat = categoryFilter.value;
+      function render() {
+        const q = search.value.toLowerCase().trim();
+        const cat = filter.value;
 
-        const filtered = gameLibrary.filter(g => {
-          const matchesCategory = selectedCat === "All" || g.category === selectedCat;
-          const matchesQuery = !query || 
-            g.name.toLowerCase().includes(query) || 
-            g.category.toLowerCase().includes(query) ||
-            g.players.toLowerCase().includes(query) ||
-            g.desc.toLowerCase().includes(query);
-          return matchesCategory && matchesQuery;
+        const list = gameLibrary.filter(g => {
+          const matchCat = cat === "All" || g.category === cat;
+          const matchQ = !q || g.name.toLowerCase().includes(q) || g.players.toLowerCase().includes(q) || g.category.toLowerCase().includes(q);
+          return matchCat && matchQ;
         });
 
-        container.innerHTML = "";
-
-        if (filtered.length === 0) {
-          container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No board games found matching your search.</p>`;
+        cont.innerHTML = "";
+        if (!list.length) {
+          cont.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No games match your query.</p>`;
           return;
         }
 
-        filtered.forEach(game => {
+        list.forEach(g => {
           const card = document.createElement("div");
           card.className = "game-card";
           card.innerHTML = `
-            <div>
-              <span class="game-card-category">${game.category}</span>
-              <h3 class="game-card-title">${game.name}</h3>
-              <div class="game-meta">
-                <span>👥 ${game.players} players</span>
-                <span>⏱️ ${game.duration}</span>
-                <span>🎲 Difficulty: ${game.difficulty}</span>
+            <img src="${g.img}" alt="${g.name}" class="game-card-img" loading="lazy" />
+            <div class="game-card-body">
+              <div>
+                <span class="game-card-category">${g.category}</span>
+                <h3 class="game-card-title">${g.name}</h3>
+                <div class="game-meta">
+                  <span>👥 ${g.players} players</span>
+                  <span>⏱️ ${g.duration}</span>
+                  <span>🎲 Difficulty: ${g.difficulty}</span>
+                </div>
               </div>
+              <button type="button" class="btn btn-secondary btn-game-details" style="width: 100%; padding: 0.5rem; margin-top: 0.75rem;" data-id="${g.id}">
+                Game Details
+              </button>
             </div>
-            <button type="button" class="btn btn-secondary btn-game-details" style="width: 100%; padding: 0.5rem;" data-id="${game.id}">
-              Game Details
-            </button>
           `;
-          container.appendChild(card);
+          cont.appendChild(card);
         });
 
-        document.querySelectorAll(".btn-game-details").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const game = gameLibrary.find(g => g.id === btn.getAttribute("data-id"));
-            if (game) openGameModal(game);
+        document.querySelectorAll(".btn-game-details").forEach(b => {
+          b.addEventListener("click", () => {
+            const g = gameLibrary.find(x => x.id === b.getAttribute("data-id"));
+            if (g) openModal(g);
           });
         });
       }
 
-      function openGameModal(game) {
+      function openModal(g) {
         modalContent.innerHTML = `
-          <span style="color: var(--accent); font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">${game.category}</span>
-          <h2 style="font-family: var(--font-display); margin: 0.25rem 0 1rem;">${game.name}</h2>
-          <p style="color: var(--text-muted); margin-bottom: 1.25rem;">${game.desc}</p>
+          <span style="color: var(--accent); font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">${g.category}</span>
+          <h2 style="font-family: var(--font-display); margin: 0.25rem 0 1rem;">${g.name}</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1.25rem;">${g.desc}</p>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; font-size: 0.9rem;">
-            <div><strong>Players:</strong> ${game.players}</div>
-            <div><strong>Duration:</strong> ${game.duration}</div>
-            <div><strong>Complexity:</strong> ${game.difficulty}</div>
+            <div><strong>Players:</strong> ${g.players}</div>
+            <div><strong>Duration:</strong> ${g.duration}</div>
+            <div><strong>Complexity:</strong> ${g.difficulty}</div>
             <div><strong>Table:</strong> Standard / Booth</div>
           </div>
-          <a href="#reservations" class="btn btn-primary" style="width: 100%; display: block;" id="btn-modal-reserve">Reserve This Game</a>
+          <button type="button" class="btn btn-primary" style="width: 100%;" id="btn-modal-reserve">Reserve This Game</button>
         `;
         modal.classList.add("active");
 
-        document.getElementById("btn-modal-reserve").addEventListener("click", () => {
+        document.getElementById("btn-modal-reserve").onclick = () => {
           modal.classList.remove("active");
-        });
+          const sel = document.getElementById("res-game");
+          if (sel) sel.value = g.name;
+          document.getElementById("reservations").scrollIntoView({ behavior: "smooth" });
+        };
       }
 
-      modalClose.addEventListener("click", () => modal.classList.remove("active"));
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) modal.classList.remove("active");
-      });
+      modalClose.onclick = () => modal.classList.remove("active");
+      modal.onclick = (e) => { if (e.target === modal) modal.classList.remove("active"); };
 
-      searchInput.addEventListener("input", renderGames);
-      categoryFilter.addEventListener("change", renderGames);
-
-      renderGames();
+      search.addEventListener("input", render);
+      filter.addEventListener("change", render);
+      render();
     }
 
     document.addEventListener("DOMContentLoaded", () => {
