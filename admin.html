@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | The Dice &amp; Drip Cafe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #120e0c;
+      --bg-sidebar: #18120f;
+      --bg-card: #1c1613;
+      --bg-card-hover: #261e1a;
+      --accent: #d4a373;
+      --accent-hover: #faedcd;
+      --text-main: #fefae0;
+      --text-muted: #bdaea3;
+      --border-color: rgba(212, 163, 115, 0.2);
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Auth Gate Modal */
+    #auth-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(18, 14, 12, 0.98);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .auth-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+    .auth-box h2 {
+      font-family: var(--font-display);
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Sidebar Navigation */
+    aside {
+      width: 260px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .brand {
+      padding: 1.75rem 1.5rem;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-list { list-style: none; padding: 1rem 0; flex: 1; }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-main);
+      background: rgba(212, 163, 115, 0.12);
+      border-left: 3px solid var(--accent);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: rgba(24, 18, 15, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .header-actions { display: flex; gap: 1rem; align-items: center; }
+
+    .btn {
+      padding: 0.55rem 1.2rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .btn-primary { background: var(--accent); color: #120e0c; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: transparent; border-color: var(--border-color); color: var(--text-main); }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-danger { background: rgba(220, 53, 69, 0.2); border-color: #dc3545; color: #ff8b94; }
+    .btn-danger:hover { background: #dc3545; color: #fff; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .content-area { padding: 2rem; flex: 1; }
+
+    /* KPI Summary Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: relative;
+    }
+    .stat-card small {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+    .stat-card .val {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--accent);
+      margin-top: 0.35rem;
+    }
+
+    /* Filters & Controls */
+    .filter-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    .form-control {
+      background-color: #15110e;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .form-control:focus { outline: none; border-color: var(--accent); }
+
+    /* Tables */
+    .table-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: 2rem;
+    }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+    th {
+      background: rgba(38, 30, 26, 0.7);
+      padding: 0.9rem 1rem;
+      color: var(--accent);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(212, 163, 115, 0.08);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    tr:hover td { background: rgba(212, 163, 115, 0.04); }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .status-pending { background: rgba(255, 209, 102, 0.15); color: #ffd166; }
+    .status-confirmed { background: rgba(82, 183, 136, 0.15); color: #52b788; }
+    .status-paid { background: rgba(82, 183, 136, 0.15); color: #52b788; }
+    .status-rejected, .status-cancelled, .status-failed { background: rgba(230, 57, 70, 0.15); color: #e63946; }
+    .status-completed, .status-refunded, .status-not-required { background: rgba(189, 174, 163, 0.15); color: #bdaea3; }
+    .status-no-show { background: rgba(189, 174, 163, 0.15); color: #bdaea3; }
+
+    /* Theater Visual Grid (Tables View) */
+    .theater-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+    .theater-table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .theater-table-card.booked {
+      border-color: #e63946;
+      background: rgba(230, 57, 70, 0.08);
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1.5rem;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      max-width: 650px;
+      width: 100%;
+      padding: 2rem;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .detail-item small {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+    .detail-item strong { color: var(--text-main); font-size: 0.95rem; }
+
+    .alert-box {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .alert-warning {
+      background: rgba(255, 209, 102, 0.12);
+      border: 1px solid rgba(255, 209, 102, 0.4);
+      color: #ffd166;
+    }
+
+    #toast-banner {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius);
+      color: #fff;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 10000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    @media (max-width: 800px) {
+      body { flex-direction: column; }
+      aside { width: 100%; }
+      .nav-list { display: flex; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Auth Gatekeeper -->
+  <div id="auth-overlay">
+    <div class="auth-box">
+      <h2>Staff Portal</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+        Enter the café staff security key to access live reservations.
+      </p>
+      <input type="password" id="input-auth-token" class="form-control" style="width: 100%; margin-bottom: 1rem;" placeholder="Staff Security Key" />
+      <button type="button" class="btn btn-primary" style="width: 100%;" id="btn-login">Authenticate</button>
+      <p id="auth-error" style="color: #ff8b94; font-size: 0.85rem; margin-top: 0.75rem; display: none;">Invalid credentials.</p>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="brand">🎲 The Dice &amp; Drip</div>
+    <ul class="nav-list">
+      <li class="nav-link active" data-view="dashboard">📊 Dashboard</li>
+      <li class="nav-link" data-view="reservations">📋 All Reservations</li>
+      <li class="nav-link" data-view="pending">⏳ Pending Queue</li>
+      <li class="nav-link" data-view="tables">🪑 Table Status</li>
+      <li class="nav-link" data-view="reports">📈 Simple Reports</li>
+    </ul>
+    <div style="padding: 1.5rem; border-top: 1px solid var(--border-color);">
+      <button type="button" id="btn-logout" class="btn btn-secondary" style="width: 100%;">Log Out</button>
+    </div>
+  </aside>
+
+  <!-- Main View Area -->
+  <main>
+    <header>
+      <h2 id="view-title" style="font-family: var(--font-display); color: var(--accent); font-size: 1.3rem;">
+        Dashboard Overview
+      </h2>
+      <div class="header-actions">
+        <button type="button" id="btn-refresh" class="btn btn-secondary">🔄 Refresh Data</button>
+        <button type="button" id="btn-manual-booking" class="btn btn-primary">+ New Reservation</button>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <!-- KPI Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <small>Today's Bookings</small>
+          <div class="val" id="stat-today">0</div>
+        </div>
+        <div class="stat-card">
+          <small>Pending Approvals</small>
+          <div class="val" id="stat-pending" style="color: #ffd166;">0</div>
+        </div>
+        <div class="stat-card">
+          <small>Confirmed Reservations</small>
+          <div class="val" id="stat-confirmed" style="color: #52b788;">0</div>
+        </div>
+        <div class="stat-card">
+          <small>Total Table Inventory</small>
+          <div class="val" id="stat-tables">12</div>
+        </div>
+      </div>
+
+      <!-- VIEW 1: DASHBOARD (Pending + Today's Activity) -->
+      <div id="view-dashboard" class="page-view">
+        <h3 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 1rem;">Action Required: Pending Queue</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Guest Name</th>
+                <th>Date &amp; Time</th>
+                <th>Party</th>
+                <th>Table</th>
+                <th>Payment Ref</th>
+                <th>Payment Status</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-dashboard-pending">
+              <tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 2rem;">Loading pending records...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- VIEW 2: ALL RESERVATIONS -->
+      <div id="view-reservations" class="page-view" style="display: none;">
+        <div class="filter-bar">
+          <input type="text" id="filter-search" class="form-control" placeholder="Search ID, Name, Phone, Table..." style="flex: 1; min-width: 220px;" />
+          <select id="filter-status" class="form-control">
+            <option value="All">All Booking Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Completed">Completed</option>
+            <option value="No-show">No-show</option>
+          </select>
+          <select id="filter-payment" class="form-control">
+            <option value="All">All Payment Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Paid">Paid</option>
+            <option value="Failed">Failed</option>
+            <option value="Refunded">Refunded</option>
+            <option value="Not Required">Not Required</option>
+          </select>
+          <input type="date" id="filter-date" class="form-control" />
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Guest</th>
+                <th>Date &amp; Time</th>
+                <th>Table</th>
+                <th>Game</th>
+                <th>Payment Status</th>
+                <th>UTR / Ref</th>
+                <th>Booking Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-all-reservations">
+              <tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 2rem;">No reservations loaded.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- VIEW 3: PENDING QUEUE -->
+      <div id="view-pending" class="page-view" style="display: none;">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Guest</th>
+                <th>Date &amp; Time</th>
+                <th>Party</th>
+                <th>Table</th>
+                <th>Payment Status</th>
+                <th>UTR / Reference</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-dedicated-pending"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- VIEW 4: LIVE THEATER TABLE STATUS -->
+      <div id="view-tables" class="page-view" style="display: none;">
+        <div class="filter-bar">
+          <label style="font-size: 0.9rem; font-weight: 600;">Query Slot:</label>
+          <input type="date" id="table-view-date" class="form-control" />
+          <input type="time" id="table-view-time" class="form-control" step="1800" value="19:00" />
+          <button type="button" id="btn-check-table-slot" class="btn btn-primary">Check Availability</button>
+        </div>
+        <div class="theater-grid" id="theater-tables-container"></div>
+      </div>
+
+      <!-- VIEW 5: SIMPLE REPORTS -->
+      <div id="view-reports" class="page-view" style="display: none;">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <small>Most Requested Table</small>
+            <div class="val" id="rep-top-table">—</div>
+          </div>
+          <div class="stat-card">
+            <small>Most Played Board Game</small>
+            <div class="val" id="rep-top-game" style="font-size: 1.4rem;">—</div>
+          </div>
+          <div class="stat-card">
+            <small>Cancellation Rate</small>
+            <div class="val" id="rep-cancel-rate">—</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Reservation Inspector Modal -->
+  <div id="detail-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-family: var(--font-display); color: var(--accent);">Reservation Inspector</h3>
+        <button type="button" class="modal-close" onclick="closeModal('detail-modal')">&times;</button>
+      </div>
+      <div id="modal-detail-content"></div>
+      <div id="modal-action-buttons" style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 1.25rem;"></div>
+    </div>
+  </div>
+
+  <!-- Edit Reservation Modal -->
+  <div id="edit-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-family: var(--font-display); color: var(--accent);">Edit Reservation</h3>
+        <button type="button" class="modal-close" onclick="closeModal('edit-modal')">&times;</button>
+      </div>
+      <input type="hidden" id="edit-res-id" />
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Guest Name *</label>
+          <input type="text" id="edit-name" class="form-control" style="width: 100%;" required />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Guest Phone *</label>
+          <input type="tel" id="edit-phone" class="form-control" style="width: 100%;" required />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Guest Email *</label>
+          <input type="email" id="edit-email" class="form-control" style="width: 100%;" required />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Party Size *</label>
+          <select id="edit-players" class="form-control" style="width: 100%;">
+            <option value="2">2 Players</option>
+            <option value="3">3 Players</option>
+            <option value="4">4 Players</option>
+            <option value="5">5 Players</option>
+            <option value="6">6 Players</option>
+            <option value="7">7 Players</option>
+            <option value="8">8 Players</option>
+            <option value="9">9 Players</option>
+            <option value="10">10 Players</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Date *</label>
+          <input type="date" id="edit-date" class="form-control" style="width: 100%;" required />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Time *</label>
+          <input type="time" id="edit-time" class="form-control" style="width: 100%;" required />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Assign Table *</label>
+          <select id="edit-table" class="form-control" style="width: 100%;">
+            <option value="A1">A1 (Small Booth: 2–3)</option>
+            <option value="A2">A2 (Small Booth: 2–3)</option>
+            <option value="A3">A3 (Small Booth: 2–3)</option>
+            <option value="A4">A4 (Small Booth: 2–3)</option>
+            <option value="B1">B1 (Standard: 4–6)</option>
+            <option value="B2">B2 (Standard: 4–6)</option>
+            <option value="B3">B3 (Standard: 4–6)</option>
+            <option value="B4">B4 (Standard: 4–6)</option>
+            <option value="B5">B5 (Standard: 4–6)</option>
+            <option value="B6">B6 (Standard: 4–6)</option>
+            <option value="C1">C1 (Grand Master: 7–10)</option>
+            <option value="C2">C2 (Grand Master: 7–10)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Game Preference</label>
+          <input type="text" id="edit-game" class="form-control" style="width: 100%;" />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Payment Status</label>
+          <select id="edit-payment-status" class="form-control" style="width: 100%;">
+            <option value="Pending">Pending</option>
+            <option value="Paid">Paid</option>
+            <option value="Failed">Failed</option>
+            <option value="Refunded">Refunded</option>
+            <option value="Not Required">Not Required</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Booking Status</label>
+          <select id="edit-booking-status" class="form-control" style="width: 100%;">
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Completed">Completed</option>
+            <option value="No-show">No-show</option>
+          </select>
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Special Request</label>
+          <input type="text" id="edit-special" class="form-control" style="width: 100%;" />
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Admin Notes (Internal)</label>
+          <input type="text" id="edit-notes" class="form-control" style="width: 100%;" />
+        </div>
+      </div>
+      <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('edit-modal')">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-save-edit">Save Changes (Recheck Conflict)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manual Reservation Modal -->
+  <div id="manual-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-family: var(--font-display); color: var(--accent);">Desk Walk-In / Manual Booking</h3>
+        <button type="button" class="modal-close" onclick="closeModal('manual-modal')">&times;</button>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Guest Name *</label>
+          <input type="text" id="manual-name" class="form-control" style="width: 100%;" required />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Guest Phone</label>
+          <input type="tel" id="manual-phone" class="form-control" style="width: 100%;" />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Date *</label>
+          <input type="date" id="manual-date" class="form-control" style="width: 100%;" required />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Time *</label>
+          <input type="time" id="manual-time" class="form-control" style="width: 100%;" required />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Party Size *</label>
+          <select id="manual-players" class="form-control" style="width: 100%;">
+            <option value="2">2 Players</option>
+            <option value="3">3 Players</option>
+            <option value="4" selected>4 Players</option>
+            <option value="5">5 Players</option>
+            <option value="6">6 Players</option>
+            <option value="7">7 Players</option>
+            <option value="8">8 Players</option>
+            <option value="9">9 Players</option>
+            <option value="10">10 Players</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted);">Assign Table *</label>
+          <select id="manual-table" class="form-control" style="width: 100%;">
+            <option value="A1">A1 (Small Booth: 2–3)</option>
+            <option value="A2">A2 (Small Booth: 2–3)</option>
+            <option value="A3">A3 (Small Booth: 2–3)</option>
+            <option value="A4">A4 (Small Booth: 2–3)</option>
+            <option value="B1">B1 (Standard: 4–6)</option>
+            <option value="B2">B2 (Standard: 4–6)</option>
+            <option value="B3" selected>B3 (Standard: 4–6)</option>
+            <option value="B4">B4 (Standard: 4–6)</option>
+            <option value="B5">B5 (Standard: 4–6)</option>
+            <option value="B6">B6 (Standard: 4–6)</option>
+            <option value="C1">C1 (Grand Master: 7–10)</option>
+            <option value="C2">C2 (Grand Master: 7–10)</option>
+          </select>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary" style="width: 100%;" id="btn-submit-manual">Lock &amp; Confirm Booking</button>
+    </div>
+  </div>
+
+  <div id="toast-banner"></div>
+
+  <script>
+    // Live Apps Script Endpoint (Preserved)
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS0PVb5Ad6C0Ng3mm2a2cINb5tsvjBLL5-hWyo1KXTrDUb11I9iFQzzRAhwnoCBHX-/exec";
+
+    let cachedReservations = [];
+    let currentAuthToken = sessionStorage.getItem("dice_drip_admin_token") || "";
+
+    // Security helper: sanitize customer inputs before DOM interpolation
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function getSafeStatusClass(status) {
+      const clean = String(status || "").trim().toLowerCase().replace(/\s+/g, "-");
+      return `status-${clean}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initAuth();
+      initNavigation();
+      initEventListeners();
+    });
+
+    function initAuth() {
+      if (currentAuthToken) {
+        document.getElementById("auth-overlay").style.display = "none";
+        fetchAdminData();
+      } else {
+        document.getElementById("auth-overlay").style.display = "flex";
+      }
+
+      document.getElementById("btn-login").onclick = async () => {
+        const val = document.getElementById("input-auth-token").value.trim();
+        if (!val) return;
+
+        try {
+          const res = await fetch(`${APPS_SCRIPT_URL}?action=admin_login&token=${encodeURIComponent(val)}`);
+          const data = await res.json();
+          if (data && data.success) {
+            currentAuthToken = val;
+            sessionStorage.setItem("dice_drip_admin_token", val);
+            document.getElementById("auth-overlay").style.display = "none";
+            document.getElementById("auth-error").style.display = "none";
+            fetchAdminData();
+          } else {
+            document.getElementById("auth-error").textContent = data.message || "Invalid credentials.";
+            document.getElementById("auth-error").style.display = "block";
+          }
+        } catch (err) {
+          showToast("Network error authenticating.", true);
+        }
+      };
+
+      document.getElementById("btn-logout").onclick = () => {
+        sessionStorage.removeItem("dice_drip_admin_token");
+        currentAuthToken = "";
+        window.location.reload();
+      };
+    }
+
+    function handleAuthFailure(msg = "Your staff session has expired. Please authenticate again.") {
+      sessionStorage.removeItem("dice_drip_admin_token");
+      currentAuthToken = "";
+      document.getElementById("auth-overlay").style.display = "flex";
+      document.getElementById("auth-error").textContent = msg;
+      document.getElementById("auth-error").style.display = "block";
+      showToast(msg, true);
+    }
+
+    function initNavigation() {
+      document.querySelectorAll(".nav-link").forEach(link => {
+        link.addEventListener("click", () => {
+          document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+          link.classList.add("active");
+
+          const view = link.getAttribute("data-view");
+          document.querySelectorAll(".page-view").forEach(pv => pv.style.display = "none");
+          document.getElementById(`view-${view}`).style.display = "block";
+
+          const titles = {
+            dashboard: "Dashboard Overview",
+            reservations: "All Reservation Records",
+            pending: "Pending Approvals Queue",
+            tables: "Visual Table Inventory & Overlaps",
+            reports: "Performance Metrics & Reports"
+          };
+          document.getElementById("view-title").textContent = titles[view] || "Dashboard";
+
+          if (view === "tables") renderTheaterTableStatus();
+        });
+      });
+    }
+
+    function initEventListeners() {
+      document.getElementById("btn-refresh").onclick = fetchAdminData;
+      document.getElementById("filter-search").oninput = renderAllReservations;
+      document.getElementById("filter-status").onchange = renderAllReservations;
+      document.getElementById("filter-payment").onchange = renderAllReservations;
+      document.getElementById("filter-date").onchange = renderAllReservations;
+
+      document.getElementById("btn-manual-booking").onclick = () => {
+        const now = new Date();
+        document.getElementById("manual-date").min = now.toISOString().split("T")[0];
+        document.getElementById("manual-date").value = now.toISOString().split("T")[0];
+        openModal("manual-modal");
+      };
+
+      document.getElementById("btn-submit-manual").onclick = submitManualBooking;
+      document.getElementById("btn-save-edit").onclick = submitEditReservation;
+      document.getElementById("btn-check-table-slot").onclick = renderTheaterTableStatus;
+    }
+
+    async function fetchAdminData() {
+      if (!currentAuthToken) return;
+      const btn = document.getElementById("btn-refresh");
+      btn.disabled = true;
+      btn.textContent = "Fetching...";
+
+      try {
+        const res = await fetch(`${APPS_SCRIPT_URL}?action=admin_get_data&token=${encodeURIComponent(currentAuthToken)}`);
+        const data = await res.json();
+
+        if (data && data.success) {
+          cachedReservations = data.reservations || [];
+          renderStats(data.stats);
+          renderDashboardPending();
+          renderAllReservations();
+          renderDedicatedPending();
+          calculateReports();
+          showToast("Live data updated from Google Sheets.");
+        } else {
+          if (String(data.message || "").toLowerCase().includes("unauthorized")) {
+            handleAuthFailure(data.message);
+          } else {
+            showToast(data.message || "Failed to fetch reservations", true);
+          }
+        }
+      } catch (err) {
+        showToast("Error connecting to backend.", true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "🔄 Refresh Data";
+      }
+    }
+
+    function renderStats(stats) {
+      if (!stats) return;
+      document.getElementById("stat-today").textContent = stats.todayReservations ?? 0;
+      document.getElementById("stat-pending").textContent = stats.pending ?? 0;
+      document.getElementById("stat-confirmed").textContent = stats.confirmed ?? 0;
+    }
+
+    function renderDashboardPending() {
+      const tbody = document.getElementById("tbody-dashboard-pending");
+      const pendingList = cachedReservations.filter(r => String(r.bookingStatus || "").trim() === "Pending");
+
+      if (!pendingList.length) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 2rem;">You're all caught up. No pending reservations.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = pendingList.map(r => `
+        <tr>
+          <td><strong style="font-family: monospace; color: var(--accent);">${escapeHtml(r.reservationId)}</strong></td>
+          <td>${escapeHtml(r.name)}</td>
+          <td>${escapeHtml(r.date)} @ ${escapeHtml(r.time)}</td>
+          <td>${escapeHtml(r.players)} Seats</td>
+          <td><strong>${escapeHtml(r.tableNumber)}</strong> (${escapeHtml(r.tableType)})</td>
+          <td><code style="background: rgba(212,163,115,0.1); padding: 2px 6px; border-radius: 4px;">${escapeHtml(r.paymentReference || "N/A")}</code></td>
+          <td><span class="status-badge ${getSafeStatusClass(r.paymentStatus)}">${escapeHtml(r.paymentStatus || "Pending")}</span></td>
+          <td><span class="status-badge status-pending">Pending</span></td>
+          <td><button type="button" class="btn btn-secondary" style="padding: 0.35rem 0.75rem;" onclick="inspectReservation('${escapeHtml(r.reservationId)}')">Review</button></td>
+        </tr>
+      `).join("");
+    }
+
+    function renderAllReservations() {
+      const tbody = document.getElementById("tbody-all-reservations");
+      const q = String(document.getElementById("filter-search").value || "").toLowerCase().trim();
+      const statusFilter = document.getElementById("filter-status").value;
+      const paymentFilter = document.getElementById("filter-payment").value;
+      const dateFilter = document.getElementById("filter-date").value;
+
+      const filtered = cachedReservations.filter(r => {
+        const idStr = String(r.reservationId || "").toLowerCase();
+        const nameStr = String(r.name || "").toLowerCase();
+        const phoneStr = String(r.phone || "");
+        const tableStr = String(r.tableNumber || "").toLowerCase();
+        const gameStr = String(r.gamePreference || "").toLowerCase();
+        const refStr = String(r.paymentReference || "").toLowerCase();
+
+        const matchQ = !q || idStr.includes(q) || nameStr.includes(q) || phoneStr.includes(q) || tableStr.includes(q) || gameStr.includes(q) || refStr.includes(q);
+        const matchStatus = statusFilter === "All" || String(r.bookingStatus || "").trim() === statusFilter;
+        const matchPayment = paymentFilter === "All" || String(r.paymentStatus || "").trim() === paymentFilter;
+        const matchDate = !dateFilter || String(r.date || "") === dateFilter;
+
+        return matchQ && matchStatus && matchPayment && matchDate;
+      });
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 2rem;">No matching reservation records.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(r => `
+        <tr>
+          <td><strong style="font-family: monospace; color: var(--accent);">${escapeHtml(r.reservationId)}</strong></td>
+          <td>${escapeHtml(r.name)}<br><small style="color: var(--text-muted);">${escapeHtml(r.phone)}</small></td>
+          <td>${escapeHtml(r.date)} @ ${escapeHtml(r.time)}</td>
+          <td><strong>${escapeHtml(r.tableNumber)}</strong></td>
+          <td>${escapeHtml(r.gamePreference)}</td>
+          <td><span class="status-badge ${getSafeStatusClass(r.paymentStatus)}">${escapeHtml(r.paymentStatus)}</span></td>
+          <td><small>${escapeHtml(r.paymentReference || "N/A")}</small></td>
+          <td><span class="status-badge ${getSafeStatusClass(r.bookingStatus)}">${escapeHtml(r.bookingStatus)}</span></td>
+          <td><button type="button" class="btn btn-secondary" style="padding: 0.35rem 0.75rem;" onclick="inspectReservation('${escapeHtml(r.reservationId)}')">Details</button></td>
+        </tr>
+      `).join("");
+    }
+
+    function renderDedicatedPending() {
+      const tbody = document.getElementById("tbody-dedicated-pending");
+      const pendingList = cachedReservations.filter(r => String(r.bookingStatus || "").trim() === "Pending");
+      if (!pendingList.length) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem;">You're all caught up. No pending reservations.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = pendingList.map(r => `
+        <tr>
+          <td><strong style="font-family: monospace; color: var(--accent);">${escapeHtml(r.reservationId)}</strong></td>
+          <td>${escapeHtml(r.name)}<br><small>${escapeHtml(r.email)}</small></td>
+          <td>${escapeHtml(r.date)} @ ${escapeHtml(r.time)}</td>
+          <td>${escapeHtml(r.players)}</td>
+          <td>Table ${escapeHtml(r.tableNumber)}</td>
+          <td><span class="status-badge ${getSafeStatusClass(r.paymentStatus)}">${escapeHtml(r.paymentStatus || "Pending")}</span></td>
+          <td><strong>${escapeHtml(r.paymentReference || "N/A")}</strong></td>
+          <td><button type="button" class="btn btn-primary" style="padding: 0.35rem 0.75rem;" onclick="inspectReservation('${escapeHtml(r.reservationId)}')">Review &amp; Accept</button></td>
+        </tr>
+      `).join("");
+    }
+
+    function inspectReservation(resId) {
+      const r = cachedReservations.find(x => String(x.reservationId).trim() === String(resId).trim());
+      if (!r) return;
+
+      const isPaymentPending = String(r.paymentStatus || "").trim() === "Pending";
+      const paymentWarning = isPaymentPending
+        ? `<div class="alert-box alert-warning">⚠️ <strong>Payment has not yet been verified.</strong> The customer entered a reference/UTR, but payment is still marked Pending.</div>`
+        : "";
+
+      const content = document.getElementById("modal-detail-content");
+      content.innerHTML = `
+        ${paymentWarning}
+        <div class="detail-grid">
+          <div class="detail-item"><small>Reservation ID</small><strong>${escapeHtml(r.reservationId)}</strong></div>
+          <div class="detail-item"><small>Date &amp; Time Slot</small><strong>${escapeHtml(r.date)} @ ${escapeHtml(r.time)}</strong></div>
+          <div class="detail-item"><small>Guest Name</small><strong>${escapeHtml(r.name)}</strong></div>
+          <div class="detail-item"><small>Phone &amp; Email</small><strong>${escapeHtml(r.phone)} • ${escapeHtml(r.email)}</strong></div>
+          <div class="detail-item"><small>Party Size</small><strong>${escapeHtml(r.players)} Seats</strong></div>
+          <div class="detail-item"><small>Assigned Table</small><strong>Table ${escapeHtml(r.tableNumber)} (${escapeHtml(r.tableType)})</strong></div>
+          <div class="detail-item"><small>Game Preference</small><strong>${escapeHtml(r.gamePreference)}</strong></div>
+          <div class="detail-item"><small>Payment UTR / Reference</small><strong style="color: var(--accent);">${escapeHtml(r.paymentReference || "N/A")}</strong></div>
+          <div class="detail-item">
+            <small>Payment Status</small>
+            <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 4px;">
+              <select id="inspect-payment-select" class="form-control" style="padding: 0.25rem 0.5rem;">
+                <option value="Pending" ${r.paymentStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+                <option value="Paid" ${r.paymentStatus === 'Paid' ? 'selected' : ''}>Paid</option>
+                <option value="Failed" ${r.paymentStatus === 'Failed' ? 'selected' : ''}>Failed</option>
+                <option value="Refunded" ${r.paymentStatus === 'Refunded' ? 'selected' : ''}>Refunded</option>
+                <option value="Not Required" ${r.paymentStatus === 'Not Required' ? 'selected' : ''}>Not Required</option>
+              </select>
+              <button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;" onclick="updatePaymentOnly('${escapeHtml(r.reservationId)}')">Save</button>
+            </div>
+          </div>
+          <div class="detail-item"><small>Booking Status</small><strong>${escapeHtml(r.bookingStatus)}</strong></div>
+          <div class="detail-item" style="grid-column: 1/-1;"><small>Special Request</small><strong>${escapeHtml(r.specialRequest || 'None')}</strong></div>
+          <div class="detail-item" style="grid-column: 1/-1;"><small>Admin Audit Notes</small>
+            <input type="text" id="edit-admin-note" class="form-control" style="width: 100%; margin-top: 4px;" value="${escapeHtml(r.adminNotes || '')}" placeholder="Internal notes (e.g. verified on UPI portal)" />
+          </div>
+        </div>
+      `;
+
+      const actions = document.getElementById("modal-action-buttons");
+      let actionButtonsHtml = `
+        <button type="button" class="btn btn-secondary" onclick="openEditModal('${escapeHtml(r.reservationId)}')">Edit Details</button>
+      `;
+
+      if (r.bookingStatus === "Pending") {
+        actionButtonsHtml += `
+          <button type="button" class="btn btn-danger" onclick="executeStatusAction('admin_reject', '${escapeHtml(r.reservationId)}')">Reject Booking</button>
+          <button type="button" class="btn btn-primary" onclick="confirmAcceptWorkflow('${escapeHtml(r.reservationId)}')">Accept Reservation</button>
+        `;
+      } else if (r.bookingStatus === "Confirmed") {
+        actionButtonsHtml += `
+          <button type="button" class="btn btn-danger" onclick="executeStatusAction('admin_cancel', '${escapeHtml(r.reservationId)}')">Cancel Booking</button>
+          <button type="button" class="btn btn-secondary" onclick="markStatusDirect('${escapeHtml(r.reservationId)}', 'Completed')">Mark Completed</button>
+          <button type="button" class="btn btn-secondary" onclick="markStatusDirect('${escapeHtml(r.reservationId)}', 'No-show')">Mark No-Show</button>
+        `;
+      } else {
+        actionButtonsHtml += `<button type="button" class="btn btn-secondary" onclick="closeModal('detail-modal')">Close</button>`;
+      }
+
+      actions.innerHTML = actionButtonsHtml;
+      openModal("detail-modal");
+    }
+
+    // Conscious confirmation step when accepting with Pending payment
+    async function confirmAcceptWorkflow(resId) {
+      const r = cachedReservations.find(x => String(x.reservationId).trim() === String(resId).trim());
+      if (!r) return;
+
+      const currentPay = String(r.paymentStatus || "").trim();
+      if (currentPay === "Pending") {
+        const verifyPaymentChoice = confirm(
+          "Payment is still marked as Pending.\n\nHave you manually verified this payment reference/UTR on your bank or Cashfree dashboard?\n\nClick [OK] to mark payment as PAID and confirm the booking.\nClick [Cancel] to abort without confirming."
+        );
+        if (!verifyPaymentChoice) return;
+
+        // Upgrade payment status to Paid first using supported admin_update_status
+        const payUpdateResult = await updatePaymentStatusBackend(resId, "Paid");
+        if (!payUpdateResult) return;
+      }
+
+      executeStatusAction("admin_accept", resId);
+    }
+
+    async function updatePaymentStatusBackend(resId, status) {
+      const note = document.getElementById("edit-admin-note") ? document.getElementById("edit-admin-note").value.trim() : "";
+      try {
+        const payload = {
+          action: "admin_update_status",
+          token: currentAuthToken,
+          reservationId: resId,
+          paymentStatus: status,
+          adminUser: "Staff",
+          adminNotes: note
+        };
+
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        if (result && result.success) {
+          return true;
+        } else {
+          showToast(result.message || "Failed to update payment status.", true);
+          return false;
+        }
+      } catch (err) {
+        showToast("Network error updating payment status.", true);
+        return false;
+      }
+    }
+
+    async function updatePaymentOnly(resId) {
+      const newPayStatus = document.getElementById("inspect-payment-select").value;
+      showToast("Updating payment status...");
+      const ok = await updatePaymentStatusBackend(resId, newPayStatus);
+      if (ok) {
+        showToast(`Payment status updated to ${newPayStatus}.`);
+        closeModal("detail-modal");
+        fetchAdminData();
+      }
+    }
+
+    async function executeStatusAction(actionName, resId) {
+      if (actionName === "admin_reject" && !confirm("Are you sure you want to reject this reservation?")) return;
+      if (actionName === "admin_cancel" && !confirm("Cancel this booking and release the table?")) return;
+
+      const note = document.getElementById("edit-admin-note") ? document.getElementById("edit-admin-note").value.trim() : "";
+      showToast("Processing request with server-side lock...");
+
+      try {
+        const payload = {
+          action: actionName,
+          token: currentAuthToken,
+          reservationId: resId,
+          adminUser: "Staff",
+          adminNotes: note
+        };
+
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+
+        if (result && result.success) {
+          showToast(result.message);
+          closeModal("detail-modal");
+          fetchAdminData();
+        } else {
+          if (String(result.message || "").toLowerCase().includes("unauthorized")) {
+            handleAuthFailure(result.message);
+          } else {
+            showToast(result.message || "This table is no longer available for this time slot. Refreshing reservations...", true);
+            fetchAdminData();
+          }
+        }
+      } catch (err) {
+        showToast("Error updating reservation.", true);
+      }
+    }
+
+    async function markStatusDirect(resId, bStatus) {
+      try {
+        const payload = {
+          action: "admin_update_status",
+          token: currentAuthToken,
+          reservationId: resId,
+          bookingStatus: bStatus,
+          adminUser: "Staff"
+        };
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        if (result && result.success) {
+          showToast(`Status updated to ${bStatus}.`);
+          closeModal("detail-modal");
+          fetchAdminData();
+        } else {
+          showToast(result.message || "Update failed.", true);
+        }
+      } catch (e) {
+        showToast("Network error updating status.", true);
+      }
+    }
+
+    function openEditModal(resId) {
+      const r = cachedReservations.find(x => String(x.reservationId).trim() === String(resId).trim());
+      if (!r) return;
+
+      document.getElementById("edit-res-id").value = r.reservationId;
+      document.getElementById("edit-name").value = r.name || "";
+      document.getElementById("edit-phone").value = r.phone || "";
+      document.getElementById("edit-email").value = r.email || "";
+      document.getElementById("edit-date").value = r.date || "";
+      document.getElementById("edit-time").value = r.time || "";
+      document.getElementById("edit-players").value = String(r.players || "4");
+      document.getElementById("edit-table").value = String(r.tableNumber || "B3").toUpperCase();
+      document.getElementById("edit-game").value = r.gamePreference || "";
+      document.getElementById("edit-payment-status").value = r.paymentStatus || "Pending";
+      document.getElementById("edit-booking-status").value = r.bookingStatus || "Pending";
+      document.getElementById("edit-special").value = r.specialRequest || "";
+      document.getElementById("edit-notes").value = r.adminNotes || "";
+
+      closeModal("detail-modal");
+      openModal("edit-modal");
+    }
+
+    async function submitEditReservation() {
+      const resId = document.getElementById("edit-res-id").value;
+      const name = document.getElementById("edit-name").value.trim();
+      const phone = document.getElementById("edit-phone").value.trim();
+      const email = document.getElementById("edit-email").value.trim();
+      const date = document.getElementById("edit-date").value;
+      const time = document.getElementById("edit-time").value;
+      const players = document.getElementById("edit-players").value;
+      const tableNumber = document.getElementById("edit-table").value;
+      const gamePreference = document.getElementById("edit-game").value.trim();
+      const paymentStatus = document.getElementById("edit-payment-status").value;
+      const bookingStatus = document.getElementById("edit-booking-status").value;
+      const specialRequest = document.getElementById("edit-special").value.trim();
+      const adminNotes = document.getElementById("edit-notes").value.trim();
+
+      if (!name || !phone || !email || !date || !time) {
+        alert("Name, Phone, Email, Date, and Time are mandatory.");
+        return;
+      }
+
+      const saveBtn = document.getElementById("btn-save-edit");
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Validating & Locking...";
+
+      try {
+        const payload = {
+          action: "admin_edit_reservation",
+          token: currentAuthToken,
+          reservationId: resId,
+          name, phone, email, date, time, players, tableNumber,
+          gamePreference, paymentStatus, bookingStatus, specialRequest, adminNotes,
+          adminUser: "Staff"
+        };
+
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+
+        if (result && result.success) {
+          showToast(result.message);
+          closeModal("edit-modal");
+          fetchAdminData();
+        } else {
+          showToast(result.message || "Edit conflict: Table is unavailable.", true);
+        }
+      } catch (err) {
+        showToast("Error updating reservation.", true);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save Changes (Recheck Conflict)";
+      }
+    }
+
+    async function submitManualBooking() {
+      const name = document.getElementById("manual-name").value.trim();
+      const phone = document.getElementById("manual-phone").value.trim();
+      const date = document.getElementById("manual-date").value;
+      const time = document.getElementById("manual-time").value;
+      const players = document.getElementById("manual-players").value;
+      const table = document.getElementById("manual-table").value;
+
+      if (!name || !date || !time) {
+        alert("Name, Date, and Time are required.");
+        return;
+      }
+
+      showToast("Validating table conflict and holding seat...");
+      try {
+        const payload = {
+          action: "admin_create_manual",
+          token: currentAuthToken,
+          name, phone, date, time, players, tableNumber: table,
+          adminUser: "Front Desk"
+        };
+
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (data && data.success) {
+          showToast(data.message);
+          closeModal("manual-modal");
+          fetchAdminData();
+        } else {
+          showToast(data.message || "Table is already booked.", true);
+        }
+      } catch (err) {
+        showToast("Network failure saving booking.", true);
+      }
+    }
+
+    async function renderTheaterTableStatus() {
+      const dateInput = document.getElementById("table-view-date");
+      const timeInput = document.getElementById("table-view-time");
+
+      if (!dateInput.value) dateInput.value = new Date().toISOString().split("T")[0];
+      const targetDate = dateInput.value;
+      const targetTime = timeInput.value;
+
+      const container = document.getElementById("theater-tables-container");
+      container.innerHTML = `<p style="grid-column: 1/-1; color: var(--text-muted);">Querying conflict matrix...</p>`;
+
+      try {
+        const res = await fetch(`${APPS_SCRIPT_URL}?action=get_availability&date=${encodeURIComponent(targetDate)}&time=${encodeURIComponent(targetTime)}`);
+        const data = await res.json();
+        const bookedTables = (data && Array.isArray(data.reservedTables)) ? data.reservedTables.map(t => String(t).toUpperCase()) : [];
+
+        const allTables = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "B5", "B6", "C1", "C2"];
+
+        container.innerHTML = allTables.map(t => {
+          const isBooked = bookedTables.includes(t);
+          return `
+            <div class="theater-table-card ${isBooked ? 'booked' : ''}">
+              <div style="font-size: 1.5rem; font-weight: 700; font-family: var(--font-display); color: ${isBooked ? '#ff8b94' : 'var(--accent)'};">${escapeHtml(t)}</div>
+              <small style="display: block; color: var(--text-muted); margin-bottom: 0.5rem;">${t.startsWith('A') ? 'Booth (2–3)' : t.startsWith('B') ? 'Table (4–6)' : 'Grand (7–10)'}</small>
+              <span class="status-badge ${isBooked ? 'status-rejected' : 'status-confirmed'}">${isBooked ? '🔴 Reserved' : '🟢 Available'}</span>
+            </div>
+          `;
+        }).join("");
+      } catch (err) {
+        container.innerHTML = `<p style="grid-column: 1/-1; color: #ff8b94;">Failed to query table matrix.</p>`;
+      }
+    }
+
+    function calculateReports() {
+      if (!cachedReservations.length) {
+        document.getElementById("rep-top-table").textContent = "—";
+        document.getElementById("rep-top-game").textContent = "—";
+        document.getElementById("rep-cancel-rate").textContent = "—";
+        return;
+      }
+
+      const tableCounts = {};
+      const gameCounts = {};
+      let cancelled = 0;
+
+      cachedReservations.forEach(r => {
+        const tbl = String(r.tableNumber || "").trim();
+        if (tbl) tableCounts[tbl] = (tableCounts[tbl] || 0) + 1;
+
+        const g = String(r.gamePreference || "").trim();
+        if (g && g !== "Decide when I arrive") {
+          gameCounts[g] = (gameCounts[g] || 0) + 1;
+        }
+
+        const bStatus = String(r.bookingStatus || "").trim();
+        if (bStatus === "Cancelled" || bStatus === "Rejected") cancelled++;
+      });
+
+      const topTable = Object.keys(tableCounts).length ? Object.keys(tableCounts).reduce((a, b) => tableCounts[a] > tableCounts[b] ? a : b, "—") : "—";
+      const topGame = Object.keys(gameCounts).length ? Object.keys(gameCounts).reduce((a, b) => gameCounts[a] > gameCounts[b] ? a : b, "—") : "—";
+      const rate = Math.round((cancelled / cachedReservations.length) * 100);
+
+      document.getElementById("rep-top-table").textContent = topTable;
+      document.getElementById("rep-top-game").textContent = topGame;
+      document.getElementById("rep-cancel-rate").textContent = `${rate}%`;
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add("active"); }
+    function closeModal(id) { document.getElementById(id).classList.remove("active"); }
+
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById("toast-banner");
+      toast.textContent = msg;
+      toast.style.background = isError ? "rgba(220, 53, 69, 0.95)" : "rgba(82, 183, 136, 0.95)";
+      toast.style.display = "block";
+      setTimeout(() => { toast.style.display = "none"; }, 3500);
+    }
+  </script>
+</body>
+</html>
