@@ -698,13 +698,12 @@
   <div id="toast-banner"></div>
 
   <script>
-    // Live Apps Script Endpoint (Preserved)
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS0PVb5Ad6C0Ng3mm2a2cINb5tsvjBLL5-hWyo1KXTrDUb11I9iFQzzRAhwnoCBHX-/exec";
+    // Live Apps Script Endpoint (Directly Configured)
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNrm3tjtIDLZMkSU2sve774ZaD9OkWEqRejhgbDrXaVcZgdrpTaELdeu7hRZ7O-DjQ/exec";
 
     let cachedReservations = [];
     let currentAuthToken = sessionStorage.getItem("dice_drip_admin_token") || "";
 
-    // Security helper: sanitize customer inputs before DOM interpolation
     function escapeHtml(value) {
       return String(value ?? "")
         .replace(/&/g, "&amp;")
@@ -1008,7 +1007,6 @@
       openModal("detail-modal");
     }
 
-    // Conscious confirmation step when accepting with Pending payment
     async function confirmAcceptWorkflow(resId) {
       const r = cachedReservations.find(x => String(x.reservationId).trim() === String(resId).trim());
       if (!r) return;
@@ -1020,7 +1018,6 @@
         );
         if (!verifyPaymentChoice) return;
 
-        // Upgrade payment status to Paid first using supported admin_update_status
         const payUpdateResult = await updatePaymentStatusBackend(resId, "Paid");
         if (!payUpdateResult) return;
       }
