@@ -1,1959 +1,1403 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>The Dice & Drip Cafe - Craft Brews & Tabletop Clues</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-bg: #0f1419;
-            --secondary-bg: #1a2332;
-            --accent-color: #e8b4a8;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b8c1;
-            --border-color: #2d3d4f;
-            --success-color: #4ade80;
-            --error-color: #f87171;
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
-        }
-
-        html, body {
-            height: 100%;
-        }
-
-        body {
-            background-color: var(--primary-bg);
-            color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            padding-top: var(--safe-top);
-            padding-bottom: var(--safe-bottom);
-            overflow-x: hidden;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: var(--safe-top);
-            width: 100%;
-            background: rgba(15, 20, 25, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            padding: 0 20px;
-        }
-
-        .nav-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 14px;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 6px;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 2px;
-            background: var(--accent-color);
-            transition: 0.3s;
-        }
-
-        /* Hero Section */
-        .hero {
-            margin-top: 70px;
-            background: linear-gradient(135deg, #1a2332 0%, #0f1419 100%);
-            padding: 100px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            min-height: 600px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: rgba(232, 180, 168, 0.1);
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-bottom: 20px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero h1 {
-            font-size: 56px;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-tagline {
-            font-size: 20px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 28px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-        }
-
-        .btn-primary {
-            background: var(--accent-color);
-            color: #0f1419;
-        }
-
-        .btn-primary:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(232, 180, 168, 0.1);
-        }
-
-        .quick-ticker {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
-            flex-wrap: wrap;
-        }
-
-        .ticker-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        /* About Section */
-        .about {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 80px 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .about-content h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-            color: var(--text-primary);
-        }
-
-        .about-content p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.8;
-        }
-
-        .about-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .feature-card {
-            background: var(--secondary-bg);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .feature-card h3 {
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .feature-card p {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .about-image {
-            background: linear-gradient(135deg, #e8b4a8 0%, #d4907a 100%);
-            border-radius: 12px;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0f1419;
-            font-weight: 600;
-        }
-
-        .quote {
-            background: rgba(232, 180, 168, 0.1);
-            border-left: 4px solid var(--accent-color);
-            padding: 20px;
-            margin-top: 30px;
-            border-radius: 4px;
-            font-style: italic;
-            color: var(--text-secondary);
-        }
-
-        /* Menu Section */
-        .menu-section {
-            background: var(--secondary-bg);
-            padding: 80px 20px;
-        }
-
-        .menu-container {
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-header .badge {
-            display: inline-block;
-            background: rgba(232, 180, 168, 0.1);
-            color: var(--accent-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-bottom: 15px;
-        }
-
-        .section-header h2 {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
-        .section-header p {
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .filter-tabs {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .filter-btn.active {
-            background: var(--accent-color);
-            color: #0f1419;
-            border-color: var(--accent-color);
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            margin-bottom: 50px;
-        }
-
-        .menu-card {
-            background: var(--primary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .menu-card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-4px);
-        }
-
-        .menu-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 15px;
-        }
-
-        .menu-badge {
-            background: rgba(232, 180, 168, 0.1);
-            color: var(--accent-color);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        .menu-price {
-            color: var(--accent-color);
-            font-weight: 600;
-            font-size: 18px;
-        }
-
-        .menu-card h3 {
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .menu-card p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .menu-card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .menu-callout {
-            background: rgba(232, 180, 168, 0.1);
-            border-left: 4px solid var(--accent-color);
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-        }
-
-        /* Games Section */
-        .games-section {
-            padding: 80px 20px;
-        }
-
-        .games-header {
-            max-width: 1280px;
-            margin: 0 auto 50px;
-            text-align: center;
-        }
-
-        .games-header h2 {
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-
-        .search-bar {
-            max-width: 700px;
-            margin: 30px auto;
-            display: flex;
-            align-items: center;
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px 16px;
-        }
-
-        .search-bar input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-size: 14px;
-            outline: none;
-        }
-
-        .search-bar input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .category-pills {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .pill {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s ease;
-        }
-
-        .pill:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .games-grid {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .game-card {
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .game-card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-4px);
-        }
-
-        .game-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 15px;
-            font-size: 13px;
-        }
-
-        .game-category {
-            background: rgba(232, 180, 168, 0.15);
-            color: var(--accent-color);
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .game-players {
-            color: var(--text-secondary);
-        }
-
-        .game-card h3 {
-            margin-bottom: 10px;
-            color: var(--text-primary);
-            font-size: 18px;
-        }
-
-        .game-card p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .game-info {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 15px;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .game-info-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .game-btn {
-            width: 100%;
-            padding: 10px;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--accent-color);
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s ease;
-        }
-
-        .game-btn:hover {
-            border-color: var(--accent-color);
-            background: rgba(232, 180, 168, 0.1);
-        }
-
-        /* Reservation Section */
-        .reservation {
-            background: var(--secondary-bg);
-            padding: 80px 20px;
-        }
-
-        .reservation-container {
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .reservation-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .reservation-header h2 {
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-
-        .table-types {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 50px;
-        }
-
-        .table-card {
-            background: var(--primary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-        }
-
-        .table-badge {
-            display: inline-block;
-            background: rgba(232, 180, 168, 0.1);
-            color: var(--accent-color);
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-bottom: 15px;
-        }
-
-        .table-card h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .table-card p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .table-capacity {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .booking-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            align-items: start;
-        }
-
-        .floorplan {
-            background: var(--primary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-        }
-
-        .floorplan h3 {
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        .zone {
-            margin-bottom: 30px;
-        }
-
-        .zone-title {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            letter-spacing: 0.5px;
-        }
-
-        .table-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 10px;
-        }
-
-        .table-btn {
-            background: var(--secondary-bg);
-            border: 2px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .table-btn:hover {
-            border-color: var(--accent-color);
-        }
-
-        .table-btn.selected {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
-            color: #0f1419;
-        }
-
-        .legend {
-            display: flex;
-            gap: 20px;
-            margin-top: 20px;
-            font-size: 12px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .legend-box {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            border: 2px solid var(--border-color);
-        }
-
-        .legend-box.booked {
-            background: rgba(232, 180, 168, 0.3);
-            border-color: var(--accent-color);
-        }
-
-        /* Form Styles */
-        .booking-form {
-            background: var(--primary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-        }
-
-        .form-stepper {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            gap: 10px;
-        }
-
-        .stepper-item {
-            flex: 1;
-            text-align: center;
-        }
-
-        .stepper-number {
-            display: inline-block;
-            width: 32px;
-            height: 32px;
-            background: var(--secondary-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 50%;
-            line-height: 28px;
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .stepper-number.active {
-            background: var(--accent-color);
-            color: #0f1419;
-            border-color: var(--accent-color);
-        }
-
-        .stepper-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            color: var(--text-secondary);
-            font-size: 12px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group input {
-            width: 100%;
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-success {
-            background: rgba(74, 222, 128, 0.1);
-            border: 1px solid var(--success-color);
-            color: var(--success-color);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .form-error {
-            background: rgba(248, 113, 113, 0.1);
-            border: 1px solid var(--error-color);
-            color: var(--error-color);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--accent-color);
-            color: #0f1419;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Reviews Section */
-        .reviews {
-            padding: 80px 20px;
-        }
-
-        .reviews-container {
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .review-card {
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-        }
-
-        .stars {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 15px;
-            color: #fbbf24;
-        }
-
-        .review-text {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .reviewer {
-            display: flex;
-            gap: 15px;
-            align-items: start;
-        }
-
-        .reviewer-avatar {
-            width: 40px;
-            height: 40px;
-            background: rgba(232, 180, 168, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        .reviewer-info h4 {
-            color: var(--text-primary);
-            margin-bottom: 2px;
-            font-size: 14px;
-        }
-
-        .reviewer-info p {
-            color: var(--text-secondary);
-            font-size: 12px;
-        }
-
-        /* Location Section */
-        .location {
-            background: var(--secondary-bg);
-            padding: 80px 20px;
-        }
-
-        .location-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: start;
-        }
-
-        .location-content h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-        }
-
-        .location-card {
-            background: var(--primary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 15px;
-        }
-
-        .location-card h3 {
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .location-card p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .hours-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            font-size: 14px;
-            margin-top: 15px;
-        }
-
-        .hours-row {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .hours-day {
-            color: var(--text-secondary);
-        }
-
-        .hours-time {
-            color: var(--accent-color);
-            font-weight: 500;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(232, 180, 168, 0.1);
-            color: var(--accent-color);
-            padding: 10px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            background: rgba(232, 180, 168, 0.2);
-        }
-
-        .location-image {
-            background: linear-gradient(135deg, #e8b4a8 0%, #d4907a 100%);
-            border-radius: 12px;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0f1419;
-            font-weight: 600;
-        }
-
-        /* Final CTA Section */
-        .final-cta {
-            padding: 100px 20px;
-            text-align: center;
-        }
-
-        .final-cta-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .final-cta h2 {
-            font-size: 44px;
-            margin-bottom: 30px;
-        }
-
-        .final-cta p {
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            font-size: 16px;
-            line-height: 1.8;
-        }
-
-        .final-cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--secondary-bg);
-            border-top: 1px solid var(--border-color);
-            padding: 40px 20px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .hero h1 {
-                font-size: 36px;
-            }
-
-            .about {
-                grid-template-columns: 1fr;
-            }
-
-            .about-image {
-                height: 300px;
-            }
-
-            .about-features {
-                grid-template-columns: 1fr;
-            }
-
-            .booking-section {
-                grid-template-columns: 1fr;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .location-container {
-                grid-template-columns: 1fr;
-            }
-
-            .location-image {
-                height: 300px;
-            }
-
-            .section-header h2 {
-                font-size: 28px;
-            }
-
-            .hero {
-                min-height: 400px;
-            }
-
-            .table-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .final-cta h2 {
-                font-size: 28px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            nav {
-                padding: 0 16px;
-            }
-
-            .nav-container {
-                height: 60px;
-            }
-
-            .logo {
-                font-size: 16px;
-            }
-
-            .hero {
-                margin-top: 60px;
-                padding: 40px 16px;
-                min-height: 300px;
-            }
-
-            .hero h1 {
-                font-size: 24px;
-            }
-
-            .hero-tagline {
-                font-size: 16px;
-            }
-
-            .about {
-                padding: 40px 16px;
-            }
-
-            .about-content h2 {
-                font-size: 24px;
-            }
-
-            .menu-section {
-                padding: 40px 16px;
-            }
-
-            .menu-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .games-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .games-section {
-                padding: 40px 16px;
-            }
-
-            .reservation {
-                padding: 40px 16px;
-            }
-
-            .reviews {
-                padding: 40px 16px;
-            }
-
-            .location {
-                padding: 40px 16px;
-            }
-
-            .final-cta {
-                padding: 60px 16px;
-            }
-
-            .hours-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .final-cta-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .table-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Dice & Drip Cafe | Craft Brews & Tabletop Clues</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #120e0c;
+      --bg-card: #1c1613;
+      --bg-card-hover: #261e1a;
+      --accent: #d4a373;
+      --accent-hover: #faedcd;
+      --text-main: #fefae0;
+      --text-muted: #bdaea3;
+      --border-color: rgba(212, 163, 115, 0.2);
+      --border-focus: #d4a373;
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(18, 14, 12, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .brand-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: #120e0c;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: var(--accent-hover);
+      box-shadow: 0 0 15px rgba(212, 163, 115, 0.4);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .hero {
+      padding: 6rem 0 4rem;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(212, 163, 115, 0.08) 0%, rgba(18, 14, 12, 0) 70%);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .hero p.tagline {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero p.desc {
+      max-width: 650px;
+      margin: 0 auto 2rem;
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    section {
+      padding: 4.5rem 0;
+      border-bottom: 1px solid rgba(212, 163, 115, 0.08);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-family: var(--font-display);
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .filter-pills {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-pill.active, .filter-pill:hover {
+      background-color: var(--accent);
+      color: var(--bg-dark);
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .menu-item {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .menu-item-info h4 {
+      font-size: 1.05rem;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .menu-item-info p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .menu-item-price {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 1.1rem;
+      white-space: nowrap;
+    }
+
+    .game-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 250px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--border-focus);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .game-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .game-card-category {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .game-card-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .game-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .reservation-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .stepper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .stepper::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background-color: rgba(212, 163, 115, 0.2);
+      z-index: 1;
+    }
+
+    .step-item {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .step-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: var(--bg-dark);
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .step-item.active .step-number {
+      border-color: var(--accent);
+      background-color: var(--accent);
+      color: var(--bg-dark);
+    }
+
+    .step-item.completed .step-number {
+      border-color: var(--accent);
+      background-color: var(--bg-dark);
+      color: var(--accent);
+    }
+
+    .step-title {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .step-item.active .step-title {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .form-control {
+      background-color: #15110e;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.95rem;
+      width: 100%;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--border-focus);
+    }
+
+    .form-control:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .table-selection-area {
+      margin-top: 1.5rem;
+    }
+
+    .table-selection-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.75rem;
+    }
+
+    .table-hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .tables-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .table-card-btn {
+      background: rgba(30, 24, 21, 0.85);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.9rem 0.6rem;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      width: 100%;
+      text-align: center;
+    }
+
+    .table-card-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: rgba(212, 163, 115, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .table-card-btn.selected {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #120e0c;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(212, 163, 115, 0.4);
+    }
+
+    .table-card-btn:disabled,
+    .table-card-btn.incompatible {
+      opacity: 0.3;
+      cursor: not-allowed;
+      border-style: dashed;
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(20, 16, 14, 0.6);
+      transform: none;
+    }
+
+    .table-id-badge {
+      font-size: 1.15rem;
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    .table-type-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.85;
+    }
+
+    .table-cap-label {
+      font-size: 0.75rem;
+      color: inherit;
+    }
+
+    .reservation-error-banner {
+      display: none;
+      background: rgba(220, 53, 69, 0.15);
+      border: 1px solid rgba(220, 53, 69, 0.5);
+      color: #ff8b94;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .review-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+
+    .review-stars {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .review-text {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .reviewer-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .location-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .location-details h3 {
+      font-family: var(--font-display);
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .hours-list {
+      list-style: none;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .hours-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(212, 163, 115, 0.1);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      max-width: 500px;
+      width: 100%;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #0d0a09;
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      list-style: none;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .reservation-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="#" class="logo">🎲 The Dice & Drip</a>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#games">Games</a></li>
-                <li><a href="#reserve">Reserve</a></li>
-                <li><a href="#location">Contact</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-badge">Welcome to the Arts Quarter ☕</div>
-        <h1>Craft Brews & Tabletop Clues</h1>
-        <p class="hero-tagline">Premium specialty coffee meets 150+ board games in the city's coziest game cafe</p>
-        <div class="hero-cta">
-            <button class="btn btn-primary" onclick="document.getElementById('reserve').scrollIntoView({behavior: 'smooth'})">Reserve Your Table</button>
-            <a href="https://wa.me/919876543210" class="btn btn-secondary">Chat on WhatsApp</a>
-        </div>
-        <div class="quick-ticker">
-            <div class="ticker-item">☕ Award-winning Single Origins</div>
-            <div class="ticker-item">🎲 150+ Board Games</div>
-            <div class="ticker-item">🪑 12 Themed Tables</div>
-        </div>
-    </section>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="#" class="brand-logo">
+          <span>🎲</span> The Dice &amp; Drip Cafe
+        </a>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#games">Games</a></li>
+          <li><a href="#reservations">Reservations</a></li>
+          <li><a href="#location">Location</a></li>
+        </ul>
+        <a href="#reservations" class="btn btn-primary">Reserve a Table</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- About Section -->
-    <section class="about">
-        <div class="about-content">
-            <div style="margin-bottom: 20px;">
-                <span class="badge" style="display: inline-block; background: rgba(232, 180, 168, 0.1); color: #e8b4a8; padding: 8px 16px; border-radius: 20px; font-size: 12px;">Our Philosophy</span>
+  <section class="hero">
+    <div class="container">
+      <p class="tagline">"Craft Brews &amp; Tabletop Clues"</p>
+      <h1>Where Artisanal Coffee Meets Friendly Competition</h1>
+      <p class="desc">
+        A cozy neighborhood space dedicated to single-origin pour-overs, artisan toasties, and over 150 curated board games for gamers of every level.
+      </p>
+      <div class="hero-actions">
+        <a href="#reservations" class="btn btn-primary">Reserve a Table</a>
+        <a href="#games" class="btn btn-secondary">Explore Games</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>The Experience</h2>
+        <p>Crafted for casual coffee lovers, competitive strategists, and everyone in between.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Artisanal Brews</h3>
+          <p>Carefully roasted specialty beans, precision pour-overs, and balanced espresso drinks paired with sweet ganache treats.</p>
+        </div>
+        <div class="feature-card">
+          <h3>150+ Board Games</h3>
+          <p>From fast-paced 2-player duels to immersive 10-player grand strategy campaigns guided by friendly Game Masters.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Dedicated Play Spaces</h3>
+          <p>Custom tables equipped with glare-free warm lighting and recessed velvet surfaces designed for tabletop comfort.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="container">
+      <div class="section-title">
+        <h2>Curated Menu</h2>
+        <p>Sip, snack, and strategize without getting your cards sticky.</p>
+      </div>
+
+      <div class="filter-pills" id="menu-filters">
+        <button type="button" class="filter-pill active" data-category="All">All</button>
+        <button type="button" class="filter-pill" data-category="Espresso Drinks">Espresso Drinks</button>
+        <button type="button" class="filter-pill" data-category="Cold Brew">Cold Brew</button>
+        <button type="button" class="filter-pill" data-category="Small Bites">Small Bites</button>
+      </div>
+
+      <div class="menu-grid" id="menu-container"></div>
+    </div>
+  </section>
+
+  <section id="games">
+    <div class="container">
+      <div class="section-title">
+        <h2>Board Game Library</h2>
+        <p>150+ titles in our collection. Filter by complexity or player count.</p>
+      </div>
+
+      <div class="game-controls">
+        <input 
+          type="search" 
+          id="game-search" 
+          class="search-input" 
+          placeholder="Search games by name, category, or player count (e.g. Catan, Party, 2 players)..."
+        />
+        <select id="game-category-filter" class="search-input" style="max-width: 200px;">
+          <option value="All">All Categories</option>
+          <option value="STRATEGY">Strategy</option>
+          <option value="PARTY">Party</option>
+          <option value="QUICK 2-PLAYER">Quick 2-Player</option>
+        </select>
+      </div>
+
+      <div class="games-grid" id="games-container"></div>
+    </div>
+  </section>
+
+  <section id="reservations">
+    <div class="container">
+      <div class="section-title">
+        <h2>Table Reservation</h2>
+        <p>Book your gaming space and coffee table in advance.</p>
+      </div>
+
+      <div class="reservation-card">
+        <div class="stepper">
+          <div class="step-item active" id="step-indicator-1">
+            <div class="step-number">1</div>
+            <div class="step-title">Visit Details</div>
+          </div>
+          <div class="step-item" id="step-indicator-2">
+            <div class="step-number">2</div>
+            <div class="step-title">Your Details</div>
+          </div>
+          <div class="step-item" id="step-indicator-3">
+            <div class="step-number">3</div>
+            <div class="step-title">Confirmation</div>
+          </div>
+        </div>
+
+        <div id="reservation-step1-error" class="reservation-error-banner" role="alert"></div>
+
+        <div id="reservation-step-1" class="step-content active">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="res-date" class="form-label">Reservation Date *</label>
+              <input type="date" id="res-date" class="form-control" required />
+              <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.2rem;">
+                Open Tue–Sun (Closed Mondays)
+              </small>
             </div>
-            <h2>More Than Coffee. It's Game Time.</h2>
-            <p>At The Dice & Drip, we believe the best memories happen around a table. Maybe it's the moment your friend realizes you've been bluffing for twenty minutes. Maybe it's a ridiculous argument over the rules of a legacy campaign. Or maybe it's simply two people catching up over single-origin coffee while a tactical board game rests quietly between them.</p>
-            <p>We designed our venue around real conversations: custom wide oak tables with recessed play surfaces, spill-safe beverage cup rings, grease-free gourmet shareables, and lighting tuned specifically to eliminate card glare.</p>
+
+            <div class="form-group">
+              <label for="res-time" class="form-label">Reservation Time *</label>
+              <select id="res-time" class="form-control" disabled required>
+                <option value="">Select a date first</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="res-players" class="form-label">Number of Players *</label>
+              <select id="res-players" class="form-control" required>
+                <option value="">Select party size</option>
+                <option value="1">1 Player</option>
+                <option value="2">2 Players</option>
+                <option value="3">3 Players</option>
+                <option value="4">4 Players</option>
+                <option value="5">5 Players</option>
+                <option value="6">6 Players</option>
+                <option value="7">7 Players</option>
+                <option value="8">8 Players</option>
+                <option value="9">9 Players</option>
+                <option value="10">10 Players</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-selection-area">
+            <div class="table-selection-header">
+              <label class="form-label" style="margin-bottom: 0;">Available Tables *</label>
+              <span id="table-hint" class="table-hint">
+                Select your party size to see matching tables.
+              </span>
+            </div>
             
-            <div class="about-features">
-                <div class="feature-card">
-                    <h3>☕ Ethically Sourced Coffee</h3>
-                    <p>Sourced from micro-lot farms, dialed in daily on our La Marzocco.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🎮 Curated Game Library</h3>
-                    <p>From 15-minute icebreakers to 4-hour heavy euro epics, sleeved and cataloged.</p>
-                </div>
-            </div>
+            <div id="tables-container" class="tables-grid" role="radiogroup" aria-label="Table Selection"></div>
+          </div>
 
-            <div class="quote">"Come for the coffee. Stay for the game. Leave with a story."</div>
+          <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+            <button type="button" id="btn-step1-next" class="btn btn-primary">
+              Continue to Details &rarr;
+            </button>
+          </div>
         </div>
 
-        <div class="about-image">
-            <div style="text-align: center; color: rgba(15, 20, 25, 0.8);">
-                <div style="font-size: 60px; margin-bottom: 10px;">☕🎲</div>
-                <div>Your Next Favorite Spot</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Menu Section -->
-    <section class="menu-section" id="menu">
-        <div class="menu-container">
-            <div class="section-header">
-                <div class="badge">Specialty Menu</div>
-                <h2>Craft Brews & Small Bites</h2>
-                <p>Every drink dialed in, every bite designed with gamers in mind—no greasy fingers on your sleeved cards.</p>
-            </div>
-
-            <div class="filter-tabs">
-                <button class="filter-btn active">All</button>
-                <button class="filter-btn">Espresso Drinks</button>
-                <button class="filter-btn">Cold Brew</button>
-                <button class="filter-btn">Small Bites</button>
-            </div>
-
-            <div class="menu-grid">
-                <!-- Drinks -->
-                <div class="menu-card">
-                    <div class="menu-card-header">
-                        <span class="menu-badge">Espresso</span>
-                        <span class="menu-price">$5.00</span>
-                    </div>
-                    <h3>V60 Pour-Over</h3>
-                    <p>Ethiopian Yirgacheffe with notes of bergamot, jasmine blossom, and candied citrus peel. Clean, vibrant acidity.</p>
-                    <div class="menu-card-footer">
-                        ⏱ 5 min | ☕ Single Origin
-                    </div>
-                </div>
-
-                <div class="menu-card">
-                    <div class="menu-card-header">
-                        <span class="menu-badge">Cold Brew</span>
-                        <span class="menu-price">$4.75</span>
-                    </div>
-                    <h3>"Critical Hit" Cold Brew</h3>
-                    <p>24-hour slow double-steeped Colombian roast infused with bourbon-vanilla bean. Seriously caffeinated.</p>
-                    <div class="menu-card-footer">
-                        ⏱ Ready | ☕ Marathon Fuel
-                    </div>
-                </div>
-
-                <div class="menu-card">
-                    <div class="menu-card-header">
-                        <span class="menu-badge">Espresso</span>
-                        <span class="menu-price">$5.50</span>
-                    </div>
-                    <h3>Salted Caramel Macchiato</h3>
-                    <p>Freshly pulled espresso layered over silky textured whole milk, house-cooked amber caramel drizzle, and flaky Maldon salt.</p>
-                    <div class="menu-card-footer">
-                        ⏱ 8 min | ☕ Sweet & Salty
-                    </div>
-                </div>
-
-                <div class="menu-card">
-                    <div class="menu-card-header">
-                        <span class="menu-badge">Tea</span>
-                        <span class="menu-price">$4.50</span>
-                    </div>
-                    <h3>London Fog & Chai Latte</h3>
-                    <p>Organic micro-milled Earl Grey or slow-simmered Masala spices with lavender mist and lightly sweetened steamed milk.</p>
-                    <div class="menu-card-footer">
-                        ⏱ 5 min | ☕ Cozy Pick
-                    </div>
-                </div>
-
-                <!-- Bites -->
-                <div class="menu-card">
-                    <div class="menu-card-header">
-                        <span class="menu-badge">Savory</span>
-                        <span class="menu-price">$6.50</span>
-                    </div>
-                    <h3>Truffle & Herb Fries</h3>
-                    <p>Served with custom wooden skewers—because nobody wants oily fingers touching sleeves, rare tokens, or cards!</p>
-                    <div class="menu-card-footer">
-                        ⏱ 8 min | 🍴 Shareable
-                    </div>
-                </div>
-
-                <div class="menu-card">
-                    <div class="menu-card-header">
-                        <span class="menu-badge">Warm</span>
-                        <span class="menu-price">$7.00</span>
-                    </div>
-                    <h3>Garlic Pull-Apart Pretzel</h3>
-                    <p>Warm baked pretzel bites with garlic rosemary glaze and a pot of smoked Gouda beer cheese dip for the party.</p>
-                    <div class="menu-card-footer">
-                        ⏱ 10 min | 🍴 Party Size
-                    </div>
-                </div>
-
-                <div class="menu-card">
-                    <div class="menu-card-header">
-                        <span class="menu-badge">Sandwich</span>
-                        <span class="menu-price">$8.50</span>
-                    </div>
-                    <h3>Classic Club Toastie</h3>
-                    <p>Smoked turkey breast, aged cheddar, crisp apple slices, and whole grain mustard on thick sourdough panini press.</p>
-                    <div class="menu-card-footer">
-                        ⏱ 7 min | 🍴 Hearty
-                    </div>
-                </div>
-
-                <div class="menu-card">
-                    <div class="menu-card-header">
-                        <span class="menu-badge">Sweet</span>
-                        <span class="menu-price">$4.50</span>
-                    </div>
-                    <h3>Fudgy Espresso Brownie</h3>
-                    <p>Rich 70% dark Belgian chocolate brownie topped with espresso-infused ganache and roasted hazelnut crunch.</p>
-                    <div class="menu-card-footer">
-                        ⏱ Ready | 🍴 Decadent
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu-callout">
-                <div style="display: flex; align-items: start; gap: 15px;">
-                    <div style="font-size: 24px;">🚫</div>
-                    <div>
-                        <div style="color: var(--text-primary); font-weight: 600; margin-bottom: 5px;">Always Gluten-Free, Always Careful</div>
-                        <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">We keep a dedicated prep area for allergies and dietary preferences. Ask our staff before ordering.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Games Section -->
-    <section class="games-section" id="games">
-        <div class="games-header">
-            <div class="badge" style="display: inline-block; background: rgba(232, 180, 168, 0.1); color: #e8b4a8; padding: 8px 16px; border-radius: 20px; font-size: 12px;">150+ Games</div>
-            <h2>Pick Your Game. Pick Your Table.</h2>
-            <p>From quick 15-minute party games to epic 4-hour campaigns. Every title is sleeved, cataloged, and ready to play.</p>
-        </div>
-
-        <div class="search-bar">
-            <input type="text" placeholder="Search your next game (e.g. Catan, Wingspan, 2-player, Party)..." id="gameSearch">
-        </div>
-
-        <div class="category-pills">
-            <button class="pill">Strategy</button>
-            <button class="pill">Party Games</button>
-            <button class="pill">Quick Plays</button>
-            <button class="pill">2-Player Duels</button>
-            <button class="pill">Heavy Euros</button>
-            <button class="pill">Casual Fun</button>
-        </div>
-
-        <div class="games-grid">
-            <!-- Strategy Games -->
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">Strategy</span>
-                    <span class="game-players">3–4 Players</span>
-                </div>
-                <h3>Settlers of Catan</h3>
-                <p>Trade, build, and settle the island of Catan in the modern tabletop titan that started it all.</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 60–90 min</div>
-                    <div class="game-info-item">📊 Medium Complexity</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">Strategy</span>
-                    <span class="game-players">1–5 Players</span>
-                </div>
-                <h3>Wingspan</h3>
-                <p>Relaxing yet competitive bird-collection engine-builder with gorgeous pastel artwork and tactile dice tower.</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 40–70 min</div>
-                    <div class="game-info-item">📊 Medium Complexity</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">Strategy</span>
-                    <span class="game-players">2–5 Players</span>
-                </div>
-                <h3>Ticket to Ride: Europe</h3>
-                <p>Connect iconic train depots from London to Constantinople with tunnels, ferries, and friendly blocking.</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 45–60 min</div>
-                    <div class="game-info-item">📊 Light Complexity</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">Strategy</span>
-                    <span class="game-players">1–5 Players</span>
-                </div>
-                <h3>Terraforming Mars</h3>
-                <p>Lead mega-corporations to raise temperature, ocean level, and oxygen on the Red Planet.</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 90–120 min</div>
-                    <div class="game-info-item">📊 High Complexity</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <!-- Party Games -->
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">Party</span>
-                    <span class="game-players">4–8+ Players</span>
-                </div>
-                <h3>Codenames</h3>
-                <p>Two rival spymasters know the secret identities of 25 agents. Give clever one-word clues to guide teammates.</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 15–20 min</div>
-                    <div class="game-info-item">📊 Light Complexity</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">Party</span>
-                    <span class="game-players">5–10 Players</span>
-                </div>
-                <h3>Secret Hitler</h3>
-                <p>Fast-paced game of political intrigue and betrayal. Who is lying and who is genuinely on your team?</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 30–45 min</div>
-                    <div class="game-info-item">📊 Light Complexity</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <!-- 2-Player Games -->
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">2-Player Duel</span>
-                    <span class="game-players">2 Players</span>
-                </div>
-                <h3>7 Wonders Duel</h3>
-                <p>The definitive head-to-head tactical drafting game of ancient wonders, military dominance, and scientific supremacy.</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 30 min</div>
-                    <div class="game-info-item">📊 Medium Complexity</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">2-Player Duel</span>
-                    <span class="game-players">2 Players</span>
-                </div>
-                <h3>Patchwork</h3>
-                <p>Cozy, elegant quilt-stitching duel where buttons are your currency and time is your most precious asset.</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 20–30 min</div>
-                    <div class="game-info-item">📊 Light Complexity</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">2-Player Duel</span>
-                    <span class="game-players">2 Players</span>
-                </div>
-                <h3>Jaipur & Hive</h3>
-                <p>Two quick-fire classics: trade spices in Jaipur, or out-maneuver the insect queen in Hive.</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 20 min</div>
-                    <div class="game-info-item">📊 Light-Medium</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">Quick Play</span>
-                    <span class="game-players">2–5 Players</span>
-                </div>
-                <h3>Exploding Kittens</h3>
-                <p>Russian Roulette with laser pointers, catnip sandwiches, and explosive feline anarchy.</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 15 min</div>
-                    <div class="game-info-item">📊 Very Light</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-header">
-                    <span class="game-category">Party</span>
-                    <span class="game-players">3–7 Players</span>
-                </div>
-                <h3>Just One</h3>
-                <p>Spiel des Jahres winner. Work together to write secret clues—identical clues cancel out!</p>
-                <div class="game-info">
-                    <div class="game-info-item">⏱ 20 min</div>
-                    <div class="game-info-item">📊 Very Light</div>
-                </div>
-                <button class="game-btn">Browse Details</button>
-            </div>
-
-            <!-- Browse All -->
-            <div class="game-card" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <div style="font-size: 40px; margin-bottom: 15px;">📚</div>
-                <h3 style="margin-bottom: 10px;">Browse Full Catalog</h3>
-                <p style="margin-bottom: 20px; text-align: center;">150+ games waiting to be discovered</p>
-                <a href="https://wa.me/919876543210" class="game-btn">Ask Our Game Masters</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Reservation Section -->
-    <section class="reservation" id="reserve">
-        <div class="reservation-container">
-            <div class="reservation-header">
-                <div class="badge" style="display: inline-block; background: rgba(232, 180, 168, 0.1); color: #e8b4a8; padding: 8px 16px; border-radius: 20px; font-size: 12px;">Book Your Spot</div>
-                <h2>Reserve Your Perfect Table</h2>
-                <p>12 tables across 3 zones—from cozy 2-player booths to epic 10-person Grand Master setups.</p>
-            </div>
-
-            <div class="table-types">
-                <div class="table-card">
-                    <span class="table-badge">2–3 Players</span>
-                    <h3>Intimate Booths</h3>
-                    <p>Perfect for dates, quick duel card games (7 Wonders Duel, Jaipur), or focused two-player strategy sessions.</p>
-                    <div class="table-capacity">
-                        📍 4 tables (A1–A4) · Recessed felt play surface
-                    </div>
-                </div>
-
-                <div class="table-card">
-                    <span class="table-badge">4–6 Players</span>
-                    <h3>Standard Game Tables</h3>
-                    <p>Our go-to setup for lively game nights. Fits Wingspan, Catan, Ticket to Ride, and party setups with comfort.</p>
-                    <div class="table-capacity">
-                        📍 6 tables (B1–B6) · Extra beverage rings
-                    </div>
-                </div>
-
-                <div class="table-card">
-                    <span class="table-badge">7–10 Players</span>
-                    <h3>Grand Master Tables</h3>
-                    <p>Huge recessed neoprene felt playing surface, token cubbies, and dedicated DM / host command zone.</p>
-                    <div class="table-capacity">
-                        📍 2 tables (C1–C2) · Premium experience
-                    </div>
-                </div>
-            </div>
-
-            <div class="booking-section">
-                <!-- Floorplan -->
-                <div class="floorplan">
-                    <h3>Select Your Table</h3>
-                    
-                    <div class="zone">
-                        <div class="zone-title">🔹 Zone A: Cozy Booths (2–3 Guests)</div>
-                        <div class="table-grid">
-                            <button class="table-btn" onclick="selectTable('A1')">A1</button>
-                            <button class="table-btn" onclick="selectTable('A2')">A2</button>
-                            <button class="table-btn" onclick="selectTable('A3')">A3</button>
-                            <button class="table-btn" onclick="selectTable('A4')">A4</button>
-                        </div>
-                    </div>
-
-                    <div class="zone">
-                        <div class="zone-title">🟢 Zone B: Standard Tables (4–6 Guests)</div>
-                        <div class="table-grid">
-                            <button class="table-btn" onclick="selectTable('B1')">B1</button>
-                            <button class="table-btn" onclick="selectTable('B2')">B2</button>
-                            <button class="table-btn" onclick="selectTable('B3')">B3</button>
-                            <button class="table-btn" onclick="selectTable('B4')">B4</button>
-                            <button class="table-btn" onclick="selectTable('B5')">B5</button>
-                            <button class="table-btn" onclick="selectTable('B6')">B6</button>
-                        </div>
-                    </div>
-
-                    <div class="zone">
-                        <div class="zone-title">⭐ Zone C: Grand Master Tables (7–10 Guests)</div>
-                        <div class="table-grid">
-                            <button class="table-btn" onclick="selectTable('C1')">C1 - Premium</button>
-                            <button class="table-btn" onclick="selectTable('C2')">C2 - Premium</button>
-                        </div>
-                    </div>
-
-                    <div class="legend">
-                        <div class="legend-item">
-                            <div class="legend-box"></div>
-                            <span>Available</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-box booked"></div>
-                            <span>Coming Soon</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Booking Form -->
-                <div class="booking-form">
-                    <div id="successMessage" class="form-success" style="display: none;">
-                        🎲 Reservation Request Received! Thanks for choosing The Dice & Drip. We'll be in touch shortly.
-                    </div>
-                    <div id="errorMessage" class="form-error" style="display: none;">
-                        Something went wrong. Please try again or contact us on WhatsApp.
-                    </div>
-
-                    <div class="form-stepper">
-                        <div class="stepper-item">
-                            <div class="stepper-number active">1</div>
-                            <div class="stepper-label">Your Details</div>
-                        </div>
-                        <div class="stepper-item">
-                            <div class="stepper-number">2</div>
-                            <div class="stepper-label">Confirm</div>
-                        </div>
-                        <div class="stepper-item">
-                            <div class="stepper-number">3</div>
-                            <div class="stepper-label">Done</div>
-                        </div>
-                    </div>
-
-                    <form id="reservationForm" onsubmit="handleFormSubmit(event)">
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" placeholder="e.g., Alexander Wright" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="you@example.com" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone">Phone / WhatsApp</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required>
-                        </div>
-
-                        <button type="submit" class="submit-btn" id="submitBtn">
-                            📝 Submit Reservation Request
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Reviews Section -->
-    <section class="reviews">
-        <div class="reviews-container">
-            <div class="section-header">
-                <div class="badge" style="display: inline-block; background: rgba(232, 180, 168, 0.1); color: #e8b4a8; padding: 8px 16px; border-radius: 20px; font-size: 12px;">Community Love</div>
-                <h2>Don't Take Our Word For It.</h2>
-                <p>Join hundreds of happy gamers and coffee lovers who've discovered their new favorite spot.</p>
-            </div>
-
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="review-text">"The skewer-served truffle fries are pure genius. We played Everdell for 3 hours without a single greasy smudge on our sleeved cards. Plus, the Ethiopian pour-over blew our favorite third-wave specialty roaster out of the water."</p>
-                    <div class="reviewer">
-                        <div class="reviewer-avatar">JL</div>
-                        <div class="reviewer-info">
-                            <h4>Jordan Lee</h4>
-                            <p>Verified Visitor</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="review-text">"Their Game Master introduced our group of complete board game newcomers to Ticket to Ride and Wingspan. He explained every mechanic in under 8 minutes without us ever reading the manual. We didn't leave until 11:30 PM!"</p>
-                    <div class="reviewer">
-                        <div class="reviewer-avatar">MK</div>
-                        <div class="reviewer-info">
-                            <h4>Monica Khan</h4>
-                            <p>First-Time Gamer</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="review-text">"The Critical Hit Cold Brew will awaken your tactical brain like nothing else. Grand Master felt tables make dice rolls whisper instead of clatter. The premier spot in the Arts Quarter hands down."</p>
-                    <div class="reviewer">
-                        <div class="reviewer-avatar">RD</div>
-                        <div class="reviewer-info">
-                            <h4>Ryan Douglas</h4>
-                            <p>Regular Guest</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Location Section -->
-    <section class="location" id="location">
-        <div class="location-container">
-            <div class="location-content">
-                <div style="margin-bottom: 20px;">
-                    <span class="badge" style="display: inline-block; background: rgba(232, 180, 168, 0.1); color: #e8b4a8; padding: 8px 16px; border-radius: 20px; font-size: 12px;">Visit Us</span>
-                </div>
-                <h2>At the Heart of the Arts Quarter</h2>
-
-                <div class="location-card">
-                    <div style="font-size: 24px;">📍</div>
-                    <div>
-                        <h3>The Dice & Drip Cafe</h3>
-                        <p>42 Meeple Street, Arts Quarter<br>Opposite Central Library<br>Open Tuesday–Sunday</p>
-                    </div>
-                </div>
-
-                <div class="location-card">
-                    <div style="font-size: 24px;">🕐</div>
-                    <div>
-                        <h3>Parlor & Tabletop Hours</h3>
-                        <div class="hours-grid">
-                            <div class="hours-row">
-                                <span class="hours-day">Tue–Thu</span>
-                                <span class="hours-time">11:00 AM – 10:00 PM</span>
-                            </div>
-                            <div class="hours-row">
-                                <span class="hours-day">Fri–Sat</span>
-                                <span class="hours-time">11:00 AM – Midnight</span>
-                            </div>
-                            <div class="hours-row">
-                                <span class="hours-day">Sunday</span>
-                                <span class="hours-time">12:00 PM – 9:00 PM</span>
-                            </div>
-                            <div class="hours-row">
-                                <span class="hours-day">Monday</span>
-                                <span class="hours-time">Game Maintenance & Roasting</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="social-links">
-                    <a href="https://wa.me/919876543210" class="social-link">💬 WhatsApp</a>
-                    <a href="mailto:contact@diceanddrip.com" class="social-link">📧 Email</a>
-                    <a href="https://instagram.com/TheDiceAndDrip" class="social-link">📸 Instagram @TheDiceAndDrip</a>
-                </div>
-            </div>
-
-            <div class="location-image">
-                <div style="text-align: center; color: rgba(15, 20, 25, 0.8);">
-                    <div style="font-size: 80px; margin-bottom: 20px;">🗺️</div>
-                    <div style="font-size: 18px;">Located in the Arts Quarter</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Final CTA Section -->
-    <section class="final-cta">
-        <div class="final-cta-content">
-            <div style="margin-bottom: 20px;">
-                <span class="badge" style="display: inline-block; background: rgba(232, 180, 168, 0.1); color: #e8b4a8; padding: 8px 16px; border-radius: 20px; font-size: 12px;">Ready?</span>
-            </div>
-            <h2>Come for the Coffee. Stay for the Game.</h2>
-            <p>Your next favorite night out is waiting. Whether it's a date, a squad outing, or a tournament, The Dice & Drip is where memories happen.</p>
-            <div class="final-cta-buttons">
-                <a href="https://payments.cashfree.com/forms/getaudit" class="btn btn-primary">🎲 Reserve Table Now</a>
-                <a href="https://wa.me/919876543210" class="btn btn-secondary">💬 Questions? Chat With Us</a>
-            </div>
-            <p style="margin-top: 30px; color: var(--text-secondary); font-size: 13px;">
-                Or call us: <strong>+91 98765 43210</strong> · Mon–Sat · Email: contact@diceanddrip.com
+        <div id="reservation-step-2" class="step-content" style="display: none; padding-top: 1rem;">
+          <h3 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 0.5rem;">
+            Step 1 Complete!
+          </h3>
+          <p id="res-preview-summary" style="color: var(--text-muted); margin-bottom: 1.5rem;"></p>
+          <div style="background: rgba(212,163,115,0.08); padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid var(--border-color);">
+            <p style="font-size: 0.95rem;">
+              <strong>Phase 1 Validated:</strong> Date, time slot, party size, and table compatibility are stored in state. Ready for Phase 2.
             </p>
+          </div>
+          <button type="button" id="btn-step2-back" class="btn btn-secondary">
+            &larr; Back to Step 1
+          </button>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer>
-        <div style="max-width: 1280px; margin: 0 auto;">
-            <p style="margin-bottom: 15px;">🎲 The Dice & Drip Cafe · Craft Brews & Tabletop Clues</p>
-            <p style="font-size: 12px;">42 Meeple Street, Arts Quarter · Opposite Central Library</p>
-            <p style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px; color: var(--text-secondary); font-size: 12px;">
-                © 2026 The Dice & Drip Cafe. All rights reserved. | 
-                <a href="https://wa.me/919876543210" style="color: var(--accent-color); text-decoration: none;">WhatsApp</a> · 
-                <a href="https://instagram.com/TheDiceAndDrip" style="color: var(--accent-color); text-decoration: none;">Instagram</a>
-            </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews">
+    <div class="container">
+      <div class="section-title">
+        <h2>Table Talk</h2>
+        <p>What our regular campaigners are saying.</p>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Best pour-overs in the neighborhood, and the Grand Master table made our 8-player Terraforming Mars night seamless."</p>
+          <div class="reviewer-name">Arun K.</div>
         </div>
-    </footer>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"The game library is super clean, cards are sleeved, and the Cold Brew kept us sharp through three straight games of Codenames."</p>
+          <div class="reviewer-name">Sneha M.</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"The staff know the rules to almost every game on the shelf. Perfect Friday night hangout spot."</p>
+          <div class="reviewer-name">Vikram R.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // Configuration
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTvPc4IqE6W-XGqZavWZsaZGLmWFHEV9hewO8i2Y_fiJLyo5Wo9Ne2M13pJ4DOAqmJ/exec';
+  <section id="location">
+    <div class="container">
+      <div class="location-box">
+        <div class="location-details">
+          <h3>The Dice &amp; Drip Cafe</h3>
+          <p>42 Meeple Street, Arts Quarter<br>Opposite Central Library</p>
+          <p style="margin-top: 0.5rem; color: var(--accent);">
+            <strong>Landmark:</strong> Red brick building with a giant wooden D20 sign.
+          </p>
+          <div style="margin-top: 1.5rem;">
+            <p><strong>Phone:</strong> +91 98765 43210</p>
+            <p><strong>Email:</strong> contact@diceanddrip.com</p>
+            <p><strong>Instagram:</strong> @TheDiceAndDrip</p>
+          </div>
+        </div>
 
-        // Form submission
-        function handleFormSubmit(event) {
-            event.preventDefault();
+        <div>
+          <h3 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 1rem;">Opening Hours</h3>
+          <ul class="hours-list">
+            <li><span>Tuesday – Thursday</span> <span>11:00 AM – 10:00 PM</span></li>
+            <li><span>Friday – Saturday</span> <span>11:00 AM – Midnight</span></li>
+            <li><span>Sunday</span> <span>12:00 PM – 9:00 PM</span></li>
+            <li style="color: #ff8b94;"><span>Monday</span> <span>Closed (Roasting &amp; Maintenance)</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
+  <div id="game-modal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
 
-            // Validation
-            if (!name) {
-                showError('Please enter your name.');
-                return;
-            }
+  <footer>
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#games">Games</a></li>
+        <li><a href="#reservations">Reservations</a></li>
+        <li><a href="#location">Location</a></li>
+        <li><a href="https://wa.me/919876543210" target="_blank" rel="noopener">WhatsApp</a></li>
+      </ul>
+      <p>&copy; 2026 The Dice &amp; Drip Cafe. All rights reserved. Craft Brews &amp; Tabletop Clues.</p>
+    </div>
+  </footer>
 
-            if (!email || !isValidEmail(email)) {
-                showError('Please enter a valid email address.');
-                return;
-            }
+  <script>
+    const businessHours = {
+      0: { open: "12:00", close: "21:00" },
+      1: null,
+      2: { open: "11:00", close: "22:00" },
+      3: { open: "11:00", close: "22:00" },
+      4: { open: "11:00", close: "22:00" },
+      5: { open: "11:00", close: "24:00" },
+      6: { open: "11:00", close: "24:00" }
+    };
 
-            if (!phone || !isValidPhone(phone)) {
-                showError('Please enter a valid phone number.');
-                return;
-            }
+    const tables = [
+      { id: "A1", type: "Small Booth", minPlayers: 2, maxPlayers: 3 },
+      { id: "A2", type: "Small Booth", minPlayers: 2, maxPlayers: 3 },
+      { id: "A3", type: "Small Booth", minPlayers: 2, maxPlayers: 3 },
+      { id: "A4", type: "Small Booth", minPlayers: 2, maxPlayers: 3 },
+      { id: "B1", type: "Standard Game Table", minPlayers: 4, maxPlayers: 6 },
+      { id: "B2", type: "Standard Game Table", minPlayers: 4, maxPlayers: 6 },
+      { id: "B3", type: "Standard Game Table", minPlayers: 4, maxPlayers: 6 },
+      { id: "B4", type: "Standard Game Table", minPlayers: 4, maxPlayers: 6 },
+      { id: "B5", type: "Standard Game Table", minPlayers: 4, maxPlayers: 6 },
+      { id: "B6", type: "Standard Game Table", minPlayers: 4, maxPlayers: 6 },
+      { id: "C1", type: "Grand Master Table", minPlayers: 7, maxPlayers: 10 },
+      { id: "C2", type: "Grand Master Table", minPlayers: 7, maxPlayers: 10 }
+    ];
 
-            // Submit
-            submitReservation(name, email, phone);
+    const menuItems = [
+      { id: "m1", name: "Single Origin Pour-Over", category: "Espresso Drinks", price: "$5.00", desc: "Rotational light roast Ethiopian or Colombian beans." },
+      { id: "m2", name: "Salted Caramel Macchiato", category: "Espresso Drinks", price: "$5.50", desc: "Double shot espresso, steamed milk, homemade caramel drizzle." },
+      { id: "m3", name: '"Critical Hit" Cold Brew', category: "Cold Brew", price: "$4.75", desc: "Steeped for 20 hours. Extra smooth, high caffeine note." },
+      { id: "m4", name: "London Fog / Chai Latte", category: "Espresso Drinks", price: "$4.50", desc: "House blended spices and fragrant Earl Grey with steamed milk." },
+      { id: "m5", name: "Truffle & Herb Fries", category: "Small Bites", price: "$6.50", desc: "Crispy skin-on fries tossed in white truffle oil and rosemary." },
+      { id: "m6", name: "Warm Cheesy Garlic Pull-Apart Pretzel", category: "Small Bites", price: "$7.00", desc: "Served with warm beer cheese dip." },
+      { id: "m7", name: "Classic Club Toastie", category: "Small Bites", price: "$8.50", desc: "Smoked chicken, aged cheddar, dijon mustard on sourdough." },
+      { id: "m8", name: "Fudgy Brownie with Espresso Ganache", category: "Small Bites", price: "$4.50", desc: "Rich dark chocolate brownie with shot of espresso ganache." }
+    ];
+
+    const gameLibrary = [
+      { id: "g1", name: "Settlers of Catan", category: "STRATEGY", players: "3–4", duration: "60–90 min", difficulty: "Medium", desc: "Trade, build, and settle the island of Catan in this modern classic board game." },
+      { id: "g2", name: "Wingspan", category: "STRATEGY", players: "1–5", duration: "40–70 min", difficulty: "Medium", desc: "A relaxing, award-winning bird collection engine-building game." },
+      { id: "g3", name: "Ticket to Ride: Europe", category: "STRATEGY", players: "2–5", duration: "45–60 min", difficulty: "Easy-Medium", desc: "Connect iconic European cities by claiming railway tracks across the continent." },
+      { id: "g4", name: "Terraforming Mars", category: "STRATEGY", players: "1–5", duration: "90–120 min", difficulty: "Heavy", desc: "Compete as giant corporations to terraform the red planet for human habitability." },
+      { id: "g5", name: "Codenames", category: "PARTY", players: "4–8+", duration: "15–20 min", difficulty: "Easy", desc: "Two spymasters give one-word clues to help their team guess secret agents." },
+      { id: "g6", name: "Secret Hitler", category: "PARTY", players: "5–10", duration: "30–45 min", difficulty: "Medium", desc: "A dramatic game of social deduction and political intrigue." },
+      { id: "g7", name: "Exploding Kittens", category: "PARTY", players: "2–5", duration: "15 min", difficulty: "Very Easy", desc: "Russian roulette with laser pointers, goats, and catnip sandwiches." },
+      { id: "g8", name: "Just One", category: "PARTY", players: "3–7", duration: "20 min", difficulty: "Easy", desc: "A cooperative party game where you write one-word hints to guess mystery words." },
+      { id: "g9", name: "7 Wonders Duel", category: "QUICK 2-PLAYER", players: "2", duration: "30 min", difficulty: "Medium", desc: "Intense head-to-head ancient civilization building and science battles." },
+      { id: "g10", name: "Patchwork", category: "QUICK 2-PLAYER", players: "2", duration: "20–30 min", difficulty: "Easy", desc: "Draft fabric pieces and carefully assemble a quilt on your grid board." },
+      { id: "g11", name: "Jaipur", category: "QUICK 2-PLAYER", players: "2", duration: "20 min", difficulty: "Easy", desc: "Fast-paced tactical card trading at the Maharaja's market." },
+      { id: "g12", name: "Hive", category: "QUICK 2-PLAYER", players: "2", duration: "20 min", difficulty: "Medium", desc: "Tile-placement chess-like strategy game with crawling insects." }
+    ];
+
+    const reservationData = {
+      date: "",
+      time: "",
+      players: null,
+      tableId: "",
+      tableType: "",
+      tableMinPlayers: null,
+      tableMaxPlayers: null
+    };
+
+    function initReservationModule() {
+      const dateInput = document.getElementById("res-date");
+      const timeSelect = document.getElementById("res-time");
+      const playersSelect = document.getElementById("res-players");
+      const nextBtn = document.getElementById("btn-step1-next");
+      const backBtn = document.getElementById("btn-step2-back");
+
+      const now = new Date();
+      const localToday = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      dateInput.min = localToday;
+
+      dateInput.addEventListener("change", handleDateChange);
+      timeSelect.addEventListener("change", handleTimeChange);
+      playersSelect.addEventListener("change", handlePlayersChange);
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+          if (validateStep1()) {
+            goToStep2();
+          }
+        });
+      }
+
+      if (backBtn) {
+        backBtn.addEventListener("click", goToStep1);
+      }
+
+      renderAvailableTables();
+    }
+
+    function handleDateChange(e) {
+      const selectedStr = e.target.value;
+      clearError();
+
+      if (!selectedStr) {
+        reservationData.date = "";
+        resetTimeSelect("Select a date first");
+        resetTableSelection();
+        renderAvailableTables();
+        return;
+      }
+
+      const [year, month, day] = selectedStr.split("-").map(Number);
+      const selectedDate = new Date(year, month - 1, day);
+      const dayOfWeek = selectedDate.getDay();
+
+      if (dayOfWeek === 1) {
+        reservationData.date = "";
+        e.target.value = "";
+        resetTimeSelect("Closed on Mondays");
+        showError("We are closed on Mondays for game maintenance & bean roasting. Please select another day.");
+        resetTableSelection();
+        renderAvailableTables();
+        return;
+      }
+
+      reservationData.date = selectedStr;
+      populateTimeOptions(dayOfWeek);
+      resetTableSelection();
+      renderAvailableTables();
+    }
+
+    function populateTimeOptions(dayOfWeek) {
+      const timeSelect = document.getElementById("res-time");
+      timeSelect.innerHTML = '<option value="">Choose an available time slot</option>';
+      timeSelect.disabled = false;
+
+      const dayConfig = businessHours[dayOfWeek];
+      if (!dayConfig) return;
+
+      const [openH, openM] = dayConfig.open.split(":").map(Number);
+      const [closeH, closeM] = dayConfig.close.split(":").map(Number);
+
+      let currentMins = openH * 60 + openM;
+      const closeMins = (closeH === 0 || closeH === 24 ? 24 * 60 : closeH * 60 + closeM) - 60;
+
+      while (currentMins <= closeMins) {
+        const h = Math.floor(currentMins / 60);
+        const m = currentMins % 60;
+
+        const displayH = h % 12 === 0 ? 12 : h % 12;
+        const ampm = h < 12 || h === 24 ? "AM" : "PM";
+        const val = `${String(h === 24 ? 0 : h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+        const label = `${displayH}:${String(m).padStart(2, "0")} ${ampm}`;
+
+        const opt = document.createElement("option");
+        opt.value = val;
+        opt.textContent = label;
+        timeSelect.appendChild(opt);
+
+        currentMins += 30;
+      }
+    }
+
+    function resetTimeSelect(placeholder) {
+      const timeSelect = document.getElementById("res-time");
+      timeSelect.innerHTML = `<option value="">${placeholder}</option>`;
+      timeSelect.disabled = true;
+      reservationData.time = "";
+    }
+
+    function handleTimeChange(e) {
+      reservationData.time = e.target.value;
+      clearError();
+    }
+
+    function handlePlayersChange(e) {
+      const val = e.target.value;
+      reservationData.players = val ? parseInt(val, 10) : null;
+      clearError();
+
+      if (reservationData.tableId) {
+        const currentTable = tables.find(t => t.id === reservationData.tableId);
+        if (!currentTable || !isTableCompatible(currentTable, reservationData.players)) {
+          resetTableSelection();
+        }
+      }
+
+      renderAvailableTables();
+    }
+
+    function isTableCompatible(table, players) {
+      if (!players) return false;
+      if (players === 1) return table.minPlayers === 2;
+      return players >= table.minPlayers && players <= table.maxPlayers;
+    }
+
+    function renderAvailableTables() {
+      const container = document.getElementById("tables-container");
+      const hint = document.getElementById("table-hint");
+      if (!container) return;
+
+      container.innerHTML = "";
+      const players = reservationData.players;
+
+      if (!players) {
+        hint.textContent = "Select party size to filter compatible tables.";
+      } else {
+        hint.textContent = `Showing tables suitable for ${players} player${players > 1 ? "s" : ""}:`;
+      }
+
+      tables.forEach(table => {
+        const compatible = isTableCompatible(table, players);
+        const isSelected = reservationData.tableId === table.id;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "table-card-btn";
+        btn.setAttribute("role", "radio");
+        btn.setAttribute("aria-checked", isSelected ? "true" : "false");
+        btn.setAttribute("data-table-id", table.id);
+
+        if (!compatible) {
+          btn.classList.add("incompatible");
+          btn.disabled = true;
+          btn.title = `Accommodates ${table.minPlayers}–${table.maxPlayers} players`;
         }
 
-        function isValidEmail(email) {
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(email);
+        if (isSelected) {
+          btn.classList.add("selected");
         }
 
-        function isValidPhone(phone) {
-            const regex = /^[\d\s\-\+\(\)]{7,}$/;
-            return regex.test(phone);
-        }
+        btn.innerHTML = `
+          <span class="table-id-badge">${table.id}</span>
+          <span class="table-type-label">${table.type}</span>
+          <span class="table-cap-label">${table.minPlayers}–${table.maxPlayers} seats</span>
+        `;
 
-        function submitReservation(name, email, phone) {
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Submitting...';
-
-            const url = SCRIPT_URL + '?' + new URLSearchParams({
-                name: name,
-                email: email,
-                phone: phone
-            });
-
-            fetch(url, {
-                method: 'GET',
-                mode: 'no-cors'
-            })
-                .then(() => {
-                    showSuccess();
-                    document.getElementById('reservationForm').reset();
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = '📝 Submit Reservation Request';
-                })
-                .catch(() => {
-                    showError('Something went wrong. Please try again or contact us on WhatsApp.');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = '📝 Submit Reservation Request';
-                });
-        }
-
-        function showSuccess() {
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('successMessage').style.display = 'none';
-            }, 5000);
-        }
-
-        function showError(message) {
-            document.getElementById('errorMessage').textContent = message;
-            document.getElementById('errorMessage').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('errorMessage').style.display = 'none';
-            }, 5000);
-        }
-
-        // Table selection
-        function selectTable(tableId) {
-            document.querySelectorAll('.table-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
-        }
-
-        // Mobile menu
-        document.getElementById('hamburger').addEventListener('click', function() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        btn.addEventListener("click", () => {
+          selectTable(table);
         });
 
-        // Smooth scrolling for nav links
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                    document.querySelector('.nav-links').style.display = 'none';
-                }
-            });
+        container.appendChild(btn);
+      });
+    }
+
+    function selectTable(table) {
+      if (!isTableCompatible(table, reservationData.players)) return;
+
+      reservationData.tableId = table.id;
+      reservationData.tableType = table.type;
+      reservationData.tableMinPlayers = table.minPlayers;
+      reservationData.tableMaxPlayers = table.maxPlayers;
+      clearError();
+
+      const allBtns = document.querySelectorAll(".table-card-btn");
+      allBtns.forEach(btn => {
+        const match = btn.getAttribute("data-table-id") === table.id;
+        btn.classList.toggle("selected", match);
+        btn.setAttribute("aria-checked", match ? "true" : "false");
+      });
+    }
+
+    function resetTableSelection() {
+      reservationData.tableId = "";
+      reservationData.tableType = "";
+      reservationData.tableMinPlayers = null;
+      reservationData.tableMaxPlayers = null;
+
+      const allBtns = document.querySelectorAll(".table-card-btn");
+      allBtns.forEach(btn => {
+        btn.classList.remove("selected");
+        btn.setAttribute("aria-checked", "false");
+      });
+    }
+
+    function validateStep1() {
+      if (!reservationData.date) {
+        showError("Please select a reservation date.");
+        return false;
+      }
+      if (!reservationData.time) {
+        showError("Please select a reservation time.");
+        return false;
+      }
+      if (!reservationData.players || reservationData.players < 1 || reservationData.players > 10) {
+        showError("Please select the number of players (1 to 10).");
+        return false;
+      }
+      if (!reservationData.tableId) {
+        showError("Please select a compatible table for your group.");
+        return false;
+      }
+
+      clearError();
+      return true;
+    }
+
+    function showError(msg) {
+      const banner = document.getElementById("reservation-step1-error");
+      if (banner) {
+        banner.textContent = msg;
+        banner.style.display = "block";
+      }
+    }
+
+    function clearError() {
+      const banner = document.getElementById("reservation-step1-error");
+      if (banner) {
+        banner.textContent = "";
+        banner.style.display = "none";
+      }
+    }
+
+    function goToStep2() {
+      document.getElementById("reservation-step-1").style.display = "none";
+      document.getElementById("reservation-step-2").style.display = "block";
+
+      document.getElementById("step-indicator-1").classList.remove("active");
+      document.getElementById("step-indicator-1").classList.add("completed");
+      document.getElementById("step-indicator-2").classList.add("active");
+
+      const preview = document.getElementById("res-preview-summary");
+      if (preview) {
+        preview.textContent = `Visit: ${reservationData.date} at ${reservationData.time} | Table ${reservationData.tableId} (${reservationData.tableType}) for ${reservationData.players} player(s).`;
+      }
+    }
+
+    function goToStep1() {
+      document.getElementById("reservation-step-2").style.display = "none";
+      document.getElementById("reservation-step-1").style.display = "block";
+
+      document.getElementById("step-indicator-2").classList.remove("active");
+      document.getElementById("step-indicator-1").classList.remove("completed");
+      document.getElementById("step-indicator-1").classList.add("active");
+    }
+
+    function initMenuModule() {
+      const container = document.getElementById("menu-container");
+      const pills = document.querySelectorAll(".filter-pill");
+
+      function renderMenu(category) {
+        container.innerHTML = "";
+        const filtered = category === "All" ? menuItems : menuItems.filter(item => item.category === category);
+
+        filtered.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "menu-item";
+          div.innerHTML = `
+            <div class="menu-item-info">
+              <h4>${item.name}</h4>
+              <p>${item.desc}</p>
+            </div>
+            <div class="menu-item-price">${item.price}</div>
+          `;
+          container.appendChild(div);
+        });
+      }
+
+      pills.forEach(pill => {
+        pill.addEventListener("click", () => {
+          pills.forEach(p => p.classList.remove("active"));
+          pill.classList.add("active");
+          renderMenu(pill.getAttribute("data-category"));
+        });
+      });
+
+      renderMenu("All");
+    }
+
+    function initGamesModule() {
+      const container = document.getElementById("games-container");
+      const searchInput = document.getElementById("game-search");
+      const categoryFilter = document.getElementById("game-category-filter");
+      const modal = document.getElementById("game-modal");
+      const modalClose = document.getElementById("modal-close-btn");
+      const modalContent = document.getElementById("modal-content");
+
+      function renderGames() {
+        const query = searchInput.value.toLowerCase().trim();
+        const selectedCat = categoryFilter.value;
+
+        const filtered = gameLibrary.filter(g => {
+          const matchesCategory = selectedCat === "All" || g.category === selectedCat;
+          const matchesQuery = !query || 
+            g.name.toLowerCase().includes(query) || 
+            g.category.toLowerCase().includes(query) ||
+            g.players.toLowerCase().includes(query) ||
+            g.desc.toLowerCase().includes(query);
+          return matchesCategory && matchesQuery;
         });
 
-        // Game search
-        document.getElementById('gameSearch').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            document.querySelectorAll('.game-card').forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(searchTerm) ? 'block' : 'none';
-            });
+        container.innerHTML = "";
+
+        if (filtered.length === 0) {
+          container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No board games found matching your search.</p>`;
+          return;
+        }
+
+        filtered.forEach(game => {
+          const card = document.createElement("div");
+          card.className = "game-card";
+          card.innerHTML = `
+            <div>
+              <span class="game-card-category">${game.category}</span>
+              <h3 class="game-card-title">${game.name}</h3>
+              <div class="game-meta">
+                <span>👥 ${game.players} players</span>
+                <span>⏱️ ${game.duration}</span>
+                <span>🎲 Difficulty: ${game.difficulty}</span>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-game-details" style="width: 100%; padding: 0.5rem;" data-id="${game.id}">
+              Game Details
+            </button>
+          `;
+          container.appendChild(card);
         });
-    </script>
+
+        document.querySelectorAll(".btn-game-details").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const game = gameLibrary.find(g => g.id === btn.getAttribute("data-id"));
+            if (game) openGameModal(game);
+          });
+        });
+      }
+
+      function openGameModal(game) {
+        modalContent.innerHTML = `
+          <span style="color: var(--accent); font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">${game.category}</span>
+          <h2 style="font-family: var(--font-display); margin: 0.25rem 0 1rem;">${game.name}</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1.25rem;">${game.desc}</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; font-size: 0.9rem;">
+            <div><strong>Players:</strong> ${game.players}</div>
+            <div><strong>Duration:</strong> ${game.duration}</div>
+            <div><strong>Complexity:</strong> ${game.difficulty}</div>
+            <div><strong>Table:</strong> Standard / Booth</div>
+          </div>
+          <a href="#reservations" class="btn btn-primary" style="width: 100%; display: block;" id="btn-modal-reserve">Reserve This Game</a>
+        `;
+        modal.classList.add("active");
+
+        document.getElementById("btn-modal-reserve").addEventListener("click", () => {
+          modal.classList.remove("active");
+        });
+      }
+
+      modalClose.addEventListener("click", () => modal.classList.remove("active"));
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.remove("active");
+      });
+
+      searchInput.addEventListener("input", renderGames);
+      categoryFilter.addEventListener("change", renderGames);
+
+      renderGames();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initReservationModule();
+      initMenuModule();
+      initGamesModule();
+    });
+  </script>
 </body>
 </html>
